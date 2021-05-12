@@ -1,0 +1,11 @@
+{
+  "name": "backend_app",
+  "version": "1.0.0",
+  "description": "Backend Server for RentALL",
+  "main": "Server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
+  "license": "ISC"
+}
