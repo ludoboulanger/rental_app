@@ -1,5 +1,4 @@
 # Backend setup
-___
 ## Required installation
 1. Use `npm install` to install all the dependencies
 2. Install mongoDB by using the [installer](https://www.mongodb.com/try/download/community) or use brew if you're using a mac
