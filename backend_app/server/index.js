@@ -1,3 +1,4 @@
+require('dotenv-safe').config();
 const express = require('express');
 const Database = require('../persistence/index');
 const PingRouter = require('./routers/PingRouter');
