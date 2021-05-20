@@ -5,7 +5,10 @@
    >$ brew tap mongodb/brew  
    > $ brew install mongodb-community  
    > $ brew services start mongodb-community
-
+## Environment variables
+1. In the directory root, create a `.env` file
+2. Copy the content of `.env.example` in `.env` file
+3. Give a value to the required variables
 ## Db-migrate
 We use [db-migrate](https://db-migrate.readthedocs.io/en/latest/) to handle the database migration. It is already installed localy in the project if you ran `npm install` command. To use it, you can either run the command `npx db-migrate [command]` or if you want to get rid of npx, you'll have to install it globally `npm install -g db-migrate`.
 ### Database initialisation
