@@ -1,3 +1,4 @@
+require('dotenv-safe').config();
 const express = require('express');
 const Database = require('../database/index');
 const cors = require('cors')
