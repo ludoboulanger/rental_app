@@ -1,0 +1,49 @@
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import SignUpPage from './SignUpPage';
+import InitPage from './InitPage';
+import SignInPage from './SignInPage';
+import WelcomePage from './WelcomePage';
+
+const SIGN_IN = "/signin";
+const SIGN_UP = "/signup";
+const WELCOME = "/welcome";
+const INIT = "/";
+
+/**
+ * Component responsible for rendering the correct page based on the current URL
+ * DOCS: https://reactrouter.com/web/guides/quick-start
+ */
+export default function Home() {
+
+  return (
+    <Router>
+
+      <Switch>
+
+        <Route strict path={SIGN_IN}>
+          <SignInPage/>
+        </Route>
+
+        <Route strict path={SIGN_UP}>
+          <SignUpPage/>
+        </Route>
+
+        <Route strict path={WELCOME}>
+          <WelcomePage/>
+        </Route>
+
+        <Route strict path={INIT}>
+          <InitPage/>
+        </Route>
+
+      </Switch>
+
+    </Router>
+  );
+}
