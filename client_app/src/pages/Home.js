@@ -26,19 +26,19 @@ export default function Home() {
 
       <Switch>
 
-        <Route strict path={SIGN_IN}>
+        <Route exact path={SIGN_IN}>
           <SignInPage/>
         </Route>
 
-        <Route strict path={SIGN_UP}>
+        <Route exact path={SIGN_UP}>
           <SignUpPage/>
         </Route>
 
-        <Route strict path={WELCOME}>
+        <Route exact path={WELCOME}>
           <WelcomePage/>
         </Route>
 
-        <Route strict path={INIT}>
+        <Route exact path={INIT}>
           <InitPage/>
         </Route>
 
