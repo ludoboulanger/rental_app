@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './services/localization/i18n'
 import App from './components/App/App';
 
 ReactDOM.render(
