@@ -1,8 +1,8 @@
 import React from "react";
 import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
+  BrowserRouter as Router,
+  Switch,
+  Route,
 } from "react-router-dom";
 
 import SignUpPage from "./SignUpPage";
@@ -21,29 +21,29 @@ const INIT = "/";
  */
 export default function Home() {
 
-	return (
-		<Router>
+  return (
+    <Router>
 
-			<Switch>
+      <Switch>
 
-				<Route exact path={SIGN_IN}>
-					<SignInPage/>
-				</Route>
+        <Route exact path={SIGN_IN}>
+          <SignInPage/>
+        </Route>
 
-				<Route exact path={SIGN_UP}>
-					<SignUpPage/>
-				</Route>
+        <Route exact path={SIGN_UP}>
+          <SignUpPage/>
+        </Route>
 
-				<Route exact path={WELCOME}>
-					<WelcomePage/>
-				</Route>
+        <Route exact path={WELCOME}>
+          <WelcomePage/>
+        </Route>
 
-				<Route exact path={INIT}>
-					<InitPage/>
-				</Route>
+        <Route exact path={INIT}>
+          <InitPage/>
+        </Route>
 
-			</Switch>
+      </Switch>
 
-		</Router>
-	);
+    </Router>
+  );
 }

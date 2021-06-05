@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-	res.status(200).send("Hello World!");
+  res.status(200).send("Hello World!");
 });
 
 app.listen(PORT, () => {
-	console.log(`Server listening on PORT ${PORT}`);
+  console.log(`Server listening on PORT ${PORT}`);
 });
