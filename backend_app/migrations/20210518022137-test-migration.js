@@ -2,9 +2,9 @@
 
 let dbm;
 // eslint-disable-next-line no-unused-vars
-var type;
+let type;
 // eslint-disable-next-line no-unused-vars
-var seed;
+let seed;
 
 /**
   * We receive the dbmigrate dependency from dbmigrate initially.
