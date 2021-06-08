@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
 
-import SignUpPage from './SignUpPage';
-import InitPage from './InitPage';
-import SignInPage from './SignInPage';
-import WelcomePage from './WelcomePage';
+import SignUpPage from "./SignUpPage";
+import InitPage from "./InitPage";
+import SignInPage from "./SignInPage";
+import WelcomePage from "./WelcomePage";
 
 const SIGN_IN = "/signin";
 const SIGN_UP = "/signup";
