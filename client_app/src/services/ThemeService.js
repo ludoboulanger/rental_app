@@ -1,5 +1,8 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+/**
+ * Docs: https://material-ui.com/customization/theming/
+ */
 const LightTheme = createMuiTheme({
   palette: {
     primary: {
@@ -92,6 +95,21 @@ const LightTheme = createMuiTheme({
       fontWeight: "400",
       fontStyle: "italic",
       textTransform: "uppercase",
+    },
+  },
+  breakpoints: {
+    values: {
+      xxs: 350,
+      xs: 400,
+      sm: 500,
+      md: 960,
+      lg: 1280,
+      xl: 1440,
+      xxl: 1920,
+    },
+    globals: {
+      // Here we can add the values to override default styling
+      // MUI components
     },
   },
 });
