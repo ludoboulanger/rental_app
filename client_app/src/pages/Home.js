@@ -1,14 +1,11 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpPage from "./SignUpPage";
 import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
+import { ThemeProvider } from "@material-ui/styles";
+import { LightTheme } from "../services/ThemeService";
 
 const SIGN_IN = "/signin";
 const SIGN_UP = "/signup";
@@ -22,28 +19,26 @@ const INIT = "/";
 export default function Home() {
 
   return (
-    <Router>
+    <ThemeProvider theme={LightTheme}>
+      <Router>
+        <Switch>
+          <Route exact path={SIGN_IN}>
+            <SignInPage />
+          </Route>
 
-      <Switch>
+          <Route exact path={SIGN_UP}>
+            <SignUpPage />
+          </Route>
 
-        <Route exact path={SIGN_IN}>
-          <SignInPage/>
-        </Route>
+          <Route exact path={WELCOME}>
+            <WelcomePage />
+          </Route>
 
-        <Route exact path={SIGN_UP}>
-          <SignUpPage/>
-        </Route>
-
-        <Route exact path={WELCOME}>
-          <WelcomePage/>
-        </Route>
-
-        <Route exact path={INIT}>
-          <InitPage/>
-        </Route>
-
-      </Switch>
-
-    </Router>
+          <Route exact path={INIT}>
+            <InitPage />
+          </Route>
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
