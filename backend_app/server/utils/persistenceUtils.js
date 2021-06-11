@@ -1,18 +1,14 @@
 const UserModel = require("../../database/models/UserModel");
 
-const createUser = (hash, data) => {
-  const { userId, name, email } = data;
-  const newUser = new UserModel({
-    userId,
-    name,
-    email,
-    hash,
-  });
+const createUser = (data) => {
+  const newUser = new UserModel(data);
 
   newUser
     .save()
     .then((created) => created)
-    .catch(() => -1);
+    .catch(() => {
+      throw new Error("500");
+    });
 };
 
 module.exports = {

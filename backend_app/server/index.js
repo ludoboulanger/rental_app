@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(cors());
 
 // Routers
-app.use("/api/authenticate", AuthenticationRouter);
-
+app.use("/api/users", AuthenticationRouter);
+// app.use(ErrorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
