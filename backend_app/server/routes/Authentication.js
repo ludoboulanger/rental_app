@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { ajv } = require("../validation/validation");
-const { createUser } = require("../utils/persistenceUtils");
+const { ajv } = require("../utils/validation/validation");
+const { createUser } = require("../utils/PersistenceUtils");
 
 const SALT_ROUNDS = 10;
 const AuthenticationRouter = express.Router();
