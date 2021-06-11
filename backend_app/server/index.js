@@ -3,6 +3,7 @@ const express = require("express");
 const Database = require("../database/index");
 const cors = require("cors");
 const AuthenticationRouter = require("./routes/Authentication");
+const ErrorHandler = require("./utils/ErrorHandler");
 
 const PORT = 8000;
 
@@ -15,7 +16,7 @@ app.use(cors());
 
 // Routers
 app.use("/api/users", AuthenticationRouter);
-// app.use(ErrorHandler)
+app.use(ErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
