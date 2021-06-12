@@ -1,7 +1,7 @@
 const UserModel = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
 
-const createUser = (data) => {
+const createUser = async (data) => {
   const { firstname, lastname, email, password } = data;
   console.log("Firstname: ", firstname);
   console.log("lastname: ", lastname);
@@ -16,12 +16,25 @@ const createUser = (data) => {
   });
   console.log("New User data:", newUser);
 
-  return newUser
-    .save()
-    .then((created) => created)
-    .catch(() => -1);
+  try {
+    const savedInstance = await newUser.save();
+    return savedInstance;
+  } catch (e) {
+    return -1;
+  }
+};
+
+const checkIfUserExists = async (email) => {
+  const foundUsers = await UserModel.find({ email: email }).exec();
+  console.log(foundUsers);
+  if (foundUsers === {}) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 module.exports = {
   createUser,
+  checkIfUserExists,
 };

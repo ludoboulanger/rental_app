@@ -1,7 +1,10 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { ajv } = require("../validation/validation");
-const { createUser } = require("../../database/utils/PersistenceUtils");
+const {
+  createUser,
+  checkIfUserExists,
+} = require("../../database/utils/PersistenceUtils");
 
 const SALT_ROUNDS = 10;
 const AuthenticationRouter = express.Router();
@@ -12,6 +15,13 @@ AuthenticationRouter.post("/signup", async (req, res, next) => {
 
   if (!validateUser(newUserData)) {
     next("400");
+    return;
+  }
+
+  const userAlreadyExists = await checkIfUserExists(newUserData.email);
+
+  if (userAlreadyExists) {
+    next("409");
     return;
   }
 

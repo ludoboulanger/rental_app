@@ -9,6 +9,9 @@ const ErrorHandler = (err, _req, res, next) => {
   } else if (err === "400") {
     status = 400;
     message = { message: "Invalid Request" };
+  } else if (err === "409") {
+    status = 409;
+    message = {message: "Conflict"};
   } else {
     status = 500;
     message = { message: "Internal Server Error" };
