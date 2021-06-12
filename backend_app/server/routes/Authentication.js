@@ -2,8 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const { ajv } = require("../validation/validation");
 const {
-  createUser,
-  checkIfUserExists,
+  PersistenceUtils: dbUtils,
 } = require("../../database/utils/PersistenceUtils");
 
 const SALT_ROUNDS = 10;
@@ -18,7 +17,7 @@ AuthenticationRouter.post("/signup", async (req, res, next) => {
     return;
   }
 
-  const userAlreadyExists = await checkIfUserExists(newUserData.email);
+  const userAlreadyExists = await dbUtils.checkIfUserExists(newUserData.email);
 
   if (userAlreadyExists) {
     next("409");
@@ -29,14 +28,16 @@ AuthenticationRouter.post("/signup", async (req, res, next) => {
     const hash = await bcrypt.hash(newUserData.password, SALT_ROUNDS);
     newUserData.password = hash;
 
-    const created = await createUser(newUserData);
+    const created = await dbUtils.createUser(newUserData);
 
     if (created === -1) {
       next("500");
       return;
     }
 
-    res.status(201).send("User successfully created");
+    res
+      .status(201)
+      .send({ message: "User Created Successfully", id: created._id });
   } catch (e) {
     next("500");
     return;
