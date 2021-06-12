@@ -1,10 +1,12 @@
 import Home from '../../pages/Home';
 import './App.css';
 import { Suspense } from 'react';
+import MobileHeader from "../Headers/MobileHeader";
 
 function App() {
   return (
     <div className="App">
+        <MobileHeader/>
       <Home></Home>
     </div>
   );
