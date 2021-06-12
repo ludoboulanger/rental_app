@@ -18,9 +18,10 @@ exports.up = function (db) {
   return db.createCollection("user", {
     validator: {
       $jsonSchema: {
-        required: ["name", "email", "password"],
+        required: ["firstname", "lastname", "email", "password"],
         bsonType: "object",
         properties: {
+          _id: { bsonType: "string", fromat: "uuid" },
           firstname: { bsonType: "string" },
           lastname: { bsonType: "string" },
           email: { bsonType: "string", format: "email" },
@@ -28,6 +29,8 @@ exports.up = function (db) {
         },
       },
     },
+    validationAction: "error",
+    validationLevel: "strict",
   });
 };
 

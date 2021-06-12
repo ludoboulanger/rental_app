@@ -15,7 +15,6 @@ const createUser = async (data) => {
     email,
     password,
   });
-  console.log("New User data:", newUser);
 
   try {
     const savedInstance = await newUser.save();
