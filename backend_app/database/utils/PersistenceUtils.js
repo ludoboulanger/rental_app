@@ -1,5 +1,6 @@
 const UserModel = require("../models/UserModel");
 const { v4: uuidv4 } = require("uuid");
+const _ = require("lodash");
 
 const createUser = async (data) => {
   const { firstname, lastname, email, password } = data;
@@ -27,7 +28,7 @@ const createUser = async (data) => {
 const checkIfUserExists = async (email) => {
   const foundUsers = await UserModel.find({ email: email }).exec();
   console.log(foundUsers);
-  if (foundUsers === {}) {
+  if (_.isEmpty(foundUsers)) {
     return false;
   } else {
     return true;
