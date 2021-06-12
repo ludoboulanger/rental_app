@@ -15,7 +15,7 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db) {
-  return db.createCollection("user", {
+  return db.createCollection("users", {
     validator: {
       $jsonSchema: {
         required: ["firstname", "lastname", "email", "password"],
@@ -35,7 +35,7 @@ exports.up = function (db) {
 };
 
 exports.down = function (db) {
-  return db.dropCollection("user");
+  return db.dropCollection("users");
 };
 
 exports._meta = {
