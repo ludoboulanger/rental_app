@@ -2,7 +2,7 @@ const sinon = require("sinon");
 const expect = require("chai").expect;
 const app = require("../index");
 const request = require("supertest");
-const PersistenceUtils = require("../../database/utils/PersistenceUtils");
+const DBUtils = require("../../database/utils/PersistenceUtils");
 const { userCreatedStub } = require("./DatabaseMock");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
@@ -14,13 +14,10 @@ describe("Server Routes Tests", () => {
 
       beforeEach(() => {
         createUserStub = sinon
-          .stub(PersistenceUtils, "createUser")
+          .stub(DBUtils, "createUser")
           .returns(userCreatedStub);
 
-        checkIfUserExistsStub = sinon.stub(
-          PersistenceUtils,
-          "checkIfUserExists"
-        );
+        checkIfUserExistsStub = sinon.stub(DBUtils, "checkIfUserExists");
       });
 
       afterEach(() => {
@@ -149,7 +146,7 @@ describe("Server Routes Tests", () => {
           });
       });
 
-      it("Returns 409 if user already exists in the database", async () => {
+      it("Returns 403 if user already exists in the database", async () => {
         checkIfUserExistsStub.returns(true);
         const user = {
           firstname: "Tony",
@@ -161,9 +158,9 @@ describe("Server Routes Tests", () => {
         await request(app)
           .post("/api/users/signup")
           .send(user)
-          .expect(409)
+          .expect(403)
           .then((res) => {
-            expect(res.body.message).to.eql("Conflict");
+            expect(res.body.message).to.eql("Action Forbidden");
             expect(checkIfUserExistsStub.calledOnce).to.be.true;
           });
       });
