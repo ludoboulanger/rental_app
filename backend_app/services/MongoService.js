@@ -2,23 +2,23 @@ const { MongoClient } = require("mongodb");
 const DB_NAME = process.env.DEV_DB_NAME;
 const DB_URI = `mongodb://127.0.0.1:27017/${DB_NAME}`;
 
-// Create a new MongoClient
-const CLIENT = new MongoClient(DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 const initMongoConnection = async () => {
   try {
-    await CLIENT.connect();
+    const client = new MongoClient(DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    await client.connect();
+    return client;
   } catch (e) {
     console.error("Error Connecting to Database");
   }
 };
 
-const closeMongoConnection = async () => {
+const closeMongoConnection = async (client) => {
   try {
-    await CLIENT.close();
+    await client.close();
   } catch (e) {
     console.error("Error closing connection to Database");
   }
@@ -37,9 +37,9 @@ const invokeAndSafelyClose = async (funcToInvoke) => {
   let data = null;
   let error = null;
   try {
-    await initMongoConnection();
-    data = await funcToInvoke(CLIENT);
-    await closeMongoConnection();
+    const client = await initMongoConnection();
+    data = await funcToInvoke(client);
+    await closeMongoConnection(client);
   } catch (e) {
     data = null;
     error = e;
