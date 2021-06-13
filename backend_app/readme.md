@@ -18,3 +18,14 @@ You should now see your database by using MongoDB Compass and connecting to *mon
 
 ### Creating a migration
 To create a new migration, run `[npx] db-migrate create migrationname` A migration file named accordingly with the name you gave it should now appear in the migrations folder. Open it and edit exports.up and exports.down functions to make the desired change to the db. The details for implementing a migration are available [here](https://db-migrate.readthedocs.io/en/latest/API/NoSQL/)
+
+## Testing
+Librairies:
+- mocha
+- chai
+- supertest
+- sinon
+
+Tests for the backend are located in the `*/tests` directories. Each test file contains unit tests for a specific ressource. All external ressources are stubbed using sinon `stub`.
+
+To run all test, use `npm run test-dev`. If you require only specific tests to be run, you can add a `.only` after a `describe` or `it`

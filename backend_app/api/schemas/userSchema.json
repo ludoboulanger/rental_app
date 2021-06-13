@@ -1,0 +1,23 @@
+{
+  "required": ["firstname", "lastname", "email", "password"],
+  "type": "object",
+  "properties": {
+    "firstname": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "lastname": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 50
+    },
+    "password": {
+      "type": "string",
+      "maxLength": 100
+    }
+  }
+}
