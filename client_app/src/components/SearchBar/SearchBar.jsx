@@ -1,5 +1,5 @@
 import {React, useRef} from "react";
-import {InputBase} from "@material-ui/core";
+import {IconButton, InputBase} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "./styles";
 import {useHistory} from "react-router-dom";
@@ -13,7 +13,7 @@ export default function SearchBar(){
   const {t} = useTranslation();
 
   function handleSubmitSearch(){
-    history.push(ROUTES.SEARCH + "?search=" + input.current.value);
+    history.push(ROUTES.SEARCH + "?query=" + input.current.value);
   }
 
   return(
@@ -36,7 +36,10 @@ export default function SearchBar(){
           inputRef={input}
 
         />
-        <SearchIcon className={classes.searchIcon} onClick={handleSubmitSearch}/>
+        <IconButton onClick={handleSubmitSearch}>
+          <SearchIcon className={classes.searchIcon} />
+        </IconButton>
+
       </div>
     </div>
   );

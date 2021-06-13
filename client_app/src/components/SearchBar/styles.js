@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) =>({
   },
   searchContent:{
     display:"flex",
-    marginLeft: "2ch",
-    marginRight: "2ch",
+    marginLeft: "16px",
     left: "25%",
     transition:theme.transitions.create(["width","left"]),
   },

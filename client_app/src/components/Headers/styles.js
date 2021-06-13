@@ -35,7 +35,8 @@ const useStyles = makeStyles({
     justifySelf: "end",
   },
   icon:{
-    padding: "0"
+    padding: "0",
+    color: "white"
   }
 });
 export default useStyles;
