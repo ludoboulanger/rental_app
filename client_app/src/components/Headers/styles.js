@@ -2,17 +2,18 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   appBar: {
-    maxHeight:"15%",
+    padding: "16px 20px",
     width:"100%"
 
   },
   toolBar: {
+    padding:"0",
     display: "grid",
     gridTemplateRows: "1fr",
     gridTemplateColumns: "repeat(3, 1fr)"
   },
   logo: {
-    maxHeight: "64px",
+    maxHeight: "32px",
     objectFit: "contain",
     gridColumn: "1",
     gridRow: "1",
@@ -32,7 +33,9 @@ const useStyles = makeStyles({
     gridColumn: "3",
     gridRow: "1",
     justifySelf: "end",
-    alignSelf: "center",
+  },
+  icon:{
+    padding: "0"
   }
 });
 export default useStyles;

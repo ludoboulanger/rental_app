@@ -38,7 +38,7 @@ export default function MobileHeader(props){
                 Rentix
           </Typography>
           <div className={classes.iconsContainer}>
-            <IconButton onClick={handleSettingsClick}>
+            <IconButton onClick={handleSettingsClick} className={classes.icon}>
               <SettingIcon/>
             </IconButton>
           </div>

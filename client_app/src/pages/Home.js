@@ -5,6 +5,7 @@ import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
 import SettingsPage from "./SettingsPage";
+import SearchPage from "./SearchPage";
 import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
 import {ROUTES} from "../utils/enums";
@@ -35,6 +36,9 @@ export default function Home() {
           </Route>
           <Route exact path={ROUTES.SETTINGS}>
             <SettingsPage />
+          </Route>
+          <Route exact path={ROUTES.SEARCH}>
+            <SearchPage />
           </Route>
         </Switch>
       </Router>
