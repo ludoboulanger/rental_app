@@ -4,7 +4,7 @@
   "description": "Backend Server for RentALL",
   "main": "Server.js",
   "scripts": {
-    "start-dev": "nodemon server/index.js",
+    "start-dev": "nodemon api/index.js",
     "test": "test"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
