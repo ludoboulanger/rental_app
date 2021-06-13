@@ -11,7 +11,6 @@ const CLIENT = new MongoClient(DB_URI, {
 const initMongoConnection = async () => {
   try {
     await CLIENT.connect();
-    return CLIENT;
   } catch (e) {
     console.error("Error Connecting to Database");
   }
@@ -26,9 +25,13 @@ const closeMongoConnection = async () => {
 };
 
 /**
- *
- * @param {(client: MongoClient) => object} funcToInvoke: Async function to invoke on the MongoClient. This function takes a client as a parameter.
- * @returns An array coimposed of the returned by the function passed in parameters or the error if an error occured
+ * This function is used to operate on the mongoDB client. It
+ * takes a function to invoke as a parameter and handles the
+ * client connection initilization and closing independantly.
+ * @param {(client: MongoClient) => object} funcToInvoke:
+ *  Async function to invoke on the MongoClient. This function takes a client as a parameter.
+ * @returns An array coimposed of the returned by the function
+ *  passed in parameters or the error if an error occured
  */
 const invokeAndSafelyClose = async (funcToInvoke) => {
   let data = null;
