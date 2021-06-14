@@ -55,7 +55,7 @@ const insertNewUser = async (data) => {
     throw Error("500");
   }
 
-  return created;
+  return created.insertedId;
 };
 
 module.exports = {

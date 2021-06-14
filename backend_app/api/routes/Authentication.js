@@ -1,6 +1,6 @@
 const express = require("express");
 const { ajv } = require("../schemas/schemas");
-const { checkIfEmailExists, insertNewUser } = require("../utils/Persistence");
+const Persistence = require("../utils/Persistence");
 
 const AuthenticationRouter = express.Router();
 
@@ -13,18 +13,18 @@ AuthenticationRouter.post("/signup", async (request, response, next) => {
     return;
   }
 
-  const doesEmailExist = await checkIfEmailExists(body.email);
+  const doesEmailExist = await Persistence.checkIfEmailExists(body.email);
 
   if (doesEmailExist) {
     next("403");
     return;
   }
 
-  const created = insertNewUser(body);
+  const createdId = await Persistence.insertNewUser(body);
 
   response
     .status(201)
-    .send({ message: "User Created Successfully", id: created.insertedId });
+    .send({ message: "User Created Successfully", id: createdId });
 });
 
 module.exports = AuthenticationRouter;

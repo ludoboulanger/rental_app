@@ -2,7 +2,7 @@ const sinon = require("sinon");
 const expect = require("chai").expect;
 const app = require("../index");
 const request = require("supertest");
-const DBUtils = require("../../database/utils/PersistenceUtils");
+const Persistence = require("../utils/Persistence");
 const { userCreatedStub } = require("./DatabaseMock");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
@@ -14,10 +14,10 @@ describe("Server Routes Tests", () => {
 
       beforeEach(() => {
         createUserStub = sinon
-          .stub(DBUtils, "createUser")
+          .stub(Persistence, "insertNewUser")
           .returns(userCreatedStub);
 
-        checkIfUserExistsStub = sinon.stub(DBUtils, "checkIfUserExists");
+        checkIfUserExistsStub = sinon.stub(Persistence, "checkIfEmailExists");
       });
 
       afterEach(() => {
