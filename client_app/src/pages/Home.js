@@ -10,7 +10,9 @@ import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
 import {ROUTES} from "../utils/enums";
 import MobileHeader from "../components/Headers/MobileHeader";
-
+import SignUpButton from "../components/SignUpButtom/SignUpButtom";
+import SignInButton from "../components/SignInButton/SignInButton";
+import LanguageSelector from "../components/LanguageSelector/LanguageSelector";
 /**
  * Component responsible for rendering the correct page based on the current URL
  * DOCS: https://reactrouter.com/web/guides/quick-start
@@ -21,6 +23,9 @@ export default function Home() {
     <ThemeProvider theme={LightTheme}>
       <Router>
         <MobileHeader/>
+        <SignUpButton/>
+        <SignInButton/>
+        <LanguageSelector/>
         <Switch>
           <Route exact path={ROUTES.SIGN_IN}>
             <SignInPage />
