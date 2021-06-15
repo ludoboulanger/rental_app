@@ -17,7 +17,7 @@ We use [migrate-mongo](https://www.npmjs.com/package/migrate-mongo) to handle th
 You should now see your database by using MongoDB Compass and connecting to *mongodb://127.0.0.1:27017/rentalDevDB*
 
 ### Creating a migration
-To create a new migration, run `[npx] rentalDevDB create migrationname` A migration file named accordingly with the name you gave it should now appear in the migrations folder. Open it and edit exports.up and exports.down functions to make the desired change to the db. The details for implementing a migration are available [here](https://www.npmjs.com/package/migrate-mongo)
+To create a new migration, run `[npx] migrate-mongo create migrationname` A migration file named accordingly with the name you gave it should now appear in the migrations folder. Open it and edit exports.up and exports.down functions to make the desired change to the db. The details for implementing a migration are available [here](https://www.npmjs.com/package/migrate-mongo)
 
 ## Testing
 Librairies:

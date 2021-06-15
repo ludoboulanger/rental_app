@@ -1,5 +1,5 @@
 {
-  "required": ["firstname", "lastname", "email", "password"],
+  "required": ["firstname", "lastname", "email"],
   "type": "object",
   "properties": {
     "firstname": {
@@ -14,10 +14,7 @@
       "type": "string",
       "format": "email",
       "maxLength": 50
-    },
-    "password": {
-      "type": "string",
-      "maxLength": 100
     }
-  }
+  },
+  "additionalProperties": false
 }

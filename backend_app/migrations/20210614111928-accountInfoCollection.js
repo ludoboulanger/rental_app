@@ -1,14 +1,13 @@
 module.exports = {
   async up(db) {
-    return db.createCollection("users", {
+    return db.createCollection("accountInfo", {
       validator: {
         $jsonSchema: {
           required: [
             "firstname",
             "lastname",
             "email",
-            "password",
-            "status",
+            "isActive",
             "activationCode",
           ],
           bsonType: "object",
@@ -17,10 +16,10 @@ module.exports = {
             firstname: { bsonType: "string" },
             lastname: { bsonType: "string" },
             email: { bsonType: "string" },
-            password: { bsonType: "string" },
-            status: { type: "string", enum: ["pending", "active"] },
-            activationCode: { type: "string" },
+            isActive: { bsonType: "bool" },
+            activationCode: { bsonType: "string" },
           },
+          additionalProperties: false,
         },
       },
       validationLevel: "strict",
@@ -29,6 +28,6 @@ module.exports = {
   },
 
   async down(db) {
-    return db.dropCollection("users");
+    return db.dropCollection("accountInfo");
   },
 };
