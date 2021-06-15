@@ -5,6 +5,7 @@ import useStyles from "./styles";
 import {useHistory} from "react-router-dom";
 import {ROUTES} from "../../utils/enums";
 import {useTranslation} from "react-i18next";
+import {getURLWithParams} from "../../utils/queries";
 
 export default function SearchBar(){
   const classes = useStyles();
@@ -13,7 +14,10 @@ export default function SearchBar(){
   const {t} = useTranslation();
 
   function handleSubmitSearch(){
-    history.push(ROUTES.SEARCH + "?query=" + input.current.value);
+    const params = {
+      query: input.current.value,
+    };
+    history.push(getURLWithParams(ROUTES.SEARCH, params));
   }
 
   return(

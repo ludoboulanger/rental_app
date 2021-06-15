@@ -104,8 +104,3 @@ export const LightTheme = createMuiTheme({
 // TODO Create the dark theme once we know how the app
 // Should look in dark mode
 export const DarkTheme = createMuiTheme({});
-
-export default {
-  LightTheme,
-  DarkTheme,
-};

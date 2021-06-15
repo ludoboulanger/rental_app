@@ -13,14 +13,22 @@ const useStyles = makeStyles((theme) =>({
     boxSizing: "border-box",
     borderRadius: "10px",
     backgroundColor: "white",
-    width: "fit-content",
     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+    transition:theme.transitions.create(["width"]),
+    width: "fit-content",
+    maxWidth: "220px",
+    "&:hover": {
+      minWidth: "40%",
+    },
+    "&:focus-within": {
+      minWidth: "40%",
+    },
   },
   searchContent:{
+    width: "100%",
     display:"flex",
     marginLeft: "16px",
-    left: "25%",
-    transition:theme.transitions.create(["width","left"]),
+    left: "25%"
   },
   searchIcon: {
     height: "100%",
@@ -28,15 +36,7 @@ const useStyles = makeStyles((theme) =>({
     cursor: "pointer"
   },
   inputRoot: {
-    width: "13ch",
-    "&:hover": {
-      width: "20ch",
-      left: 0,
-    },
-    "&:focus": {
-      width: "20ch",
-      left: 0,
-    },
+    width:"100%",
     color: "inherit",
     alignSelf:"center",
     justifySelf: "center"
