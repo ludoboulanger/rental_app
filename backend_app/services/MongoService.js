@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const DB_NAME = process.env.DEV_DB_NAME;
+const DB_NAME = process.env.DB_NAME;
 const DB_URI = `mongodb://127.0.0.1:27017/${DB_NAME}`;
 
 const initMongoConnection = async () => {

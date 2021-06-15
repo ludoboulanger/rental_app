@@ -15,7 +15,7 @@ const checkIfEmailExists = async (email) => {
   const [foundEmail, errorCheckingEmail] = await invokeAndSafelyClose(
     async (client) =>
       client
-        .db(process.env.DEV_DB_NAME)
+        .db(process.env.DB_NAME)
         .collection("users")
         .findOne({ email: email })
   );
@@ -48,7 +48,7 @@ const insertNewUser = async (data) => {
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(
     async (client) =>
-      client.db(process.env.DEV_DB_NAME).collection("users").insertOne(newUser)
+      client.db(process.env.DB_NAME).collection("users").insertOne(newUser)
   );
 
   if (errorCreatingUser || created.result.ok !== 1) {

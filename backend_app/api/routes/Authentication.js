@@ -1,6 +1,6 @@
 const express = require("express");
 const { ajv } = require("../schemas/schemas");
-const Persistence = require("../utils/Persistence");
+const UserPersistence = require("../utils/UserPersistence");
 
 const AuthenticationRouter = express.Router();
 
@@ -13,14 +13,14 @@ AuthenticationRouter.post("/signup", async (request, response, next) => {
     return;
   }
 
-  const doesEmailExist = await Persistence.checkIfEmailExists(body.email);
+  const doesEmailExist = await UserPersistence.checkIfEmailExists(body.email);
 
   if (doesEmailExist) {
     next("403");
     return;
   }
 
-  const createdId = await Persistence.insertNewUser(body);
+  const createdId = await UserPersistence.insertNewUser(body);
 
   response
     .status(201)
