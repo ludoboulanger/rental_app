@@ -1,10 +1,7 @@
 require("dotenv-safe").config();
 const express = require("express");
-const Database = require("../database/index");
 const cors = require("cors");
 const PORT = 8000;
-
-Database.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const app = express();
 
