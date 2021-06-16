@@ -24,15 +24,15 @@ describe("Server Routes Tests", () => {
       it("Returns 400 on missing data fields", async () => {
         const dataMissingFirstname = {
           lastname: "Stark",
-          email: "stark@avengers.com",
+          phoneNumber: "8194358738",
         };
 
         const dataMissingLastname = {
           firstname: "Tony",
-          email: "stark@avengers.com",
+          phoneNumber: "8194358738",
         };
 
-        const dataMissingEmail = {
+        const dataMissingPhone = {
           firstname: "Tony",
           lastname: "Stark",
         };
@@ -55,7 +55,7 @@ describe("Server Routes Tests", () => {
 
         await request(app)
           .post("/api/users/create-account")
-          .send(dataMissingEmail)
+          .send(dataMissingPhone)
           .expect(400)
           .then((res) => {
             expect(res.body.message).to.be.eql("Invalid Request");
@@ -66,19 +66,19 @@ describe("Server Routes Tests", () => {
         const invalidFirstname = {
           firstname: 23434,
           lastname: "Stark",
-          email: "stark@avengers.com",
+          phoneNumber: "8197432345",
         };
 
         const invalidLastname = {
           firstname: "Tony",
           lastname: 3255435345,
-          email: "stark@avengers.com",
+          phoneNumber: "8197432345",
         };
 
-        const invalidEmail = {
+        const invalidPhone = {
           firstname: "Tony",
           lastname: "Stark",
-          email: "starkavengerscom",
+          phoneNumber: "",
         };
 
         await request(app)
@@ -99,7 +99,7 @@ describe("Server Routes Tests", () => {
 
         await request(app)
           .post("/api/users/create-account")
-          .send(invalidEmail)
+          .send(invalidPhone)
           .expect(400)
           .then((res) => {
             expect(res.body.message).to.be.eql("Invalid Request");
@@ -110,7 +110,7 @@ describe("Server Routes Tests", () => {
         const user = {
           firstname: "Tony",
           lastname: "Stark",
-          email: "stark@avengers.com",
+          phoneNumber: "8194567890",
         };
 
         await request(app)
@@ -126,7 +126,7 @@ describe("Server Routes Tests", () => {
         const user = {
           firstname: "Tony",
           lastname: "Stark",
-          email: "stark@avengers.com",
+          phoneNumber: "8194567890",
         };
 
         await request(app)
