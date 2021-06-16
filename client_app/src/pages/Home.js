@@ -4,13 +4,12 @@ import SignUpPage from "./SignUpPage";
 import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
+import SettingsPage from "./SettingsPage";
+import SearchPage from "./SearchPage";
 import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
-
-const SIGN_IN = "/signin";
-const SIGN_UP = "/signup";
-const WELCOME = "/welcome";
-const INIT = "/";
+import {ROUTES} from "../utils/enums";
+import MobileHeader from "../components/Headers/MobileHeader";
 
 /**
  * Component responsible for rendering the correct page based on the current URL
@@ -21,21 +20,25 @@ export default function Home() {
   return (
     <ThemeProvider theme={LightTheme}>
       <Router>
+        <MobileHeader/>
         <Switch>
-          <Route exact path={SIGN_IN}>
+          <Route exact path={ROUTES.SIGN_IN}>
             <SignInPage />
           </Route>
-
-          <Route exact path={SIGN_UP}>
+          <Route exact path={ROUTES.SIGN_UP}>
             <SignUpPage />
           </Route>
-
-          <Route exact path={WELCOME}>
+          <Route exact path={ROUTES.WELCOME}>
             <WelcomePage />
           </Route>
-
-          <Route exact path={INIT}>
+          <Route exact path={ROUTES.INIT}>
             <InitPage />
+          </Route>
+          <Route exact path={ROUTES.SETTINGS}>
+            <SettingsPage />
+          </Route>
+          <Route exact path={ROUTES.SEARCH}>
+            <SearchPage />
           </Route>
         </Switch>
       </Router>

@@ -1,101 +1,88 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import {createMuiTheme, fade} from "@material-ui/core/styles";
 
 /**
  * Docs: https://material-ui.com/customization/theming/
  */
-const LightTheme = createMuiTheme({
+export const LightTheme = createMuiTheme({
   palette: {
     primary: {
       light: "#8AD2AB",
       main: "#3CB474",
       dark: "#30905C",
+      contrastText: "#FFFFFF"
     },
     secondary: {
-      light: "#03DAC5",
+      light: "#03dac5",
       main: "#01A299",
       dark: "#017374",
     },
+    text: {
+      primary:"#FFFFFF",
+      secondary: fade("#000000", 0.80)
+    }
   },
   typography: {
+    fontFamily: ["Open Sans", "sans-serif"].join(","),
     h1: {
-      fontFamily: "Open Sans",
       fontWeight: "550",
-      fontSize: "72",
-      lineHeight: "60",
+      fontSize: "72px",
       letterSpacing: "-0.5",
     },
     h2: {
-      fontFamily: "Open Sans",
       fontWeight: "550",
-      fontSize: "60",
-      lineHeight: "60",
+      fontSize: "60px",
       letterSpacing: "-0.5",
     },
     h3: {
-      fontFamily: "Open Sans",
-      fontWeight: "550",
       fontStyle: "italic",
-      fontSize: "48",
-      lineHeight: "56",
+      fontWeight: "600",
+      fontSize: "24px",
+      lineHeight: "24px",
+      letterSpacing: "0.4px"
     },
     h4: {
-      fontFamily: "Open Sans",
       fontWeight: "500",
       fontStyle: "italic",
-      fontSize: "42",
-      lineHeight: "36",
+      fontSize: "42px",
     },
     h5: {
-      fontFamily: "Open Sans",
       fontWeight: "450",
       fontStyle: "italic",
-      fontSize: "32",
-      lineHeight: "24",
+      fontSize: "24px",
     },
     h6: {
-      fontFamily: "Open Sans",
       fontWeight: "450",
       fontStyle: "italic",
-      fontSize: "20",
-      lineHeight: "24",
+      fontSize: "20px",
     },
     subtitle1: {
-      fontFamily: "Open Sans",
       fontWeight: "400",
-      fontSize: "16",
-      lineHeight: "24",
+      fontSize: "16px",
       letterSpacing: "0.15px",
     },
     subtitle2: {
-      fontFamily: "Open Sans",
       fontWeight: "400",
-      fontSize: "16",
-      lineHeight: "24",
+      fontSize: "16px",
       letterSpacing: "0.15px",
     },
     body1: {
-      fontFamily: "Open Sans",
-      fontSize: "16",
-      lineHeight: "24",
+      fontSize: "16px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     body2: {
-      fontFamily: "Open Sans",
-      fontSize: "14",
-      lineHeight: "24",
+      fontSize: "14px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     button: {
-      fontFamily: "Open Sans",
-      fontSize: "14",
-      lineHeight: "16",
+      fontSize: "14px",
       letterSpacing: "1.25",
       fontWeight: "400",
       fontStyle: "italic",
       textTransform: "uppercase",
     },
+
   },
   breakpoints: {
     values: {
@@ -116,9 +103,4 @@ const LightTheme = createMuiTheme({
 
 // TODO Create the dark theme once we know how the app
 // Should look in dark mode
-const DarkTheme = createMuiTheme({});
-
-export default {
-  LightTheme,
-  DarkTheme,
-};
+export const DarkTheme = createMuiTheme({});

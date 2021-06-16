@@ -1,12 +1,11 @@
-import React from "react";
 import Home from "../pages/Home";
 import "./App.css";
-import { Suspense } from "react";
+import { Suspense, React } from "react";
 
 function App() {
   return (
     <div className="App">
-      <Home></Home>
+      <Home/>
     </div>
   );
 }
