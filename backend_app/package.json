@@ -5,21 +5,28 @@
   "main": "Server.js",
   "scripts": {
     "start-dev": "nodemon api/index.js",
-    "test": "test"
+    "test-dev": "mocha */tests/*.spec.js"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.12.6",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "db-migrate": "^0.11.12",
-    "db-migrate-mongodb": "^1.5.0",
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.6.9"
+    "lodash": "^4.17.21",
+    "migrate-mongo": "^8.2.2",
+    "mongodb": "^3.6.9",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^7.27.0",
     "eslint-plugin-react": "^7.24.0",
-    "nodemon": "^2.0.7"
+    "mocha": "^9.0.0",
+    "nodemon": "^2.0.7",
+    "sinon": "^11.1.1",
+    "supertest": "^6.1.3"
   }
 }
