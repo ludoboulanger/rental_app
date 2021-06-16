@@ -1,5 +1,5 @@
 {
-  "required": ["firstname", "lastname", "email"],
+  "required": ["firstname", "lastname", "phoneNumber"],
   "type": "object",
   "properties": {
     "firstname": {
@@ -10,10 +10,11 @@
       "type": "string",
       "maxLength": 50
     },
-    "email": {
+    "phoneNumber": {
       "type": "string",
-      "format": "email",
-      "maxLength": 50
+      "pattern": "(\\d)+",
+      "minLength": 1,
+      "maxLength": 15
     }
   },
   "additionalProperties": false

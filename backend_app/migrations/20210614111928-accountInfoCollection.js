@@ -6,7 +6,7 @@ module.exports = {
           required: [
             "firstname",
             "lastname",
-            "email",
+            "phoneNumber",
             "isActive",
             "activationCode",
           ],
@@ -15,7 +15,7 @@ module.exports = {
             _id: { bsonType: "string" },
             firstname: { bsonType: "string" },
             lastname: { bsonType: "string" },
-            email: { bsonType: "string" },
+            phoneNumber: { bsonType: "string" },
             isActive: { bsonType: "bool" },
             activationCode: { bsonType: "string" },
           },
