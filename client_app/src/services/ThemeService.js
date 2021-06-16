@@ -35,7 +35,7 @@ export const LightTheme = createMuiTheme({
     },
     h3: {
       fontStyle: "italic",
-      fontWeight: "550",
+      fontWeight: "600",
       fontSize: "24px",
       lineHeight: "24px",
       letterSpacing: "0.4px"

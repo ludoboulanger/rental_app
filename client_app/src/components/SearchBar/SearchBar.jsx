@@ -1,4 +1,4 @@
-import {React, useRef} from "react";
+import {React,  useState} from "react";
 import {IconButton, InputBase} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "./styles";
@@ -10,12 +10,12 @@ import {getURLWithParams} from "../../utils/queries";
 export default function SearchBar(){
   const classes = useStyles();
   const history = useHistory();
-  const input = useRef();
+  const [input, setInput] = useState("");
   const {t} = useTranslation();
 
   function handleSubmitSearch(){
     const params = {
-      query: input.current.value,
+      query: input,
     };
     history.push(getURLWithParams(ROUTES.SEARCH, params));
   }
@@ -30,6 +30,7 @@ export default function SearchBar(){
               handleSubmitSearch();
             }
           })}
+          onChange={(event)=> { setInput(event.target.value);}}
           color={"primary"}
           placeholder={t("Search")}
           classes={{
@@ -37,8 +38,6 @@ export default function SearchBar(){
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
-          inputRef={input}
-
         />
         <IconButton onClick={handleSubmitSearch}>
           <SearchIcon className={classes.searchIcon} />

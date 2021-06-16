@@ -4,6 +4,10 @@
  * @returns URIEncoded params
  */
 export function getURIEncodedParams(params){
+  if (params == null){
+    return "";
+  }
+
   const keyValues = Object.entries(params).map(([key, value])=> {
     return encodeURIComponent(key) + "=" + encodeURIComponent(value);
   });

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   appBar: {
-    padding: "16px 20px",
+    padding: "16px 20px 20px 20px",
     width:"100%"
 
   },
