@@ -23,18 +23,27 @@ describe("Server Routes Tests", () => {
 
       it("Returns 400 on missing data fields", async () => {
         const dataMissingFirstname = {
-          lastname: "Stark",
+          lastName: "Stark",
           phoneNumber: "8194358738",
+          email: "tony@avengers.com",
         };
 
         const dataMissingLastname = {
-          firstname: "Tony",
+          firstName: "Tony",
           phoneNumber: "8194358738",
+          email: "tony@avengers.com",
         };
 
         const dataMissingPhone = {
-          firstname: "Tony",
-          lastname: "Stark",
+          firstName: "Tony",
+          lastName: "Stark",
+          email: "tony@avengers.com",
+        };
+
+        const dataMissingEmail = {
+          firstName: "Tony",
+          lastName: "Stark",
+          phoneNumber: "8193451234",
         };
 
         await request(app)
@@ -60,25 +69,40 @@ describe("Server Routes Tests", () => {
           .then((res) => {
             expect(res.body.message).to.be.eql("Invalid Request");
           });
+
+        await request(app)
+          .post("/api/users/create-account")
+          .send(dataMissingEmail)
+          .expect(400)
+          .then((res) => {
+            expect(res.body.message).to.be.eql("Invalid Request");
+          });
       });
 
       it("Returns 400 on improperly formatted data", async () => {
         const invalidFirstname = {
-          firstname: 23434,
-          lastname: "Stark",
+          firstName: 23434,
+          lastName: "Stark",
           phoneNumber: "8197432345",
         };
 
         const invalidLastname = {
-          firstname: "Tony",
-          lastname: 3255435345,
+          firstName: "Tony",
+          lastName: 3255435345,
           phoneNumber: "8197432345",
         };
 
         const invalidPhone = {
-          firstname: "Tony",
-          lastname: "Stark",
+          firstName: "Tony",
+          lastName: "Stark",
           phoneNumber: "",
+        };
+
+        const invalidEmail = {
+          firstName: "Tony",
+          lastName: "Stark",
+          phoneNumber: "8193451234",
+          email: "tonyavengers.com",
         };
 
         await request(app)
@@ -104,13 +128,22 @@ describe("Server Routes Tests", () => {
           .then((res) => {
             expect(res.body.message).to.be.eql("Invalid Request");
           });
+
+        await request(app)
+          .post("/api/users/create-account")
+          .send(invalidEmail)
+          .expect(400)
+          .then((res) => {
+            expect(res.body.message).to.be.eql("Invalid Request");
+          });
       });
 
       it("Returns 201 on successful creation", async () => {
         const user = {
-          firstname: "Tony",
-          lastname: "Stark",
+          firstName: "Tony",
+          lastName: "Stark",
           phoneNumber: "8194567890",
+          email: "tony@avengers.com",
         };
 
         await request(app)
@@ -124,9 +157,10 @@ describe("Server Routes Tests", () => {
 
       it("Returns the id of the new user on successful creation", async () => {
         const user = {
-          firstname: "Tony",
-          lastname: "Stark",
+          firstName: "Tony",
+          lastName: "Stark",
           phoneNumber: "8194567890",
+          email: "tony@avengers.com",
         };
 
         await request(app)
