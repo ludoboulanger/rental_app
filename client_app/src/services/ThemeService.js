@@ -25,12 +25,12 @@ export const LightTheme = createMuiTheme({
     fontFamily: ["Open Sans", "sans-serif"].join(","),
     h1: {
       fontWeight: "550",
-      fontSize: "72",
+      fontSize: "72px",
       letterSpacing: "-0.5",
     },
     h2: {
       fontWeight: "550",
-      fontSize: "60",
+      fontSize: "60px",
       letterSpacing: "-0.5",
     },
     h3: {
@@ -43,7 +43,7 @@ export const LightTheme = createMuiTheme({
     h4: {
       fontWeight: "500",
       fontStyle: "italic",
-      fontSize: "42",
+      fontSize: "42px",
     },
     h5: {
       fontWeight: "450",
@@ -53,30 +53,30 @@ export const LightTheme = createMuiTheme({
     h6: {
       fontWeight: "450",
       fontStyle: "italic",
-      fontSize: "20",
+      fontSize: "20px",
     },
     subtitle1: {
       fontWeight: "400",
-      fontSize: "16",
+      fontSize: "16px",
       letterSpacing: "0.15px",
     },
     subtitle2: {
       fontWeight: "400",
-      fontSize: "16",
+      fontSize: "16px",
       letterSpacing: "0.15px",
     },
     body1: {
-      fontSize: "16",
+      fontSize: "16px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     body2: {
-      fontSize: "14",
+      fontSize: "14px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     button: {
-      fontSize: "14",
+      fontSize: "14px",
       letterSpacing: "1.25",
       fontWeight: "400",
       fontStyle: "italic",
