@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignUpPage from "./SignUpPage";
+import CreateAccountPage from "./createAccount/CreateAccountPage.jsx";
 import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
@@ -20,13 +20,13 @@ export default function Home() {
   return (
     <ThemeProvider theme={LightTheme}>
       <Router>
-        <MobileHeader/>
+        <MobileHeader />
         <Switch>
           <Route exact path={ROUTES.SIGN_IN}>
             <SignInPage />
           </Route>
-          <Route exact path={ROUTES.SIGN_UP}>
-            <SignUpPage />
+          <Route exact path={ROUTES.CREATE_ACCOUNT}>
+            <CreateAccountPage />
           </Route>
           <Route exact path={ROUTES.WELCOME}>
             <WelcomePage />

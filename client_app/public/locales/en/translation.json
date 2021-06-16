@@ -1,5 +1,6 @@
 {
   "init_page": "Init Page",
   "Search": "Search...",
-  "You searched": "You searched"
+  "youSearched": "You searched",
+  "back": "Back"
 }

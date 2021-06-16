@@ -26,60 +26,70 @@ export const LightTheme = createMuiTheme({
     h1: {
       fontWeight: "550",
       fontSize: "72px",
-      letterSpacing: "-0.5",
+      lineHeight: "60px",
+      letterSpacing: "-0.5px",
     },
     h2: {
       fontWeight: "550",
       fontSize: "60px",
-      letterSpacing: "-0.5",
+      lineHeight: "60px",
+      letterSpacing: "-0.5px",
     },
     h3: {
       fontStyle: "italic",
-      fontWeight: "600",
-      fontSize: "24px",
-      lineHeight: "24px",
-      letterSpacing: "0.4px"
+      fontSize: "48px",
+      lineHeight: "56px",
     },
     h4: {
       fontWeight: "500",
       fontStyle: "italic",
       fontSize: "42px",
+      lineHeight: "36px",
     },
     h5: {
       fontWeight: "450",
       fontStyle: "italic",
-      fontSize: "24px",
+      fontSize: "32px",
+      lineHeight: "24px",
     },
     h6: {
       fontWeight: "450",
       fontStyle: "italic",
       fontSize: "20px",
+      lineHeight: "24px",
     },
     subtitle1: {
       fontWeight: "400",
       fontSize: "16px",
+      lineHeight: "24px",
       letterSpacing: "0.15px",
     },
     subtitle2: {
       fontWeight: "400",
       fontSize: "16px",
+      lineHeight: "24px",
       letterSpacing: "0.15px",
     },
     body1: {
+      fontFamily: "Open Sans",
       fontSize: "16px",
+      lineHeight: "24px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     body2: {
+      fontFamily: "Open Sans",
       fontSize: "14px",
+      lineHeight: "24px",
       fontWeight: "400",
       fontStyle: "italic",
     },
     button: {
+      fontFamily: "Open Sans",
       fontSize: "14px",
-      letterSpacing: "1.25",
+      lineHeight: "16px",
+      letterSpacing: "1.25px",
       fontWeight: "400",
-      fontStyle: "italic",
       textTransform: "uppercase",
     },
 
@@ -94,9 +104,15 @@ export const LightTheme = createMuiTheme({
       xl: 1440,
       xxl: 1920,
     },
-    globals: {
-      // Here we can add the values to override default styling
-      // MUI components
+    overrides: {
+      MuiButton: {
+        root: {
+          borderRadius: "8px !important",
+        },
+        outlined: {
+          borderWidth: "2px !important",
+        },
+      },
     },
   },
 });

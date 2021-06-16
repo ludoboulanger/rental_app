@@ -7,7 +7,7 @@ export default function InitPage() {
   const query = (params.get("query"));
   return (
     <div>
-      <h1>{t("You searched") + " " + query}</h1>
+      <h1>{t("youSearched") + " " + query}</h1>
     </div>
   );
 }

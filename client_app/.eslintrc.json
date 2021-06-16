@@ -23,16 +23,12 @@
       "error",
       2
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
     "quotes": [
       "error",
       "double"
     ],
     "semi": [
-      "error",
+      "warn",
       "always"
     ],
     "space-infix-ops": [

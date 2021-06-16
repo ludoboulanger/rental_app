@@ -29,22 +29,32 @@ export default function MobileHeader(props){
     history.push(ROUTES.WELCOME);
   };
 
-  return(
+  return (
     <>
-      <AppBar position='static' color='primary' className={classes.appBar}>
+      <AppBar position="static" color="primary" className={classes.appBar}>
         <Toolbar className={classes.toolBar}>
-          <img src={logo} className={classes.logo} onClick={handleLogoClick} alt={"logo"}/>
-          <Typography variant="h3" color='textPrimary' className={classes.appName} onClick={handleAppNameClick}>
-                Rentix
+          <img
+            src={logo}
+            className={classes.logo}
+            onClick={handleLogoClick}
+            alt={"logo"}
+          />
+          <Typography
+            variant="h3"
+            color="textPrimary"
+            className={classes.appName}
+            onClick={handleAppNameClick}
+          >
+            Rentix
           </Typography>
           <div className={classes.iconsContainer}>
             <IconButton onClick={handleSettingsClick} className={classes.icon}>
-              <SettingIcon/>
+              <SettingIcon />
             </IconButton>
           </div>
         </Toolbar>
       </AppBar>
-      <SearchBar/>
+      {withSearchBar && <SearchBar />}
     </>
   );
 }

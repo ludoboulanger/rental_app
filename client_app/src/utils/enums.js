@@ -1,8 +1,8 @@
 export const ROUTES = {
-  SIGN_IN : "/signin",
-  SIGN_UP : "/signup",
-  WELCOME : "/welcome",
-  INIT : "/",
+  SIGN_IN: "/signin",
+  CREATE_ACCOUNT: "/create-account",
+  WELCOME: "/welcome",
+  INIT: "/",
   SETTINGS: "/settings",
-  SEARCH: "/search"
+  SEARCH: "/search",
 };
