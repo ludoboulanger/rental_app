@@ -18,6 +18,7 @@
     "lodash": "^4.17.21",
     "migrate-mongo": "^8.2.2",
     "mongodb": "^3.6.9",
+    "twilio": "^3.64.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
