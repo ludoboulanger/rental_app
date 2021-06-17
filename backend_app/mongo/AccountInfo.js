@@ -34,10 +34,13 @@ const createNewAccountInfo = async (data) => {
  * @param {String} email
  * @returns {void}
  */
-const deleteExistingAccountInfoIfNeeded = async (email) => {
+const deleteExistingAccountInfoIfNeeded = async (phone) => {
   const [account, errorGettingAccount] = await invokeAndSafelyClose(
     async (client) =>
-      client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ email: email })
+      client
+        .db(DB_NAME)
+        .collection(COLLECTION_NAME)
+        .findOne({ phoneNumber: phone })
   );
 
   if (errorGettingAccount) {
@@ -48,8 +51,12 @@ const deleteExistingAccountInfoIfNeeded = async (email) => {
     return;
   }
 
-  const [, errorDeletingAccount] = await invokeAndSafelyClose(async (client) =>
-    client.db(DB_NAME).collection(COLLECTION_NAME).deleteMany({ email: email })
+  const [, errorDeletingAccount] = await invokeAndSafelyClose(
+    async (client) =>
+      client
+        .db(DB_NAME)
+        .collection(COLLECTION_NAME)
+        .deleteMany({ phoneNumber: phone })
   );
 
   if (errorDeletingAccount) {

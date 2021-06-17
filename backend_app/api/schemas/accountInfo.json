@@ -1,14 +1,20 @@
 {
-  "required": ["firstname", "lastname", "email"],
+  "required": ["firstName", "lastName", "phoneNumber", "email"],
   "type": "object",
   "properties": {
-    "firstname": {
+    "firstName": {
       "type": "string",
       "maxLength": 50
     },
-    "lastname": {
+    "lastName": {
       "type": "string",
       "maxLength": 50
+    },
+    "phoneNumber": {
+      "type": "string",
+      "pattern": "(\\d)+",
+      "minLength": 1,
+      "maxLength": 15
     },
     "email": {
       "type": "string",

@@ -17,7 +17,7 @@ AuthenticationRouter.post(
 
     try {
       
-      await AccountInfo.deleteExistingAccountInfoIfNeeded(body.email);
+      await AccountInfo.deleteExistingAccountInfoIfNeeded(body.phoneNumber);
       
       const createdId = await AccountInfo.createNewAccountInfo(body);
       
