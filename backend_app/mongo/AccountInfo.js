@@ -1,8 +1,13 @@
 const { v4: uuidv4 } = require("uuid");
 const { invokeAndSafelyClose } = require("./Connection");
+const twilio = require("twilio");
 
 const DB_NAME = process.env.DB_NAME;
 const COLLECTION_NAME = "accountInfo";
+const TWILIO_CLIENT = twilio(
+  process.env.TWILIO_ACC_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 /**
  * Util to persist the accountInfo in the database
  * @param {object} data account data to insert
@@ -64,7 +69,16 @@ const deleteExistingAccountInfoIfNeeded = async (phone) => {
   }
 };
 
+const verifyPhoneNumber = async (phoneNumber) => {
+  const verification = await TWILIO_CLIENT.verify
+    .services(process.env.TWILIO_VERIF)
+    .verifications.create({ to: phoneNumber, channel: "sms" });
+
+  console.log("Verification: ", verification);
+};
+
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfoIfNeeded,
+  verifyPhoneNumber,
 };

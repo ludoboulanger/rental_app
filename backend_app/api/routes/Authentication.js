@@ -25,6 +25,8 @@ AuthenticationRouter.post(
         .status(201)
         .send({ message: "Account Created Successfully", id: createdId });
 
+      await AccountInfo.verifyPhoneNumber("+1" + body.phoneNumber);
+
     } catch (e) {
       next("500");
     }
