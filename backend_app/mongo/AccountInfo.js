@@ -13,12 +13,12 @@ const TWILIO_CLIENT = twilio(
  * @param {object} data account data to insert
  * @returns the created account id
  */
-const createNewAccountInfo = async (data) => {
+const createNewAccountInfo = async (data, activationCode) => {
   const newAccountInfo = {
     _id: uuidv4(),
     ...data,
     isActive: false,
-    activationCode: "",
+    activationCode: activationCode,
   };
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(
@@ -80,10 +80,12 @@ const getAccountInfoById = async (accountId) => {
   return accountInfo;
 };
 
-const sendVerificationCode = async (phoneNumber) => {
-  await TWILIO_CLIENT.verify
-    .services(process.env.TWILIO_VERIF)
-    .verifications.create({ to: phoneNumber, channel: "sms" });
+const sendActivationCode = async (phoneNumber, activationCode) => {
+  await TWILIO_CLIENT.messages.create({
+    body: `Hello, your Rental verification code is ${activationCode}`,
+    from: "+14702840611",
+    to: phoneNumber,
+  });
 };
 
 const validateVerificationCode = async (phoneNumber, code) => {
@@ -97,7 +99,7 @@ const validateVerificationCode = async (phoneNumber, code) => {
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfoIfNeeded,
-  sendVerificationCode,
+  sendActivationCode,
   validateVerificationCode,
   getAccountInfoById,
 };
