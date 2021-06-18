@@ -56,12 +56,11 @@ const deleteExistingAccountInfoIfNeeded = async (phone) => {
     return;
   }
 
-  const [, errorDeletingAccount] = await invokeAndSafelyClose(
-    async (client) =>
-      client
-        .db(DB_NAME)
-        .collection(COLLECTION_NAME)
-        .deleteMany({ phoneNumber: phone })
+  const [, errorDeletingAccount] = await invokeAndSafelyClose(async (client) =>
+    client
+      .db(DB_NAME)
+      .collection(COLLECTION_NAME)
+      .deleteMany({ phoneNumber: phone })
   );
 
   if (errorDeletingAccount) {
@@ -69,16 +68,36 @@ const deleteExistingAccountInfoIfNeeded = async (phone) => {
   }
 };
 
-const verifyPhoneNumber = async (phoneNumber) => {
-  const verification = await TWILIO_CLIENT.verify
+const getAccountInfoById = async (accountId) => {
+  const [accountInfo, error] = await invokeAndSafelyClose(async (client) =>
+    client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ _id: accountId })
+  );
+
+  if (error) {
+    throw "500";
+  }
+
+  return accountInfo;
+};
+
+const sendVerificationCode = async (phoneNumber) => {
+  await TWILIO_CLIENT.verify
     .services(process.env.TWILIO_VERIF)
     .verifications.create({ to: phoneNumber, channel: "sms" });
+};
 
-  console.log("Verification: ", verification);
+const validateVerificationCode = async (phoneNumber, code) => {
+  const validation = await TWILIO_CLIENT.verify
+    .services(process.env.TWILIO_VERIF)
+    .verificationChecks.create({ to: phoneNumber, code: code });
+
+  return validation.status;
 };
 
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfoIfNeeded,
-  verifyPhoneNumber,
+  sendVerificationCode,
+  validateVerificationCode,
+  getAccountInfoById,
 };
