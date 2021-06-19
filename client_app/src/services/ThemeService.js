@@ -1,4 +1,4 @@
-import {createMuiTheme, fade} from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 /**
  * Docs: https://material-ui.com/customization/theming/
@@ -9,20 +9,15 @@ export const LightTheme = createMuiTheme({
       light: "#8AD2AB",
       main: "#3CB474",
       dark: "#30905C",
-      contrastText: "#FFFFFF"
     },
     secondary: {
       light: "#03dac5",
       main: "#01A299",
       dark: "#017374",
     },
-    text: {
-      primary:"#FFFFFF",
-      secondary: fade("#000000", 0.80)
-    }
   },
   typography: {
-    fontFamily: ["Open Sans", "sans-serif"].join(","),
+    fontFamily: "Open Sans, sans-serif",
     h1: {
       fontWeight: "550",
       fontSize: "72px",
@@ -30,7 +25,7 @@ export const LightTheme = createMuiTheme({
       letterSpacing: "-0.5px",
     },
     h2: {
-      fontWeight: "550",
+      fontWeight: "450",
       fontSize: "60px",
       lineHeight: "60px",
       letterSpacing: "-0.5px",
@@ -71,28 +66,15 @@ export const LightTheme = createMuiTheme({
       letterSpacing: "0.15px",
     },
     body1: {
-      fontFamily: "Open Sans",
-      fontSize: "16px",
+      fontSize: "18px",
       lineHeight: "24px",
       fontWeight: "400",
-      fontStyle: "italic",
     },
     body2: {
-      fontFamily: "Open Sans",
-      fontSize: "14px",
+      fontSize: "18px",
       lineHeight: "24px",
       fontWeight: "400",
-      fontStyle: "italic",
     },
-    button: {
-      fontFamily: "Open Sans",
-      fontSize: "14px",
-      lineHeight: "16px",
-      letterSpacing: "1.25px",
-      fontWeight: "400",
-      textTransform: "uppercase",
-    },
-
   },
   breakpoints: {
     values: {

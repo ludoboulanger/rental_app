@@ -2,5 +2,11 @@
   "init_page": "Init Page",
   "Search": "Search...",
   "youSearched": "You searched",
-  "back": "Back"
+  "back": "Back",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "email": "Email",
+  "phoneNumber": "Phone number",
+  "next": "Next",
+  "welcomeToRentix": "Welcome to Rentix! You'll be up and running in no time. First, we need to complete your account setup to make your experience as enjoyable as possible. This wizard will guide you through the registration process."
 }

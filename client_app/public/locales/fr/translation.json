@@ -2,5 +2,11 @@
   "init_page": "Page initiale",
   "Search": "Rechercher...",
   "youSearched": "Vous avez cherché",
-  "back": "Retour"
+  "back": "Retour",
+  "firstName": "Prénom",
+  "lastName": "Nom de famille",
+  "email": "Courriel",
+  "phoneNumber": "Numéro de téléphone",
+  "next": "Suivant",
+  "welcomeToRentix": "Bienvenue à Rentix ! Vous serez opérationnel en un rien de temps. Nous devons tout d'abord compléter la configuration de votre compte afin de rendre votre expérience la plus agréable possible. Cet assistant vous guidera à travers le processus d'inscription."
 }

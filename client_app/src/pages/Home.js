@@ -9,7 +9,7 @@ import SearchPage from "./SearchPage";
 import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
 import {ROUTES} from "../utils/enums";
-import MobileHeader from "../components/Headers/MobileHeader";
+//import MobileHeader from "../components/Headers/MobileHeader";
 
 /**
  * Component responsible for rendering the correct page based on the current URL
@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <ThemeProvider theme={LightTheme}>
       <Router>
-        <MobileHeader />
+        {/* <MobileHeader /> */}
         <Switch>
           <Route exact path={ROUTES.SIGN_IN}>
             <SignInPage />
