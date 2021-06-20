@@ -10,5 +10,7 @@
   "next": "Suivant",
   "welcomeToRentix": "Bienvenue à Rentix ! Vous serez opérationnel en un rien de temps. Nous devons tout d'abord compléter la configuration de votre compte afin de rendre votre expérience la plus agréable possible. Cet assistant vous guidera à travers le processus d'inscription.",
   "checkInbox": "Vérifiez vos courriels",
-  "sentCode": "Nous avons envoyé un code de vérification à ${email}. Vérifiez votre boîte de réception et entrez le code dans les champs ci-dessous. Si vous n'avez pas reçu de code, cliquez sur \"Renvoyer le code\"."
+  "sentCode": "Nous avons envoyé un code de vérification à ${email}. Vérifiez votre boîte de réception et entrez le code dans les champs ci-dessous. Si vous n'avez pas reçu de code, cliquez sur \"Renvoyer le code\".",
+  "verificationCode": "Code de vérification",
+  "noCode": "Pas recu de code?"
 }

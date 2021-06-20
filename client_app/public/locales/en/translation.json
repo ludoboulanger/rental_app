@@ -10,5 +10,7 @@
   "next": "Next",
   "welcomeToRentix": "Welcome to Rentix! You'll be up and running in no time. First, we need to complete your account setup to make your experience as enjoyable as possible. This wizard will guide you through the registration process.",
   "checkInbox": "Check your inbox",
-  "sentCode": "We sent a verification code to ${email}. Check your inbox and enter the code in the fields below. If you haven't recieved a code, click \"Resend Code\""
+  "sentCode": "We sent a verification code to ${email}. Check your inbox and enter the code in the fields below. If you haven't recieved a code, click \"Resend Code\"",
+  "verificationCode": "Verification Code",
+  "noCode": "Didn't recieve a code?"
 }

@@ -8,6 +8,7 @@ export default makeStyles((theme) => ({
     padding: "12px",
   },
   headerContainer: {
+    padding: "0",
     display: "grid",
     gridTemplateRows: "1fr",
     gridTemplateColumns: "repeat(4, 1fr)",

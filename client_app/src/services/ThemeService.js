@@ -66,7 +66,7 @@ export const LightTheme = createMuiTheme({
       letterSpacing: "0.15px",
     },
     body1: {
-      fontSize: "18px",
+      fontSize: "16px",
       lineHeight: "24px",
       fontWeight: "400",
     },
