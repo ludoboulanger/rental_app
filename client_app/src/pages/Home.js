@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CreateAccountPage from "./createAccount/CreateAccountPage.jsx";
+import VerifyAccount from "./VerifyAccount/VerifyAccount.jsx";
 import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
@@ -27,6 +28,9 @@ export default function Home() {
           </Route>
           <Route exact path={ROUTES.CREATE_ACCOUNT}>
             <CreateAccountPage />
+          </Route>
+          <Route exact path={ROUTES.VERIFY_ACCOUNT}>
+            <VerifyAccount />
           </Route>
           <Route exact path={ROUTES.WELCOME}>
             <WelcomePage />

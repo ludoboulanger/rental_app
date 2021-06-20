@@ -5,4 +5,5 @@ export const ROUTES = {
   INIT: "/",
   SETTINGS: "/settings",
   SEARCH: "/search",
+  VERIFY_ACCOUNT: "/verify-account",
 };
