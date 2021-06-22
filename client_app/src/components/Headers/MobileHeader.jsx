@@ -44,7 +44,7 @@ export default function MobileHeader(props){
           </div>
         </Toolbar>
       </AppBar>
-      <SearchBar/>
+      {withSearchBar && <div className={classes.mobileSearchBar}> <SearchBar/> </div>}
     </>
   );
 }

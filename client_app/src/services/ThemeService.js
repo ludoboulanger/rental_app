@@ -9,7 +9,7 @@ export const LightTheme = createMuiTheme({
       light: "#8AD2AB",
       main: "#3CB474",
       dark: "#30905C",
-      contrastText: "#FFFFFF"
+      contrastText: "#FFF"
     },
     secondary: {
       light: "#03dac5",
@@ -78,8 +78,7 @@ export const LightTheme = createMuiTheme({
     button: {
       fontSize: "14px",
       letterSpacing: "1.25",
-      fontWeight: "400",
-      fontStyle: "italic",
+      fontWeight: "500",
       textTransform: "uppercase",
     },
 

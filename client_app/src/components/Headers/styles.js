@@ -3,8 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   appBar: {
     padding: "16px 20px 20px 20px",
-    width:"100%"
-
+    width:"100%",
   },
   toolBar: {
     padding:"0",
@@ -29,14 +28,32 @@ const useStyles = makeStyles({
     alignSelf: "center",
     cursor:"pointer",
   },
+  appNameDesktop: {
+    cursor:"pointer",
+    marginLeft:"5px",
+  },
   iconsContainer:{
     gridColumn: "3",
     gridRow: "1",
-    justifySelf: "end",
+    justifySelf: "end"
   },
   icon:{
-    padding: "0",
+    padding: "2.5px",
     color: "white"
+  },
+  mobileSearchBar: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    transform:"translateY(-50%)",
+    minWidth: "fit-content",
+    maxWidth: "350px",
+    width:"40%",
+  },
+  desktopSearchBar: {
+    marginRight:"5px"
+  },
+  links: {
+    marginLeft: "10px"
   }
 });
 export default useStyles;
