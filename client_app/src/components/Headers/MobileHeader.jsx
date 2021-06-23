@@ -20,7 +20,7 @@ export default function MobileHeader(props){
   const history = useHistory();
 
   const handleLogoClick = () => {
-    history.push(ROUTES.INIT);
+    history.push(ROUTES.WELCOME);
   };
 
   const handleSettingsClick = () => {

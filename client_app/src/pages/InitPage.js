@@ -15,9 +15,9 @@ export default function InitPage() {
 
   const useStyles = makeStyles((theme) => ({
     button: {
-      "& > *": {
-        margin: theme.spacing(2),
-      },
+      
+      margin: theme.spacing(2),
+      
     },
   }));
   const classes = useStyles();
@@ -40,17 +40,14 @@ export default function InitPage() {
 
       <img src={logo} onClick={handleLogoClick} alt={"logo"}/>
     
-      <div className={classes.button}>
-        <Button variant= "contained" color="primary" onClick={handleSignInClick}>
-          {t("Sign in")}
-        </Button>
-      </div>
-
-      <div className={classes.button}>
-        <Button variant= "outlined" color="primary" onClick={handleSignUpClick}>
-          {t("Sign up")}
-        </Button>
-      </div>
+      <Button variant= "contained" color="primary" onClick={handleSignInClick} className={classes.button} >
+        {t("Sign in")}
+      </Button>
+    
+      <Button variant= "outlined" color="primary" onClick={handleSignUpClick} className={classes.button}>
+        {t("Sign up")}
+      </Button>
+      
     </div>
   );
 }
