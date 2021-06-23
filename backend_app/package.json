@@ -5,7 +5,7 @@
   "main": "Server.js",
   "scripts": {
     "start-dev": "nodemon api/index.js",
-    "test-dev": "mocha */tests/*.spec.js"
+    "test-dev": "mocha */tests/*.spec.js --exit"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
   "license": "ISC",
