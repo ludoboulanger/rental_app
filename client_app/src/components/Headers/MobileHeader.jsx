@@ -8,10 +8,12 @@ import SettingIcon from "@material-ui/icons/Settings";
 import useStyles from "./styles";
 import SearchBar from "../SearchBar/SearchBar";
 
+MobileHeader.propTypes = {
+  withSearchBar: PropTypes.bool
+};
+
 export default function MobileHeader(props){
-  MobileHeader.propTypes = {
-    withSearchBar: PropTypes.bool
-  };
+
   const {withSearchBar} = props;
   const classes = useStyles();
   const logo = process.env.PUBLIC_URL + "logo192.png";

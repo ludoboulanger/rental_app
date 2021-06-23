@@ -9,11 +9,12 @@ import {ROUTES} from "../../utils/enums";
 import {useTranslation} from "react-i18next";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+DesktopHeader.propTypes = {
+  withSearchBar: PropTypes.bool
+};
 
 export default function DesktopHeader(props){
-  DesktopHeader.propTypes = {
-    withSearchBar: PropTypes.bool
-  };
+
   const {t} = useTranslation();
   const {withSearchBar} = props;
   const classes = useStyles();
@@ -45,8 +46,7 @@ export default function DesktopHeader(props){
           <Button  component={Link} to={ROUTES.SETTINGS} className={classes.links}>{t("My listings")}</Button>
           <Button  component={Link} to={ROUTES.SETTINGS} className={classes.links}>{t("Autre chose")}</Button>
           <span style={{flexGrow: 1}}/>
-          {/*withSearchBar && */<div className={classes.desktopSearchBar}><SearchBar/></div>}
-
+          {withSearchBar && <div className={classes.desktopSearchBar}><SearchBar/></div>}
           <div>
             <IconButton onClick={handleSettingsClick} className={classes.icon}>
               <AddCircleOutlineOutlinedIcon/>
