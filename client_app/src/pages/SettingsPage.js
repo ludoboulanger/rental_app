@@ -6,17 +6,19 @@ import { ROUTES } from "../utils/enums";
 import { useHistory } from "react-router";
 import SettingDividers from "../components/SettingsContainer/SettingsContainer";
 
+const useStyles = makeStyles(() => ({
+  button: {
+    position: "relative",
+    float: "left",
+    marginLeft: 35
+  },
+}));
+
 export default function SettingsPage() {
 
   const {t} = useTranslation();
   const history = useHistory();
-  const useStyles = makeStyles((theme) => ({
-    button: {
-      position: "relative",
-      float: "left",
-      marginLeft: 35
-    },
-  }));
+  
   const classes = useStyles();
 
   const handleBackClick = () =>{

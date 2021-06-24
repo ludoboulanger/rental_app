@@ -1,6 +1,6 @@
-import { makeStyles, StylesProvider } from "@material-ui/core/styles";
+import { makeStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 
   button: {
     alignContent: "left",
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
   list:{
     outlineStyle: "solid",
-    outlineColor: "#8AD2AB",
+    outlineColor: theme.palette.primary.main,
     marginLeft: 8,
     marginRight: 8,
   },
@@ -26,6 +26,6 @@ const useStyles = makeStyles({
     paddingBottom: 70,
   }
 
-});
+}));
 
 export default useStyles;

@@ -1,5 +1,17 @@
 {
   "init_page": "Init Page",
   "Search": "Search...",
-  "You searched": "You searched"
+  "You searched": "You searched",
+  "Name": "Name",
+  "Email address": "Email address",
+  "Phone number": "Phone Number",
+  "Change my Password": "Change my Password",
+  "Payment information": "Payment information",
+  "Notifications": "Notifications",
+  "Language": "Language",
+  "Themes": "Themes",
+  "Privacy Policy": "Privacy Policy",
+  "Terms of Service": "Terms of Service",
+  "About Us": "About Us",
+  "Back": "Back"
 }
