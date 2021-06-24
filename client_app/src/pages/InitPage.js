@@ -5,7 +5,13 @@ import { makeStyles } from "@material-ui/core";
 import { ROUTES } from "../utils/enums";
 import { useHistory } from "react-router";
 
-
+const useStyles = makeStyles((theme) => ({
+  button: {
+    
+    margin: theme.spacing(2),
+    
+  },
+}));
 
 export default function InitPage() {
 
@@ -13,13 +19,7 @@ export default function InitPage() {
   const logo = process.env.PUBLIC_URL + "logo192.png";
   const history = useHistory();
 
-  const useStyles = makeStyles((theme) => ({
-    button: {
-      
-      margin: theme.spacing(2),
-      
-    },
-  }));
+  
   const classes = useStyles();
 
   const handleLogoClick = () => {
