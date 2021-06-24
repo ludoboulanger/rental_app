@@ -12,6 +12,7 @@ module.exports = {
           ],
           bsonType: "object",
           properties: {
+            _id: { bsonType: "string" },
             firstName: { bsonType: "string" },
             lastName: { bsonType: "string" },
             phoneNumber: { bsonType: "string" },

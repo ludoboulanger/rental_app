@@ -3,6 +3,7 @@ const { validate, version } = require("uuid");
 const { ajv } = require("../schemas/schemas");
 const AccountInfo = require("../../mongo/AccountInfo");
 const GenerateVerificationCode = require("../utils/GenerateVerificationCode");
+const { createNewUser } = require("../../mongo/User");
 
 const AuthenticationRouter = express.Router();
 
@@ -31,6 +32,8 @@ AuthenticationRouter.post(
         activationCode
       );
 
+      // TODO Start cron job
+
       response
         .status(201)
         .send({ message: "Account Created Successfully", id: createdId });
@@ -58,11 +61,21 @@ AuthenticationRouter.post(
     const isApproved = accountInfo.activationCode === req.body.code;
 
     if (isApproved) {
-      
+      // TODO create user and delete account info
       res.status("201").send("validated!");
     } else {
       res.status("400").send("Invalid Code");
     }
+  }
+);
+
+// ! FOR TESTING -- IF THIS IS PUSHED TELL ME TO REMOVE IT -LB
+AuthenticationRouter.post(
+  "/create-account/set-password",
+  async (req, res) => {
+    const createdId = await createNewUser(req.body);
+
+    res.status(201).send({ message: createdId });
   }
 );
 
