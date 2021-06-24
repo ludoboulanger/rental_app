@@ -1,15 +1,11 @@
 import {React, useState} from "react";
 import MaterialBottomNavigation from "@material-ui/core/BottomNavigation";
-import {BottomNavigationAction, Paper, Tab, Tabs, useTheme} from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
+import {BottomNavigationAction, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import ChatIcon from "@material-ui/icons/ChatBubble";
-import FavoriteIcon from "@material-ui/icons/FavoriteOutlined";
-import AccountIcon from "@material-ui/icons/AccountCircle";
-import CreateIcon from "@material-ui/icons/AddCircleOutlined";
 import {useTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import {ROUTES} from "../../utils/enums";
+import Icon from "../Icon";
 const useStyles = makeStyles(theme=>({
   root: {
     width:"100%",
@@ -44,11 +40,11 @@ export default function BottomNavigation(){
     <MaterialBottomNavigation value={value}
       onChange={handleChange}
       className={classes.root}>
-      <BottomNavigationAction icon={<HomeIcon/>} label={t("Home")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.WELCOME}/>
-      <BottomNavigationAction icon={<ChatIcon/>} label={t("Chat")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.CHAT}/>
-      <BottomNavigationAction icon={<CreateIcon/>} label={t("Create")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.CREATE_LISTING}/>
-      <BottomNavigationAction icon={<FavoriteIcon/>} label={t("Saved")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.SAVED_ITEMS}/>
-      <BottomNavigationAction icon={<AccountIcon/>} label={t("Account")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.PROFILE}/>
+      <BottomNavigationAction icon={<Icon name={"home"}/>} label={t("Home")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.WELCOME}/>
+      <BottomNavigationAction icon={<Icon name={"chat"}/> } label={t("Chat")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.CHAT}/>
+      <BottomNavigationAction icon={<Icon name={"create"}/>} label={t("Create")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.CREATE_LISTING}/>
+      <BottomNavigationAction icon={<Icon name={"heart"}/>} label={t("Saved")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.SAVED_ITEMS}/>
+      <BottomNavigationAction icon={<Icon name={"account"}/>} label={t("Account")} classes={{root: classes.actions, selected: classes.selected}} component={Link} to={ROUTES.PROFILE}/>
     </MaterialBottomNavigation>
 
   );

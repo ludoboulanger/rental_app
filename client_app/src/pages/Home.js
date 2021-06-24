@@ -9,14 +9,17 @@ import SearchPage from "./SearchPage";
 import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
 import {ROUTES} from "../utils/enums";
-import MobileHeader from "../components/Headers/MobileHeader";
+import Header from "../components/Headers";
+import BottomNavigation from "../components/BottomNavigation";
+import {useMediaQuery, useTheme} from "@material-ui/core";
 
 /**
  * Component responsible for rendering the correct page based on the current URL
  * DOCS: https://reactrouter.com/web/guides/quick-start
  */
 export default function Home() {
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery( theme.breakpoints.down("sm"));
   return (
     <ThemeProvider theme={LightTheme}>
       <Router>
@@ -41,7 +44,7 @@ export default function Home() {
             <SearchPage />
           </Route>
         </Switch>
-        <BottomNavigation/>
+        {isMobile && <BottomNavigation/>}
       </Router>
     </ThemeProvider>
   );
