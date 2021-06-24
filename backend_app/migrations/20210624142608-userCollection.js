@@ -1,0 +1,32 @@
+module.exports = {
+  async up(db) {
+    db.createCollection("user", {
+      validator: {
+        $jsonSchema: {
+          required: [
+            "firstName",
+            "lastName",
+            "phoneNumber",
+            "email",
+            "password"
+          ],
+          bsonType: "object",
+          properties: {
+            firstName: { bsonType: "string" },
+            lastName: { bsonType: "string" },
+            phoneNumber: { bsonType: "string" },
+            email: { bsonType: "string" },
+            password: { bsonType: "string" }
+          },
+          additionalProperties: false,
+        },
+      },
+      validationLevel: "strict",
+      validationAction: "error",
+    });
+  },
+
+  async down(db) {
+    db.dropCollection("user");
+  }
+};

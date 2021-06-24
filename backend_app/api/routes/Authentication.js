@@ -26,15 +26,15 @@ AuthenticationRouter.post(
         activationCode
       );
 
-      response
-        .status(201)
-        .send({ message: "Account Created Successfully", id: createdId });
-
-      // TODO format should be done on the frontend
       await AccountInfo.sendActivationCode(
         body.phoneNumber,
         activationCode
       );
+
+      response
+        .status(201)
+        .send({ message: "Account Created Successfully", id: createdId });
+
     } catch (e) {
       next("500");
     }
@@ -58,6 +58,7 @@ AuthenticationRouter.post(
     const isApproved = accountInfo.activationCode === req.body.code;
 
     if (isApproved) {
+      
       res.status("201").send("validated!");
     } else {
       res.status("400").send("Invalid Code");
