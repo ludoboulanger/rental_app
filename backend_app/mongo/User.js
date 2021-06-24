@@ -42,6 +42,7 @@ const createNewUser = async (accountData) => {
   const [created, error] = await invokeAndSafelyClose(
     async client => client.db(DB_NAME).collection(COLLECTION_NAME).insertOne(newUserData)
   );
+  
 
   if (error) {
     throw "500";

@@ -39,7 +39,7 @@ const createNewAccountInfo = async (data, activationCode) => {
  * @param {String} email
  * @returns {void}
  */
-const deleteExistingAccountInfoIfNeeded = async (phone) => {
+const deleteExistingAccountInfo = async (phone) => {
   const [account, errorGettingAccount] = await invokeAndSafelyClose(
     async (client) =>
       client
@@ -98,7 +98,7 @@ const validateVerificationCode = async (phoneNumber, code) => {
 
 module.exports = {
   createNewAccountInfo,
-  deleteExistingAccountInfoIfNeeded,
+  deleteExistingAccountInfo,
   sendActivationCode,
   validateVerificationCode,
   getAccountInfoById,
