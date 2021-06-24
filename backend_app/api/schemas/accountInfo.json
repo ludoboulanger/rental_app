@@ -12,7 +12,6 @@
     },
     "phoneNumber": {
       "type": "string",
-      "pattern": "(\\d)+",
       "minLength": 1,
       "maxLength": 15
     },
