@@ -9,8 +9,7 @@ import SearchPage from "./SearchPage";
 import { ThemeProvider } from "@material-ui/styles";
 import { LightTheme } from "../services/ThemeService";
 import {ROUTES} from "../utils/enums";
-import Header from "../components/Headers";
-import DesktopHeader from "../components/Headers/DesktopHeader";
+import MobileHeader from "../components/Headers/MobileHeader";
 
 /**
  * Component responsible for rendering the correct page based on the current URL
@@ -42,6 +41,7 @@ export default function Home() {
             <SearchPage />
           </Route>
         </Switch>
+        <BottomNavigation/>
       </Router>
     </ThemeProvider>
   );

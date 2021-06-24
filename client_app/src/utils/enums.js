@@ -4,5 +4,9 @@ export const ROUTES = {
   WELCOME : "/welcome",
   INIT : "/",
   SETTINGS: "/settings",
-  SEARCH: "/search"
+  SEARCH: "/search",
+  CHAT: "/chat",
+  CREATE_LISTING: "/create/listing",
+  SAVED_ITEMS: "/saved",
+  PROFILE: "/{id}"
 };
