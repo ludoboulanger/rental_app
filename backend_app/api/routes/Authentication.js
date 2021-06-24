@@ -32,7 +32,7 @@ AuthenticationRouter.post(
 
       // TODO format should be done on the frontend
       await AccountInfo.sendActivationCode(
-        "+1" + body.phoneNumber,
+        body.phoneNumber,
         activationCode
       );
     } catch (e) {
