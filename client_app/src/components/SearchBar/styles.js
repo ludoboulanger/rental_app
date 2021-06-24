@@ -2,11 +2,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) =>({
   search: {
-    marginLeft: "auto",
-    marginRight: "auto",
     display: "flex",
     flexDirection: "row",
-    transform:"translateY(-50%)",
     zIndex: 1,
     border: "2.5px solid",
     borderColor: theme.palette.primary.dark,
@@ -15,8 +12,6 @@ const useStyles = makeStyles((theme) =>({
     backgroundColor: "white",
     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
     minWidth: "fit-content",
-    maxWidth: "350px",
-    width:"40%",
   },
   searchContent:{
     flexGrow:1,
@@ -39,6 +34,7 @@ const useStyles = makeStyles((theme) =>({
     position: "relative",
     textAlign: "left",
     textOverflow:"clip",
+    color: theme.palette.text.secondary
   },
 
 }));
