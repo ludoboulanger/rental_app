@@ -8,6 +8,7 @@ const TWILIO_CLIENT = twilio(
   process.env.TWILIO_ACC_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
+
 /**
  * Util to persist the accountInfo in the database
  * @param {object} data account data to insert
@@ -68,6 +69,11 @@ const deleteExistingAccountInfo = async (phone) => {
   }
 };
 
+/**
+ * Util to find the accountInfo By Id
+ * @param {string} accountId
+ * @returns {string} accountInfo object
+ */
 const getAccountInfoById = async (accountId) => {
   const [accountInfo, error] = await invokeAndSafelyClose(async (client) =>
     client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ _id: accountId })
@@ -80,6 +86,11 @@ const getAccountInfoById = async (accountId) => {
   return accountInfo;
 };
 
+/**
+ * Util to send an activation code with the Twilio client
+ * @param {string} phoneNumber Destination phone number
+ * @param {string} activationCode Activation code for the account
+ */
 const sendActivationCode = async (phoneNumber, activationCode) => {
   await TWILIO_CLIENT.messages.create({
     body: `Hello, your Rental verification code is ${activationCode}`,
@@ -88,14 +99,12 @@ const sendActivationCode = async (phoneNumber, activationCode) => {
   });
 };
 
-const validateVerificationCode = async (phoneNumber, code) => {
-  const validation = await TWILIO_CLIENT.verify
-    .services(process.env.TWILIO_VERIF)
-    .verificationChecks.create({ to: phoneNumber, code: code });
-
-  return validation.status;
-};
-
+/**
+ * Util to update the code in case the user didnt receive one the first time
+ * @param {*} accountId The Account Id for which the code needs updating
+ * @param {*} code the new verification code
+ * @returns the status of the update query
+ */
 const updateVerificationCode = async (accountId, code) => {
   console.log("Account Id: ", accountId);
   console.log("Code: ", code);
@@ -124,7 +133,6 @@ module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfo,
   sendActivationCode,
-  validateVerificationCode,
   updateVerificationCode,
   getAccountInfoById,
 };
