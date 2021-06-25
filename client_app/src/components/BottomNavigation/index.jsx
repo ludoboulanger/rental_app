@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme=>({
   },
   actions: {
     flexGrow: 1,
-    minWidth: "48px",
+    minWidth: 0,
     color:theme.palette.states.disabled + "!important"
   },
   selected: {
