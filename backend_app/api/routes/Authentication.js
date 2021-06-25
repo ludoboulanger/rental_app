@@ -42,32 +42,39 @@ AuthenticationRouter.post(
   }
 );
 
-AuthenticationRouter.param("accountId", (req, res, next, accountId) => {
-  if (validate(accountId) && version(accountId) === 4) {
-    req.accountId = accountId;
-    next();
-  } else {
+AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
+
+  if (!validate(accountId) || (version(accountId) !== 4)) {
     next("400");
+    return;
   }
+
+  const accountInfo = await AccountInfo.getAccountInfoById(accountId);
+
+  if (!accountInfo) {
+    next("404");
+    return;
+  }
+
+  req.accountInfo = accountInfo;
+  next();
 });
 
 AuthenticationRouter.post(
   "/create-account/validate/:accountId",
   async (req, res, next) => {
-    const accountInfo = await AccountInfo.getAccountInfoById(req.accountId);
 
-    const isApproved = accountInfo.activationCode === req.body.code;
+    const isApproved = req.accountInfo.activationCode === req.body.code;
 
-    if (isApproved) {
-      try {
-        await AccountInfo.deleteExistingAccountInfo(accountInfo.phoneNumber);
-        const createdId = await User.createNewUser(accountInfo);
-        res.status("201").send({ message: createdId });
-      } catch (e) {
-        next("500");
-      }
-    } else {
-      res.status("400").send({ message: "Invalid Code" });
+    if (!isApproved) {
+      next("400");
+    }
+
+    try {
+      const createdId = await User.createNewUser(req.accountInfo);
+      res.status("201").send({ message: createdId });
+    } catch (e) {
+      next("500");
     }
   }
 );
