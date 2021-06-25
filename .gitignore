@@ -5,6 +5,7 @@
 # dependencies
 /client_app/node_modules/
 /backend_app/node_modules/
+/node_modules
 
 /.pnp
 .pnp.js
