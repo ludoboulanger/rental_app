@@ -90,6 +90,12 @@ AuthenticationRouter.put(
         throw "500";
       }
 
+
+      await AccountInfo.sendActivationCode(
+        req.accountInfo.phoneNumber,
+        newActivationCode
+      );
+
       res.status("201").send("Success");
     } catch(e) {
       console.log("Error: ", e);
