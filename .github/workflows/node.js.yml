@@ -39,4 +39,6 @@ jobs:
     - run: npm run test-dev
       env:
         DB_NAME: Test_DB
+        TWILIO_ACC_SID: ACTESTKEY
+        TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
       working-directory: ./backend_app
