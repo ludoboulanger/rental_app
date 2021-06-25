@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import {React} from "react";
 import {useMediaQuery, useTheme} from "@material-ui/core";
 import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
