@@ -8,7 +8,7 @@ const { describe, it, beforeEach, afterEach } = require("mocha");
 
 describe("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
-    describe("User Sign up", () => {
+    describe("accountInfo creation", () => {
       let createAccountInfoStub;
       let sendActivationCodeStub;
 
@@ -179,6 +179,42 @@ describe("Server Routes Tests", () => {
             expect(resBody.id).to.eql("9eb7bdc3-fb64-41fe-83da-052febf8b4dd");
             expect(createAccountInfoStub.calledOnce).to.be.true;
           });
+      });
+    });
+
+    describe("Phone number verification", () => {
+      it("Returns 404 if account Id is not found", () => {
+
+      });
+
+      it("Returns 400 if the request data is malformatted", () => {
+
+      });
+
+      it("Returns 400 if the validation code recieved is invalid", () => {
+
+      });
+
+      it("Returns 201 on a valid code", () => {
+
+      });
+
+      it("Returns the created user's Id as a message on valid code", () => {
+
+      });
+    });
+
+    describe("Activation code resend", () => {
+      it("Returns 404 if account is not found", () => {
+
+      });
+
+      it("Returns 400 if the data is malformatted", () => {
+
+      });
+
+      it("Returns 201 if code is successfully reset", () => {
+
       });
     });
   });
