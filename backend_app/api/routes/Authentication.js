@@ -79,4 +79,22 @@ AuthenticationRouter.post(
   }
 );
 
+AuthenticationRouter.put(
+  "/create-account/validate/:accountId",
+  async ( req, res, next) => {
+    try {
+      const newActivationCode = GenerateVerificationCode(6);
+      const result = await AccountInfo.updateVerificationCode(req.accountInfo._id, newActivationCode);
+
+      if (!result) {
+        throw "500";
+      }
+
+      res.status("201").send("Success");
+    } catch(e) {
+      console.log("Error: ", e);
+      next("500");
+    }
+  });
+
 module.exports = AuthenticationRouter;

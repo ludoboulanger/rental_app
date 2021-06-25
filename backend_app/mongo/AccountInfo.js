@@ -96,10 +96,35 @@ const validateVerificationCode = async (phoneNumber, code) => {
   return validation.status;
 };
 
+const updateVerificationCode = async (accountId, code) => {
+  console.log("Account Id: ", accountId);
+  console.log("Code: ", code);
+  const [result, error] = await invokeAndSafelyClose(
+    async client => client
+      .db(process.env.DB_NAME)
+      .collection(COLLECTION_NAME)
+      .updateOne(
+        {_id: accountId},
+        {
+          $set: {
+            activationCode: code,
+            createdAt: new Date(),
+          }
+        })
+  );
+
+  if (error) {
+    throw "500";
+  }
+
+  return result.result.ok;
+};
+
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfo,
   sendActivationCode,
   validateVerificationCode,
+  updateVerificationCode,
   getAccountInfoById,
 };
