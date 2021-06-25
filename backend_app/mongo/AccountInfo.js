@@ -17,8 +17,8 @@ const createNewAccountInfo = async (data, activationCode) => {
   const newAccountInfo = {
     _id: uuidv4(),
     ...data,
-    isActive: false,
     activationCode: activationCode,
+    createdAt: new Date(),
   };
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(

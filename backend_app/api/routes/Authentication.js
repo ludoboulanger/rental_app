@@ -32,8 +32,6 @@ AuthenticationRouter.post(
         activationCode
       );
 
-      // TODO Start cron job to delete accountInfo and code. 10 mins maybe?
-
       response
         .status(201)
         .send({ message: "Account Created Successfully", id: createdId });
