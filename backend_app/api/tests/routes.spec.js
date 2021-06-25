@@ -10,15 +10,21 @@ describe("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
     describe("User Sign up", () => {
       let createUserStub;
+      let sendActivationCodeStub;
 
       beforeEach(() => {
         createUserStub = sinon
           .stub(AccountInfo, "createNewAccountInfo")
           .returns(userCreatedStub);
+
+        sendActivationCodeStub = sinon
+          .stub(AccountInfo, "sendActivationCode")
+          .returns(null);
       });
 
       afterEach(() => {
         createUserStub.restore();
+        sendActivationCodeStub.restore();
       });
 
       it("Returns 400 on missing data fields", async () => {
