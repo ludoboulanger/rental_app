@@ -1,19 +1,20 @@
+const { CODES } = require("./Enums");
 //eslint-disable-next-line
 const ErrorHandler = (err, _req, res, next) => {
   let status;
   let message;
 
-  if (err === 404) {
-    status = 404;
+  if (err === CODES.NOT_FOUND) {
+    status = CODES.NOT_FOUND;
     message = { message: "Ressources Not found" };
-  } else if (err === 400) {
-    status = 400;
+  } else if (err === CODES.BAD_REQUEST) {
+    status = CODES.BAD_REQUEST;
     message = { message: "Invalid Request" };
-  } else if (err === 403) {
-    status = 403;
+  } else if (err === CODES.NOT_ALLOWED) {
+    status = CODES.NOT_ALLOWED;
     message = { message: "Action Forbidden" };
   } else {
-    status = 500;
+    status = CODES.INTERNAL_ERROR;
     message = { message: "Internal Server Error" };
   }
 
