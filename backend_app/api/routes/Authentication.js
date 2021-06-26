@@ -66,6 +66,7 @@ AuthenticationRouter.post(
     try {
 
       if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
+        // TODO Blacklist phone numbers that get here
         await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
         next(CODES.NOT_ALLOWED);
         return;

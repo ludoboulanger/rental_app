@@ -1,6 +1,6 @@
 module.exports = {
   async up(db) {
-    db.createCollection("user", {
+    return db.createCollection("user", {
       validator: {
         $jsonSchema: {
           required: [
@@ -28,6 +28,6 @@ module.exports = {
   },
 
   async down(db) {
-    db.dropCollection("user");
+    return db.dropCollection("user");
   }
 };
