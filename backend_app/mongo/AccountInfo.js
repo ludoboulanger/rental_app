@@ -5,6 +5,7 @@ const GenerateVerificationCode = require("./utils/GenerateVerificationCode");
 
 const VERIFICATION_CODE_LENGTH = 6;
 const DB_NAME = process.env.DB_NAME;
+const TWILIO_PHONE = process.env.TWILIO_PHONE;
 const COLLECTION_NAME = "accountInfo";
 const TWILIO_CLIENT = twilio(
   process.env.TWILIO_ACC_SID,
@@ -101,7 +102,7 @@ const getAccountInfoById = async (accountId) => {
 const sendActivationCode = async (phoneNumber, activationCode) => {
   await TWILIO_CLIENT.messages.create({
     body: `Hello, your Rental verification code is ${activationCode}`,
-    from: "+14702840611",
+    from: TWILIO_PHONE,
     to: phoneNumber,
   });
 };
