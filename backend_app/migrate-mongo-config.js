@@ -1,4 +1,5 @@
 // In this file you can configure migrate-mongo
+require("dotenv-safe").config();
 
 const config = {
   mongodb: {

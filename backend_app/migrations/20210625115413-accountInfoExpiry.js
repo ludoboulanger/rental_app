@@ -3,7 +3,7 @@ const { invokeAndSafelyClose } = require("../mongo/Connection");
 module.exports = {
   async up() {
     const [result, error] = await invokeAndSafelyClose(
-      client => client.db("rentalDevDB").collection("accountInfo").createIndex({lastModified: 1}, {expireAfterSeconds: 600}) // Account expires after 10mins
+      client => client.db(process.env.DB_NAME).collection("accountInfo").createIndex({lastModified: 1}, {expireAfterSeconds: 600}) // Account expires after 10mins
     );
 
     if (error) {
@@ -15,7 +15,7 @@ module.exports = {
 
   async down() {
     const [result, error] = await invokeAndSafelyClose(
-      client => client.db("rentalDevDB").collection("accountInfo").dropIndex("lastModified_1")
+      client => client.db(process.env.DB_NAME).collection("accountInfo").dropIndex("lastModified_1")
     );
 
     if (error) {
