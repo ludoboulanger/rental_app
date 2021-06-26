@@ -12,6 +12,7 @@
     },
     "phoneNumber": {
       "type": "string",
+      "pattern": "^\\+[1-9]\\d{10,14}$",
       "minLength": 1,
       "maxLength": 15
     },

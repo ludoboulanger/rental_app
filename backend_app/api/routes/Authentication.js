@@ -20,7 +20,7 @@ AuthenticationRouter.post(
     try {
       await AccountInfo.deleteExistingAccountInfo(body.phoneNumber);
 
-      const result = await AccountInfo.createNewAccountInfo(body);;
+      const result = await AccountInfo.createNewAccountInfo(body);
 
       if (!result.ok) {
         next(CODES.INTERNAL_ERROR);

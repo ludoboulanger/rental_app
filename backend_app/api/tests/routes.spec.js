@@ -89,25 +89,25 @@ describe("Server Routes Tests", () => {
         const invalidFirstname = {
           firstName: 23434,
           lastName: "Stark",
-          phoneNumber: "8197432345",
+          phoneNumber: "+18197432345",
         };
 
         const invalidLastname = {
           firstName: "Tony",
           lastName: 3255435345,
-          phoneNumber: "8197432345",
+          phoneNumber: "+18197432345",
         };
 
         const invalidPhone = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "",
+          phoneNumber: "lol",
         };
 
         const invalidEmail = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8193451234",
+          phoneNumber: "+18193451234",
           email: "tonyavengers.com",
         };
 
@@ -165,7 +165,7 @@ describe("Server Routes Tests", () => {
         const user = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8194567890",
+          phoneNumber: "+18194567890",
           email: "tony@avengers.com",
         };
 
