@@ -20,7 +20,6 @@ const TWILIO_CLIENT = twilio(
 const createNewAccountInfo = async (data) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
   const newAccountInfo = {
-    _id: uuidv4(),
     ...data,
     activationCode: newCode,
     lastModified: new Date(),
@@ -28,13 +27,20 @@ const createNewAccountInfo = async (data) => {
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(
     async (client) =>
-      client.db(DB_NAME).collection(COLLECTION_NAME).insertOne(newAccountInfo)
-  );
+      client.db(DB_NAME).collection(COLLECTION_NAME).updateOne(
+        {phoneNumber: newAccountInfo.phoneNumber},
+        {
+          $set: {...newAccountInfo},
+          $setOnInsert: {_id: uuidv4()}
+        },
+        {upsert: true}
+      ));
 
   if (errorCreatingUser || created.result.ok !== 1) {
+    console.log("Error Creating user: ", errorCreatingUser);
     throw new Error();
   }
-  
+
   return {
     ok: created.result.ok,
     id: created.insertedId,
