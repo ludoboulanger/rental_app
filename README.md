@@ -39,13 +39,13 @@ You need a circular saw to do some work on your house? Find one on Rentix and pa
 
 ## The team
 
-###Ludovic Boulanger
+### Ludovic Boulanger
 Computer Engineering student at Université de Sherbooke
 
-###Mauricio Rivera
+### Mauricio Rivera
 Computer Engineering student at McGill University
 
-###Victor Frève-Boucher
+### Victor Frève-Boucher
 Computer Engineering student at Université de Sherbooke
 ___
 Copyright © 2021 Ludovic Boulanger, Mauricio Rivera, Victor Frève-Boucher
