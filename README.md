@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# Welcome to Rentix
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### The app that helps people to share things together
+Rentix is a web app that allows you to make money by sharing 
+stuff that you only use often to other people around you. 
 
-## Available Scripts
+You have a pair of ski but only have the time to go to the mountain once a week? 
+List it on Rentix and get some money while you're making someone happy to try this sport.
 
-In the project directory, you can run:
+You need a circular saw to do some work on your house? Find one on Rentix and pay less that you would in a hardware store.
 
-### `npm start`
+![img](https://i.imgur.com/59SHnNZ.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Why should I use Rentix?
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### As a lender
+- Make a side income with your goods
+- Give a second life to objects that you no longer need 
+- Be guaranteed to get your items back in good condition, or get a monetary compensation for the damages/loss
 
-### `npm test`
+### As a tenant
+- Try new hobbies at a low cost
+- Live experiences while travelling abroad
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Used technologies
+### Front end
+- React
+- Material-UI
 
-### `npm run build`
+### Backend
+- Express.js
+- Mongo-DB
+- Moka/Chai
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How to try it?
+1. Clone or download the repository
+2. Run npm start
+3. Enjoy
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## The team
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Ludovic Boulanger
+Computer Engineering student at Université de Sherbooke
 
-### `npm run eject`
+### Mauricio Rivera
+Statistics and Computer Science student at McGill University
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Victor Frève-Boucher
+Computer Engineering student at Université de Sherbooke
+___
+Copyright © 2021 Ludovic Boulanger, Mauricio Rivera, Victor Frève-Boucher

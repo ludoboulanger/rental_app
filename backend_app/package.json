@@ -4,6 +4,7 @@
   "description": "Backend Server for RentALL",
   "main": "Server.js",
   "scripts": {
+    "start": "nodemon api/index.js",
     "start-dev": "nodemon api/index.js",
     "test-dev": "mocha */tests/*.spec.js --exit"
   },
