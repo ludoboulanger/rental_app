@@ -41,4 +41,5 @@ jobs:
         DB_NAME: Test_DB
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
+        TWILIO_PHONE: "+19999999999"
       working-directory: ./backend_app
