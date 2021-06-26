@@ -12,7 +12,7 @@ const { getRandomUUID,
   getInvalidUUID,
   getInvalidVerificationCode,
   getMalFormattedVerificationCode
-} = require("./TestUtils");
+} = require("../utils/TestUtils");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
 describe("Server Routes Tests", () => {
