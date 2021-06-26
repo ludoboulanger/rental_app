@@ -1,5 +1,15 @@
 {
   "scripts": {
     "start": "concurrently \"cd client_app && npm start\" \"cd backend_app && npm start\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-plugin-react": "^7.24.0"
   }
 }
