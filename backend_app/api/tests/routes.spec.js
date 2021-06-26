@@ -191,7 +191,7 @@ describe("Server Routes Tests", () => {
       });
     });
 
-    describe("POST /api/users/create-account/validate", () => {
+    describe("POST /api/users/create-account/validate/{accountId}", () => {
       let getAccountInfoByIdStub;
       let createUserStub;
       beforeEach(() => {
@@ -269,17 +269,45 @@ describe("Server Routes Tests", () => {
       });
     });
 
-    describe("Activation code resend", () => {
-      it("Returns 404 if account is not found", () => {
+    describe("PUT /api/users/create-account/validate/{accountId}", () => {
+      let getAccountInfoByIdStub;
 
+      beforeEach(() => {
+        getAccountInfoByIdStub = sinon.stub(AccountInfo, "getAccountInfoById");
+      });
+
+      afterEach(() => {
+        getAccountInfoByIdStub.restore();
+      });
+
+      it("Returns 404 if account is not found", () => {
+        getAccountInfoByIdStub.returns(null);
+        const accountId = getRandomUUID();
+
+        return request(app)
+          .put(`/api/users/create-account/validate/${accountId}`)
+          .send({})
+          .expect(404);
       });
 
       it("Returns 400 if the data is malformatted", () => {
+        getAccountInfoByIdStub.returns(null);
+        const accountId = getInvalidUUID();
 
+        return request(app)
+          .put(`/api/users/create-account/validate/${accountId}`)
+          .send({})
+          .expect(400);
       });
 
       it("Returns 201 if code is successfully reset", () => {
+        getAccountInfoByIdStub.returns(getRandomAccountInfo());
+        const accountId = getRandomUUID();
 
+        return request(app)
+          .put(`/api/users/create-account/validate/${accountId}`)
+          .send({})
+          .expect(201);
       });
     });
   });
