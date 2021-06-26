@@ -23,6 +23,7 @@ const createNewAccountInfo = async (data) => {
     ...data,
     activationCode: newCode,
     lastModified: new Date(),
+    attempts: 0,
   };
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(
@@ -42,7 +43,7 @@ const createNewAccountInfo = async (data) => {
 
   return {
     ok: created.result.ok,
-    id: created.insertedId,
+    id: created.upsertedId._id,
     code: newCode,
   };
 };
@@ -122,7 +123,7 @@ const updateVerificationCode = async (accountId) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
   const [result, error] = await invokeAndSafelyClose(
     async client => client
-      .db(process.env.DB_NAME)
+      .db(DB_NAME)
       .collection(COLLECTION_NAME)
       .updateOne(
         {_id: accountId},
@@ -144,10 +145,35 @@ const updateVerificationCode = async (accountId) => {
   };
 };
 
+const incrementAttemptsForAccount = async accountId => {
+  const [result, error] = await invokeAndSafelyClose(
+    async client => client
+      .db(DB_NAME)
+      .collection(COLLECTION_NAME)
+      .updateOne(
+        {_id: accountId},
+        {
+          $inc: {
+            attempts: 1,
+          }
+        }
+      )
+  );
+
+  if (error) {
+    throw new Error();
+  }
+
+  return {
+    ok: result.result.ok,
+  };
+};
+
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfo,
   sendActivationCode,
   updateVerificationCode,
+  incrementAttemptsForAccount,
   getAccountInfoById,
 };

@@ -15,7 +15,7 @@ module.exports = {
 
   async down() {
     const [result, error] = await invokeAndSafelyClose(
-      client => client.db("rentalDevDB").collection("accountInfo").dropIndex("createdAt_1")
+      client => client.db("rentalDevDB").collection("accountInfo").dropIndex("lastModified_1")
     );
 
     if (error) {

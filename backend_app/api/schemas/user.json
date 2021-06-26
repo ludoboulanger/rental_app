@@ -18,7 +18,7 @@
     "phoneNumber": {
       "type": "string",
       "pattern": "^\\+[1-9]\\d{10,14}$",
-      "maxLength": 50,
+      "maxLength": 15,
       "minLength": 1
     },
     "password": {

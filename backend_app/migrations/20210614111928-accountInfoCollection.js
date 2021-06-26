@@ -9,6 +9,7 @@ module.exports = {
             "phoneNumber",
             "activationCode",
             "lastModified",
+            "attempts",
           ],
           bsonType: "object",
           properties: {
@@ -19,6 +20,7 @@ module.exports = {
             email: { bsonType: "string" },
             activationCode: { bsonType: "string" },
             lastModified: { bsonType: "date" },
+            attempts: { bsonType: "int"}
           },
           additionalProperties: false,
         },

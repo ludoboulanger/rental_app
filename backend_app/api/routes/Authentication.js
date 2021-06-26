@@ -5,6 +5,8 @@ const AccountInfo = require("../../mongo/AccountInfo");
 const User = require("../../mongo/User");
 const { CODES } = require("../utils/Enums");
 
+const MAX_ALLOWED_VERIFICATION_ATTEMPTS = 5;
+
 const AuthenticationRouter = express.Router();
 
 AuthenticationRouter.post(
@@ -61,16 +63,25 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
 AuthenticationRouter.post(
   "/activate-account/:accountId",
   async (req, res, next) => {
-
-    const isApproved = req.accountInfo.activationCode === req.body.code;
-
-    if (!isApproved) {
-      next(CODES.BAD_REQUEST);
-    }
-
     try {
+
+      if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
+        await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
+        next(CODES.NOT_ALLOWED);
+        return;
+      }
+
+      const isApproved = req.accountInfo.activationCode === req.body.code;
+
+      if (!isApproved) {
+        await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
+        next(CODES.BAD_REQUEST);
+        return;
+      }
+
       const createdId = await User.createNewUser(req.accountInfo);
       res.status(CODES.CREATED).send({ message: createdId });
+
     } catch (e) {
       next(CODES.INTERNAL_ERROR);
     }
