@@ -169,11 +169,24 @@ const incrementAttemptsForAccount = async accountId => {
   };
 };
 
+const isVerificationCodeFormatValid = (code) => {
+  try {
+    if (Number(code) <= 999999) {
+      return true;
+    } else  {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+};
+
 module.exports = {
   createNewAccountInfo,
   deleteExistingAccountInfo,
   sendActivationCode,
   updateVerificationCode,
   incrementAttemptsForAccount,
+  isVerificationCodeFormatValid,
   getAccountInfoById,
 };

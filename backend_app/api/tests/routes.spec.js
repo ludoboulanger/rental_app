@@ -4,11 +4,20 @@ const app = require("../index");
 const request = require("supertest");
 const AccountInfo = require("../../mongo/AccountInfo");
 const { successCreateAccountInfo } = require("./DatabaseMock");
+const User = require("../../mongo/User");
+const { userCreatedStub, getRandomAccountInfo } = require("./DatabaseMock");
+const { getRandomUUID,
+  getValidSignUpInformation,
+  getValidVerificationCode,
+  getInvalidUUID,
+  getInvalidVerificationCode,
+  getMalFormattedVerificationCode
+} = require("./TestUtils");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
 describe("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
-    describe("accountInfo creation", () => {
+    describe("POST /api/create-acount", () => {
       let createAccountInfoStub;
       let sendActivationCodeStub;
 
@@ -182,25 +191,81 @@ describe("Server Routes Tests", () => {
       });
     });
 
-    describe("Phone number verification", () => {
-      it("Returns 404 if account Id is not found", () => {
+    describe("POST /api/users/create-account/validate", () => {
+      let getAccountInfoByIdStub;
+      let createUserStub;
+      beforeEach(() => {
+        getAccountInfoByIdStub = sinon.stub(AccountInfo, "getAccountInfoById");
+        createUserStub = sinon.stub(User, "createNewUser");
+      });
 
+      afterEach(() => {
+        getAccountInfoByIdStub.restore();
+        createUserStub.restore();
+      });
+
+      it("Returns 404 if account Id is not found", () => {
+        getAccountInfoByIdStub.returns(null);
+
+        const accountId = getRandomUUID();
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getValidSignUpInformation())
+          .expect(404);
       });
 
       it("Returns 400 if the request data is malformatted", () => {
+        getAccountInfoByIdStub.returns(null);
+        const accountId = getInvalidUUID();
 
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getValidVerificationCode())
+          .expect(400);
+      });
+
+      it("Returns 400 if the code is not parsable as a number", () => {
+        getAccountInfoByIdStub.returns(null);
+        const accountId = getInvalidUUID();
+
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getMalFormattedVerificationCode())
+          .expect(400);
       });
 
       it("Returns 400 if the validation code recieved is invalid", () => {
+        getAccountInfoByIdStub.returns(getRandomAccountInfo());
+        const accountId = getRandomUUID();
 
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getInvalidVerificationCode())
+          .expect(400);
       });
 
       it("Returns 201 on a valid code", () => {
+        getAccountInfoByIdStub.returns(getRandomAccountInfo());
+        const accountId = getRandomUUID();
 
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getValidVerificationCode())
+          .expect(201);
       });
 
       it("Returns the created user's Id as a message on valid code", () => {
+        getAccountInfoByIdStub.returns(getRandomAccountInfo());
+        createUserStub.returns(userCreatedStub);
+        const accountId = getRandomUUID();
 
+        return request(app)
+          .post(`/api/users/create-account/validate/${accountId}`)
+          .send(getValidVerificationCode())
+          .expect(201)
+          .then(res => {
+            expect(res.body.message).to.eql(userCreatedStub);
+          });
       });
     });
 
