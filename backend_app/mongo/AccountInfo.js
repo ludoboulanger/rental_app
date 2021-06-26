@@ -37,7 +37,6 @@ const createNewAccountInfo = async (data) => {
       ));
 
   if (errorCreatingUser || created.result.ok !== 1) {
-    console.log("Error Creating user: ", errorCreatingUser);
     throw new Error();
   }
 
