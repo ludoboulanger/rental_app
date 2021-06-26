@@ -61,7 +61,7 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
 });
 
 AuthenticationRouter.post(
-  "/create-account/validate/:accountId",
+  "/activate-account/:accountId",
   async (req, res, next) => {
 
     const isApproved = req.accountInfo.activationCode === req.body.code;
@@ -80,7 +80,7 @@ AuthenticationRouter.post(
 );
 
 AuthenticationRouter.put(
-  "/create-account/validate/:accountId",
+  "/activate-account/:accountId",
   async ( req, res, next) => {
     try {
       const result = await AccountInfo.updateVerificationCode(req.accountInfo._id);
