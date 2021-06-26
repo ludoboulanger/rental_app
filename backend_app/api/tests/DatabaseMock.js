@@ -9,6 +9,11 @@ const successCreateAccountInfo = {
   code: "123456",
 };
 
+const successUpdateVerificationCode = {
+  ok: 1,
+  code: "123456",
+};
+
 const getRandomAccountInfo = () => {
   return {
     _id: uuidv4(),
@@ -24,5 +29,6 @@ const getRandomAccountInfo = () => {
 module.exports = {
   userCreatedStub,
   successCreateAccountInfo,
+  successUpdateVerificationCode,
   getRandomAccountInfo,
 };
