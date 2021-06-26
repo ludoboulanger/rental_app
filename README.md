@@ -43,7 +43,7 @@ You need a circular saw to do some work on your house? Find one on Rentix and pa
 Computer Engineering student at Université de Sherbooke
 
 ### Mauricio Rivera
-Computer Engineering student at McGill University
+Statistics and Computer Science student at McGill University
 
 ### Victor Frève-Boucher
 Computer Engineering student at Université de Sherbooke
