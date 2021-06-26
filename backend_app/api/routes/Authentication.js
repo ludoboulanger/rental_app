@@ -3,7 +3,7 @@ const { validate, version } = require("uuid");
 const { ajv } = require("../schemas/schemas");
 const AccountInfo = require("../../mongo/AccountInfo");
 const User = require("../../mongo/User");
-import { CODES } from "../utils/Enums";
+const { CODES } = require("../utils/Enums");
 
 const AuthenticationRouter = express.Router();
 
@@ -12,7 +12,6 @@ AuthenticationRouter.post(
   async (request, response, next) => {
     const body = request.body;
     const validateAccountInfo = ajv.getSchema("accountInfo");
-
     if (!validateAccountInfo(body)) {
       next(CODES.BAD_REQUEST);
       return;
@@ -21,10 +20,11 @@ AuthenticationRouter.post(
     try {
       await AccountInfo.deleteExistingAccountInfo(body.phoneNumber);
 
-      const result = await AccountInfo.createNewAccountInfo(body);
+      const result = await AccountInfo.createNewAccountInfo(body);;
 
       if (!result.ok) {
         next(CODES.INTERNAL_ERROR);
+        return;
       }
 
       await AccountInfo.sendActivationCode(

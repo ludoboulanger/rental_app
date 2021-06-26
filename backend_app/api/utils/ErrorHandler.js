@@ -3,13 +3,13 @@ const ErrorHandler = (err, _req, res, next) => {
   let status;
   let message;
 
-  if (err === "404") {
+  if (err === 404) {
     status = 404;
     message = { message: "Ressources Not found" };
-  } else if (err === "400") {
+  } else if (err === 400) {
     status = 400;
     message = { message: "Invalid Request" };
-  } else if (err === "403") {
+  } else if (err === 403) {
     status = 403;
     message = { message: "Action Forbidden" };
   } else {

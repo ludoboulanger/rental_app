@@ -34,7 +34,7 @@ const createNewAccountInfo = async (data) => {
   if (errorCreatingUser || created.result.ok !== 1) {
     throw new Error();
   }
-
+  
   return {
     ok: created.result.ok,
     id: created.insertedId,
