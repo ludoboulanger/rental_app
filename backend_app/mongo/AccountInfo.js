@@ -31,7 +31,7 @@ const createNewAccountInfo = async (data) => {
   );
 
   if (errorCreatingUser || created.result.ok !== 1) {
-    throw "500";
+    throw new Error();
   }
 
   return {
@@ -57,7 +57,7 @@ const deleteExistingAccountInfo = async (phone) => {
   );
 
   if (errorGettingAccount) {
-    throw "500";
+    throw new Error();
   }
 
   if (!account) {
@@ -72,7 +72,7 @@ const deleteExistingAccountInfo = async (phone) => {
   );
 
   if (errorDeletingAccount) {
-    throw "500";
+    throw new Error();
   }
 };
 
@@ -87,7 +87,7 @@ const getAccountInfoById = async (accountId) => {
   );
 
   if (error) {
-    throw "500";
+    throw new Error();
   }
 
   return accountInfo;
@@ -129,7 +129,7 @@ const updateVerificationCode = async (accountId) => {
   );
 
   if (error) {
-    throw "500";
+    throw new Error();
   }
 
   return {

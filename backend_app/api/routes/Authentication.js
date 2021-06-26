@@ -3,6 +3,7 @@ const { validate, version } = require("uuid");
 const { ajv } = require("../schemas/schemas");
 const AccountInfo = require("../../mongo/AccountInfo");
 const User = require("../../mongo/User");
+import { CODES } from "../utils/Enums";
 
 const AuthenticationRouter = express.Router();
 
@@ -13,7 +14,7 @@ AuthenticationRouter.post(
     const validateAccountInfo = ajv.getSchema("accountInfo");
 
     if (!validateAccountInfo(body)) {
-      next("400");
+      next(CODES.BAD_REQUEST);
       return;
     }
 
@@ -23,7 +24,7 @@ AuthenticationRouter.post(
       const result = await AccountInfo.createNewAccountInfo(body);
 
       if (!result.ok) {
-        next("500");
+        next(CODES.INTERNAL_ERROR);
       }
 
       await AccountInfo.sendActivationCode(
@@ -32,11 +33,11 @@ AuthenticationRouter.post(
       );
 
       response
-        .status(201)
+        .status(CODES.CREATED)
         .send({ message: "Account Created Successfully", id: result.id });
 
     } catch (e) {
-      next("500");
+      next(CODES.INTERNAL_ERROR);
     }
   }
 );
@@ -44,14 +45,14 @@ AuthenticationRouter.post(
 AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
 
   if (!validate(accountId) || (version(accountId) !== 4)) {
-    next("400");
+    next(CODES.BAD_REQUEST);
     return;
   }
 
   const accountInfo = await AccountInfo.getAccountInfoById(accountId);
 
   if (!accountInfo) {
-    next("404");
+    next(CODES.NOT_FOUND);
     return;
   }
 
@@ -66,14 +67,14 @@ AuthenticationRouter.post(
     const isApproved = req.accountInfo.activationCode === req.body.code;
 
     if (!isApproved) {
-      next("400");
+      next(CODES.BAD_REQUEST);
     }
 
     try {
       const createdId = await User.createNewUser(req.accountInfo);
-      res.status("201").send({ message: createdId });
+      res.status(CODES.CREATED).send({ message: createdId });
     } catch (e) {
-      next("500");
+      next(CODES.INTERNAL_ERROR);
     }
   }
 );
@@ -85,7 +86,7 @@ AuthenticationRouter.put(
       const result = await AccountInfo.updateVerificationCode(req.accountInfo._id);
 
       if (!result.ok) {
-        throw "500";
+        next(CODES.INTERNAL_ERROR);
       }
 
 
@@ -94,10 +95,9 @@ AuthenticationRouter.put(
         result.code
       );
 
-      res.status("201").send("Success");
+      res.status(CODES.CREATED).send("Success");
     } catch(e) {
-      console.log("Error: ", e);
-      next("500");
+      next(CODES.INTERNAL_ERROR);
     }
   });
 
