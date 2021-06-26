@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import {ROUTES} from "../../utils/enums";
 import {useHistory} from "react-router-dom";
 
-import SettingIcon from "@material-ui/icons/Settings";
 import useStyles from "./styles";
 import SearchBar from "../SearchBar/SearchBar";
+import Icon from "../Icon";
 
 MobileHeader.propTypes = {
   withSearchBar: PropTypes.bool
@@ -41,7 +41,7 @@ export default function MobileHeader(props){
           </Typography>
           <div className={classes.iconsContainer}>
             <IconButton onClick={handleSettingsClick} className={classes.icon}>
-              <SettingIcon/>
+              <Icon name={"setting"}/>
             </IconButton>
           </div>
         </Toolbar>

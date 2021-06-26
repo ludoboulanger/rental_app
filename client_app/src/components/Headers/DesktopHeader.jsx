@@ -1,14 +1,12 @@
 import {React} from "react";
 import {AppBar, Button, IconButton, Toolbar, Typography} from "@material-ui/core";
-import SettingIcon from "@material-ui/icons/Settings";
 import SearchBar from "../SearchBar/SearchBar";
 import PropTypes from "prop-types";
 import useStyles from "./styles";
 import {Link, useHistory} from "react-router-dom";
 import {ROUTES} from "../../utils/enums";
 import {useTranslation} from "react-i18next";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+import Icon from "../Icon";
 DesktopHeader.propTypes = {
   withSearchBar: PropTypes.bool
 };
@@ -49,13 +47,13 @@ export default function DesktopHeader(props){
           {withSearchBar && <div className={classes.desktopSearchBar}><SearchBar/></div>}
           <div>
             <IconButton onClick={handleSettingsClick} className={classes.icon}>
-              <AddCircleOutlineOutlinedIcon/>
+              <Icon name={"create"}/>
             </IconButton>
             <IconButton onClick={handleSettingsClick} className={classes.icon}>
-              <AccountCircleIcon/>
+              <Icon name={"account"}/>
             </IconButton>
             <IconButton component={Link} to={ROUTES.SETTINGS} className={classes.icon}>
-              <SettingIcon/>
+              <Icon name={"setting"}/>
             </IconButton>
           </div>
         </Toolbar>

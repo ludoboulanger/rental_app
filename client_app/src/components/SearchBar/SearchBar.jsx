@@ -1,11 +1,12 @@
 import {React,  useState} from "react";
 import {IconButton, InputBase} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+
 import useStyles from "./styles";
 import {useHistory} from "react-router-dom";
 import {ROUTES} from "../../utils/enums";
 import {useTranslation} from "react-i18next";
 import {getURLWithParams} from "../../utils/queries";
+import Icon from "../Icon";
 
 export default function SearchBar(){
   const classes = useStyles();
@@ -40,7 +41,7 @@ export default function SearchBar(){
           inputProps={{ "aria-label": "search" }}
         />
         <IconButton onClick={handleSubmitSearch}>
-          <SearchIcon className={classes.searchIcon} />
+          <Icon name={"search"} className={classes.searchIcon} />
         </IconButton>
 
       </div>
