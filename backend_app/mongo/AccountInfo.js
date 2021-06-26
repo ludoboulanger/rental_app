@@ -1,7 +1,9 @@
 const { v4: uuidv4 } = require("uuid");
 const { invokeAndSafelyClose } = require("./Connection");
 const twilio = require("twilio");
+const GenerateVerificationCode = require("./utils/GenerateVerificationCode");
 
+const VERIFICATION_CODE_LENGTH = 6;
 const DB_NAME = process.env.DB_NAME;
 const COLLECTION_NAME = "accountInfo";
 const TWILIO_CLIENT = twilio(
@@ -14,12 +16,13 @@ const TWILIO_CLIENT = twilio(
  * @param {object} data account data to insert
  * @returns the created account id
  */
-const createNewAccountInfo = async (data, activationCode) => {
+const createNewAccountInfo = async (data) => {
+  const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
   const newAccountInfo = {
     _id: uuidv4(),
     ...data,
-    activationCode: activationCode,
-    createdAt: new Date(),
+    activationCode: newCode,
+    lastModified: new Date(),
   };
 
   const [created, errorCreatingUser] = await invokeAndSafelyClose(
@@ -31,7 +34,11 @@ const createNewAccountInfo = async (data, activationCode) => {
     throw "500";
   }
 
-  return created.insertedId;
+  return {
+    ok: created.result.ok,
+    id: created.insertedId,
+    code: newCode,
+  };
 };
 
 /**
@@ -105,9 +112,8 @@ const sendActivationCode = async (phoneNumber, activationCode) => {
  * @param {*} code the new verification code
  * @returns the status of the update query
  */
-const updateVerificationCode = async (accountId, code) => {
-  console.log("Account Id: ", accountId);
-  console.log("Code: ", code);
+const updateVerificationCode = async (accountId) => {
+  const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
   const [result, error] = await invokeAndSafelyClose(
     async client => client
       .db(process.env.DB_NAME)
@@ -116,8 +122,8 @@ const updateVerificationCode = async (accountId, code) => {
         {_id: accountId},
         {
           $set: {
-            activationCode: code,
-            createdAt: new Date(),
+            activationCode: newCode,
+            lastModified: new Date(),
           }
         })
   );
@@ -126,7 +132,10 @@ const updateVerificationCode = async (accountId, code) => {
     throw "500";
   }
 
-  return result.result.ok;
+  return {
+    ok: result.result.ok,
+    code: newCode
+  };
 };
 
 module.exports = {

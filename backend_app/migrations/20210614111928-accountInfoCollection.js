@@ -8,7 +8,7 @@ module.exports = {
             "lastName",
             "phoneNumber",
             "activationCode",
-            "createdAt",
+            "lastModified",
           ],
           bsonType: "object",
           properties: {
@@ -18,7 +18,7 @@ module.exports = {
             phoneNumber: { bsonType: "string" },
             email: { bsonType: "string" },
             activationCode: { bsonType: "string" },
-            createdAt: { bsonType: "date" },
+            lastModified: { bsonType: "date" },
           },
           additionalProperties: false,
         },

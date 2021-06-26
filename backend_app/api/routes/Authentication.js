@@ -2,7 +2,6 @@ const express = require("express");
 const { validate, version } = require("uuid");
 const { ajv } = require("../schemas/schemas");
 const AccountInfo = require("../../mongo/AccountInfo");
-const GenerateVerificationCode = require("../utils/GenerateVerificationCode");
 const User = require("../../mongo/User");
 
 const AuthenticationRouter = express.Router();
@@ -21,20 +20,20 @@ AuthenticationRouter.post(
     try {
       await AccountInfo.deleteExistingAccountInfo(body.phoneNumber);
 
-      const activationCode = GenerateVerificationCode(6);
-      const createdId = await AccountInfo.createNewAccountInfo(
-        body,
-        activationCode
-      );
+      const result = await AccountInfo.createNewAccountInfo(body);
+
+      if (!result.ok) {
+        next("500");
+      }
 
       await AccountInfo.sendActivationCode(
         body.phoneNumber,
-        activationCode
+        result.code
       );
 
       response
         .status(201)
-        .send({ message: "Account Created Successfully", id: createdId });
+        .send({ message: "Account Created Successfully", id: result.id });
 
     } catch (e) {
       next("500");
@@ -83,17 +82,16 @@ AuthenticationRouter.put(
   "/create-account/validate/:accountId",
   async ( req, res, next) => {
     try {
-      const newActivationCode = GenerateVerificationCode(6);
-      const result = await AccountInfo.updateVerificationCode(req.accountInfo._id, newActivationCode);
+      const result = await AccountInfo.updateVerificationCode(req.accountInfo._id);
 
-      if (!result) {
+      if (!result.ok) {
         throw "500";
       }
 
 
       await AccountInfo.sendActivationCode(
         req.accountInfo.phoneNumber,
-        newActivationCode
+        result.code
       );
 
       res.status("201").send("Success");
