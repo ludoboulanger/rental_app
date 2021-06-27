@@ -6,9 +6,14 @@
    > $ brew install mongodb-community  
    > $ brew services start mongodb-community
 ## Environment variables
-1. In the directory root, create a `.env` file
-2. Copy the content of `.env.example` in `.env` file
-3. Give a value to the required variables **except** for the `DB_NAME`
+1. In the directory root, create a `dev.env` file
+2. Copy the content of `.env.example` in `dev.env` file
+3. Give all the correct values inside this file.
+
+#### Testing
+If you want to be able to run the tests, do the following: 
+1. Create a `test.env` file in the root directory
+2. Insert your values for your test environment. these can be anything you like as external APIs are stubbed.
 
 ## Starting the application
 - To start the test environment, run `ENVIRONMENT=test ./startLocalDev.sh`
