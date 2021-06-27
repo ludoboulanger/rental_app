@@ -1,5 +1,5 @@
 {
-  "required": ["firstName", "lastName", "phoneNumber", "email"],
+  "requires": ["firstName", "lastName", "email", "phoneNumber", "password"],
   "type": "object",
   "properties": {
     "firstName": {
@@ -10,17 +10,20 @@
       "type": "string",
       "maxLength": 50
     },
-    "phoneNumber": {
-      "type": "string",
-      "pattern": "^\\+[1-9]\\d{10,14}$",
-      "minLength": 1,
-      "maxLength": 15
-    },
     "email": {
       "type": "string",
       "format": "email",
       "maxLength": 50
+    },
+    "phoneNumber": {
+      "type": "string",
+      "pattern": "^\\+[1-9]\\d{10,14}$",
+      "maxLength": 15,
+      "minLength": 1
+    },
+    "password": {
+      "type": "string",
+      "maxLength": 100
     }
-  },
-  "additionalProperties": false
+  }
 }

@@ -3,34 +3,40 @@ const expect = require("chai").expect;
 const app = require("../index");
 const request = require("supertest");
 const AccountInfo = require("../../mongo/AccountInfo");
-const { userCreatedStub } = require("./DatabaseMock");
+const { successCreateAccountInfo } = require("./DatabaseMock");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
 describe("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
     describe("User Sign up", () => {
-      let createUserStub;
+      let createAccountInfoStub;
+      let sendActivationCodeStub;
 
       beforeEach(() => {
-        createUserStub = sinon
+        createAccountInfoStub = sinon
           .stub(AccountInfo, "createNewAccountInfo")
-          .returns(userCreatedStub);
+          .returns(successCreateAccountInfo);
+
+        sendActivationCodeStub = sinon
+          .stub(AccountInfo, "sendActivationCode")
+          .returns(null);
       });
 
       afterEach(() => {
-        createUserStub.restore();
+        createAccountInfoStub.restore();
+        sendActivationCodeStub.restore();
       });
 
       it("Returns 400 on missing data fields", async () => {
         const dataMissingFirstname = {
           lastName: "Stark",
-          phoneNumber: "8194358738",
+          phoneNumber: "+18194358738",
           email: "tony@avengers.com",
         };
 
         const dataMissingLastname = {
           firstName: "Tony",
-          phoneNumber: "8194358738",
+          phoneNumber: "+18194358738",
           email: "tony@avengers.com",
         };
 
@@ -43,7 +49,7 @@ describe("Server Routes Tests", () => {
         const dataMissingEmail = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8193451234",
+          phoneNumber: "+18193451234",
         };
 
         await request(app)
@@ -83,25 +89,25 @@ describe("Server Routes Tests", () => {
         const invalidFirstname = {
           firstName: 23434,
           lastName: "Stark",
-          phoneNumber: "8197432345",
+          phoneNumber: "+18197432345",
         };
 
         const invalidLastname = {
           firstName: "Tony",
           lastName: 3255435345,
-          phoneNumber: "8197432345",
+          phoneNumber: "+18197432345",
         };
 
         const invalidPhone = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "",
+          phoneNumber: "lol",
         };
 
         const invalidEmail = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8193451234",
+          phoneNumber: "+18193451234",
           email: "tonyavengers.com",
         };
 
@@ -142,7 +148,7 @@ describe("Server Routes Tests", () => {
         const user = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8194567890",
+          phoneNumber: "+18194562345",
           email: "tony@avengers.com",
         };
 
@@ -151,7 +157,7 @@ describe("Server Routes Tests", () => {
           .send(user)
           .expect(201)
           .then(() => {
-            expect(createUserStub.calledOnce).to.be.true;
+            expect(createAccountInfoStub.calledOnce).to.be.true;
           });
       });
 
@@ -159,7 +165,7 @@ describe("Server Routes Tests", () => {
         const user = {
           firstName: "Tony",
           lastName: "Stark",
-          phoneNumber: "8194567890",
+          phoneNumber: "+18194567890",
           email: "tony@avengers.com",
         };
 
@@ -171,7 +177,7 @@ describe("Server Routes Tests", () => {
             let resBody = res.body;
             expect(resBody.message).to.eql("Account Created Successfully");
             expect(resBody.id).to.eql("9eb7bdc3-fb64-41fe-83da-052febf8b4dd");
-            expect(createUserStub.calledOnce).to.be.true;
+            expect(createAccountInfoStub.calledOnce).to.be.true;
           });
       });
     });

@@ -44,7 +44,7 @@
       { "skipBlankLines": true }
     ],
     "no-var": [
-      "error"
+      "warn"
     ]
   }
 }
