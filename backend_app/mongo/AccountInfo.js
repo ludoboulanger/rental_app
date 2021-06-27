@@ -37,7 +37,7 @@ const createNewAccountInfo = async (data) => {
         {upsert: true}
       ));
 
-  if (errorCreatingUser || created.result.ok !== 1) {
+  if (errorCreatingUser) {
     throw new Error();
   }
 
