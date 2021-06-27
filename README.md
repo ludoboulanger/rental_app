@@ -30,7 +30,7 @@ You need a circular saw to do some work on your house? Find one on Rentix and pa
 ### Backend
 - Express.js
 - Mongo-DB
-- Moka/Chai
+- Mocha/Chai
 
 ## How to try it?
 1. Clone or download the repository
