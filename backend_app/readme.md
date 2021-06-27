@@ -8,7 +8,11 @@
 ## Environment variables
 1. In the directory root, create a `.env` file
 2. Copy the content of `.env.example` in `.env` file
-3. Give a value to the required variables
+3. Give a value to the required variables **except** for the `DB_NAME`
+
+## Starting the application
+- To start the test environment, run `ENVIRONMENT=test ./startLocalDev.sh`
+- To start the development environment, run `./startLocalDev.sh`
 ## Db-migrate
 We use [migrate-mongo](https://www.npmjs.com/package/migrate-mongo) to handle the database migration. It is already installed localy in the project if you ran `npm install` command. To use it, you can either run the command `npx migrate-mongo [command]` or if you want to get rid of npx, you'll have to install it globally `npm install -g db-migrate`.
 ### Database initialisation
