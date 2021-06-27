@@ -2,6 +2,7 @@
   "name": "backend_app",
   "version": "1.0.0",
   "description": "Backend Server for RentALL",
+  "private": true,
   "main": "Server.js",
   "scripts": {
     "start": "nodemon api/index.js",
@@ -9,7 +10,6 @@
     "test-dev": "mocha */tests/*.spec.js --exit"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
-  "license": "ISC",
   "dependencies": {
     "ajv": "^6.12.6",
     "bcrypt": "^5.0.1",
