@@ -14,31 +14,27 @@ AuthenticationRouter.post(
   async (request, response, next) => {
     const body = request.body;
     const validateAccountInfo = ajv.getSchema("accountInfo");
+
     if (!validateAccountInfo(body)) {
       next(CODES.BAD_REQUEST);
       return;
     }
 
-    try {
-      const result = await AccountInfo.createNewAccountInfo(body);
+    const result = await AccountInfo.createNewAccountInfo(body);
 
-      if (!result.ok) {
-        next(CODES.INTERNAL_ERROR);
-        return;
-      }
-
-      await AccountInfo.sendActivationCode(
-        body.phoneNumber,
-        result.code
-      );
-
-      response
-        .status(CODES.CREATED)
-        .send({ message: "Account Created Successfully", id: result.id });
-
-    } catch (e) {
+    if (!result.ok) {
       next(CODES.INTERNAL_ERROR);
+      return;
     }
+
+    await AccountInfo.sendActivationCode(
+      body.phoneNumber,
+      result.code
+    );
+
+    response
+      .status(CODES.CREATED)
+      .send({ message: "Account Created Successfully", id: result.id });
   }
 );
 

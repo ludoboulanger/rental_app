@@ -26,9 +26,9 @@ const createNewAccountInfo = async (data) => {
     attempts: 0,
   };
 
-  const [created, errorCreatingUser] = await invokeAndSafelyClose(
+  const [result, error] = await invokeAndSafelyClose(
     async (client) =>
-      client.db(DB_NAME).collection(COLLECTION_NAME).updateOne(
+      client.db(DB_NAME).collection(COLLECTION_NAME).findOneAndUpdate(
         {phoneNumber: newAccountInfo.phoneNumber},
         {
           $set: {...newAccountInfo},
@@ -37,15 +37,29 @@ const createNewAccountInfo = async (data) => {
         {upsert: true}
       ));
 
-  if (errorCreatingUser) {
-    throw new Error();
+  if (error) {
+    return {
+      ok: 0,
+      id: null,
+      code: null,
+    };
   }
 
-  return {
-    ok: created.result.ok,
-    id: created.upsertedId._id,
-    code: newCode,
-  };
+  if(result.value) {
+    // Document was updated
+    return {
+      ok: result.ok,
+      id: result.value._id,
+      code: newCode
+    };
+  } else {
+    // Document was inserted
+    return {
+      ok: result.ok,
+      id: result.lastErrorObject.upserted,
+      code: newCode,
+    };
+  }
 };
 
 /**
