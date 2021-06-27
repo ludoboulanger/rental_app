@@ -1,5 +1,7 @@
 require("dotenv-safe").config();
 const { describe, it, before, after } = require("mocha");
+const { expect } = require("chai");
+const { getAccountInfoById } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
 const { randomData } = require("../utils/TestUtils");
 const DB_NAME = process.env.DB_NAME;
@@ -36,12 +38,35 @@ describe("AccountInfo Tests", () => {
       }
     });
 
-    it("Should get the correct account if in the database", () => {
+    it("Should get the correct account if in the database", async () => {
+
+      const [account, error] = await getAccountInfoById("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
+
+      expect(error).to.be.null;
+      expect(account).to.not.be.null;
+
+      expect(account._id).to.eql("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
+      expect(account).to.haveOwnProperty("firstName");
+      expect(account).to.haveOwnProperty("lastName");
+      expect(account).to.haveOwnProperty("phoneNumber");
+      expect(account).to.haveOwnProperty("email");
+      expect(account).to.haveOwnProperty("attempts");
+      expect(account).to.haveOwnProperty("activationCode");
+      expect(account).to.haveOwnProperty("lastModified");
 
     });
     
-    it("Should return null if the account is not found", () => {
+    it("Should return null if the account is not found", async () => {
 
+      const [account, error] = await getAccountInfoById("c3893e37-975b-4ffc-8a08-497fb0b6321b");
+
+      expect(error).to.be.null;
+      expect(account).to.be.null;
+
+    });
+
+    it("Should not throw error on invalid uuid", async () => {
+      expect(async () => await getAccountInfoById("notAnId")).to.not.throw();
     });
   });
 

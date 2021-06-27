@@ -45,8 +45,13 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
     return;
   }
 
-  const accountInfo = await AccountInfo.getAccountInfoById(accountId);
+  const [accountInfo, error] = await AccountInfo.getAccountInfoById(accountId);
 
+  if (error) {
+    next(CODES.INTERNAL_ERROR);
+    return;
+  }
+  
   if (!accountInfo) {
     next(CODES.NOT_FOUND);
     return;

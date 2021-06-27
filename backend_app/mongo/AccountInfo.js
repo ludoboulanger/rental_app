@@ -98,20 +98,14 @@ const deleteExistingAccountInfo = async (phone) => {
 };
 
 /**
- * Util to find the accountInfo By Id
+ * Util to find the accountInfo By Id. This is a wrapper to facilitate interaction with mongo
  * @param {string} accountId
  * @returns {string} accountInfo object
  */
 const getAccountInfoById = async (accountId) => {
-  const [accountInfo, error] = await invokeAndSafelyClose(async (client) =>
+  return  invokeAndSafelyClose(async (client) =>
     client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ _id: accountId })
   );
-
-  if (error) {
-    throw new Error();
-  }
-
-  return accountInfo;
 };
 
 /**
