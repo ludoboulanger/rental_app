@@ -1,5 +1,11 @@
-const { describe, it } = require("mocha");
+require("dotenv-safe").config();
+const { describe, it, before, after } = require("mocha");
+const { invokeAndSafelyClose } = require("../Connection");
+const { randomData } = require("../utils/TestUtils");
+const DB_NAME = process.env.DB_NAME;
+const COLL_NAME = "accountInfo";
 
+console.log("Database name: ", DB_NAME);
 /**
  * TO TEST:
  *  getAccountInfoById
@@ -8,7 +14,15 @@ const { describe, it } = require("mocha");
  *  updateVerificationCode
  */
 describe("AccountInfo Tests", () => {
+
   describe("getAccountInfoById sanity checks", () => {
+
+    before(async () => {
+      invokeAndSafelyClose(
+        client => client.db(DB_NAME).collections(COLL_NAME).insertMany(randomData)
+      );
+    });
+
     it("Should get the correct account if in the database", () => {
 
     });
