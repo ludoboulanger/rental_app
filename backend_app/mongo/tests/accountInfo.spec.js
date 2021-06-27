@@ -5,7 +5,6 @@ const { randomData } = require("../utils/TestUtils");
 const DB_NAME = process.env.DB_NAME;
 const COLL_NAME = "accountInfo";
 
-console.log("Database name: ", DB_NAME);
 /**
  * TO TEST:
  *  getAccountInfoById
@@ -15,12 +14,26 @@ console.log("Database name: ", DB_NAME);
  */
 describe("AccountInfo Tests", () => {
 
-  describe("getAccountInfoById sanity checks", () => {
+  describe.only("getAccountInfoById sanity checks", () => {
 
     before(async () => {
-      invokeAndSafelyClose(
-        client => client.db(DB_NAME).collections(COLL_NAME).insertMany(randomData)
+      const [, error] =  await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
       );
+      
+      if (error) {
+        throw new Error("Error inserting AccountInfo documents");
+      }
+    });
+
+    after(async () => {
+      const [, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
+      );
+
+      if (error) {
+        throw new Error("Error Clearing AccountInfo");
+      }
     });
 
     it("Should get the correct account if in the database", () => {

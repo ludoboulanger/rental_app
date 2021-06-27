@@ -1,23 +1,14 @@
 const { MongoClient } = require("mongodb");
 const DB_NAME = process.env.DB_NAME;
-const TEST_DB_NAME = process.env.TEST_DB_NAME;
 const DB_URI = `mongodb://127.0.0.1:27017/${DB_NAME}`;
-const TEST_URI = `mongodb://127.0.0.1:27017/${TEST_DB_NAME}`;
 
-const initMongoConnection = async (test) => {
-  let client;
+const initMongoConnection = async () => {
   try {
-    if (test) {
-      client = new MongoClient(TEST_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-    } else {
-      client = new MongoClient(DB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-    }
+
+    const client = new MongoClient(DB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
     await client.connect();
     return client;
