@@ -1,5 +1,5 @@
 require("dotenv-safe").config();
-const { describe, it, before, after, afterEach } = require("mocha");
+const { describe, it, before, after, beforeEach} = require("mocha");
 const { expect } = require("chai");
 const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
@@ -14,7 +14,7 @@ describe.only("AccountInfo Tests", () => {
 
   // Create the collection brefore the tests
   before(async () => {
-    invokeAndSafelyClose(
+    await invokeAndSafelyClose(
       async client => client.db(DB_NAME).createCollection(COLL_NAME, {
         validator: {
           $jsonSchema: {
@@ -47,34 +47,29 @@ describe.only("AccountInfo Tests", () => {
     );
   });
 
+  // Reset the DB between tests to insure independance of tests
+  beforeEach(async () => {
+    const [, errorDeleting] = await invokeAndSafelyClose(
+      async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
+    );
+
+    const [, errorInserting] =  await invokeAndSafelyClose(
+      async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
+    );
+
+    if (errorDeleting || errorInserting) {
+      throw new Error("Error in deleteExistingAccountInfo afterEach");
+    }
+  });
+
   // Drop the collection after the tests
   after(async () => {
-    invokeAndSafelyClose(
+    await invokeAndSafelyClose(
       async client => client.db(DB_NAME).dropCollection("accountInfo")
     );
   });
 
   describe("getAccountInfoById sanity checks", () => {
-
-    before(async () => {
-      const [, error] =  await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
-      );
-      
-      if (error) {
-        throw new Error("Error inserting AccountInfo documents");
-      }
-    });
-
-    after(async () => {
-      const [, error] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
-      );
-
-      if (error) {
-        throw new Error("Error Clearing AccountInfo");
-      }
-    });
 
     it("Should get the correct account if in the database", async () => {
 
@@ -109,39 +104,6 @@ describe.only("AccountInfo Tests", () => {
   });
 
   describe("createNewAccountInfo sanity checks", () => {
-    before(async () => {
-      const [, error] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
-      );
-
-      if (error) {
-        throw new Error("Error insterting data in createNewAccountInfo sanity checks");
-      }
-    });
-
-    after(async () => {
-      const [, error] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).deleteMany({})
-      );
-
-      if (error) {
-        throw new Error("Error deleting data in createNewAccountInfo sanity checks");
-      }
-    });
-
-    afterEach(async () => {
-      const [, errorDeleting] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
-      );
-
-      const [, errorInserting] =  await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
-      );
-
-      if (errorDeleting || errorInserting) {
-        throw new Error("Error in createNewAccountInfo afterEach");
-      }
-    });
 
     it("Should create the account if not already present in the database", async () => {
       const dataToInsert = sampleNewDocument;
@@ -210,41 +172,6 @@ describe.only("AccountInfo Tests", () => {
   });
 
   describe("deleteExistingAccountInfo sanity checks", () => {
-
-    before(async () => {
-      const [, error] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
-      );
-
-      if (error) {
-        throw new Error("Error insterting data in deleteExistingAccountInfo");
-      }
-    });
-
-    after(async () => {
-      const [, error] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).deleteMany({})
-      );
-
-      if (error) {
-        throw new Error("Error deleting data in deleteExistingAccountInfo");
-      }
-    });
-
-    afterEach(async () => {
-      const [, errorDeleting] = await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
-      );
-
-      const [, errorInserting] =  await invokeAndSafelyClose(
-        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
-      );
-
-      if (errorDeleting || errorInserting) {
-        throw new Error("Error in deleteExistingAccountInfo afterEach");
-      }
-    });
-
 
     it("Should delete the correct accountInfo if present in the database", async () => {
 

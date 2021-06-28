@@ -41,7 +41,7 @@ jobs:
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"
       working-directory: ./backend_app
-    - run: npm run test-dev
+    - run: npm run test
       env:
         DB_NAME: YML_DB
         TEST_DB_NAME: YML_TEST_DB 

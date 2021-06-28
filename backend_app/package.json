@@ -5,7 +5,7 @@
   "main": "Server.js",
   "scripts": {
     "start": "cp dev.env .env && nodemon api/index.js",
-    "test": "cp test.env .env && mocha */test/*.spec.js --exit",
+    "test": "cp test.env .env && mocha */tests/*.spec.js",
     "start-dev": "cp dev.env .env && nodemon api/index.js",
     "test-dev": "cp test.env .env && mocha -w */tests/*.spec.js"
   },
