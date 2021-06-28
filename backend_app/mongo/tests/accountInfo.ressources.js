@@ -1,4 +1,5 @@
 const faker = require("faker");
+const {v4: uuidv4 } = require("uuid");
 
 const randomData = [
   {
@@ -69,6 +70,10 @@ const sampleExistingDocument = {
 
 const existingPhoneNumber = randomData[3].phoneNumber;
 
+const existingId = randomData[2]._id;
+
+const nonExistingUUID = uuidv4();
+
 const sampleInvalidDocument = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
@@ -82,4 +87,6 @@ module.exports = {
   sampleExistingDocument,
   sampleInvalidDocument,
   existingPhoneNumber,
+  existingId,
+  nonExistingUUID,
 };

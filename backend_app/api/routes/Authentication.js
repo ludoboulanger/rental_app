@@ -100,23 +100,18 @@ AuthenticationRouter.post(
 AuthenticationRouter.put(
   "/activate-account/:accountId",
   async ( req, res, next) => {
-    try {
-      const result = await AccountInfo.updateVerificationCode(req.accountInfo._id);
+    const [result, error] = await AccountInfo.updateVerificationCode(req.accountInfo._id);
 
-      if (!result.ok) {
-        next(CODES.INTERNAL_ERROR);
-      }
-
-
-      await AccountInfo.sendActivationCode(
-        req.accountInfo.phoneNumber,
-        result.code
-      );
-
-      res.status(CODES.CREATED).send("Success");
-    } catch(e) {
+    if (error) {
       next(CODES.INTERNAL_ERROR);
     }
+
+    await AccountInfo.sendActivationCode(
+      req.accountInfo.phoneNumber,
+      result.code
+    );
+
+    res.status(CODES.CREATED).send("Success");
   });
 
 module.exports = AuthenticationRouter;

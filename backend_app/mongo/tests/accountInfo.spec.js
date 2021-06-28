@@ -1,16 +1,16 @@
 require("dotenv-safe").config();
 const { describe, it, before, after, beforeEach} = require("mocha");
 const { expect } = require("chai");
-const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo } = require("../AccountInfo");
+const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo, updateVerificationCode } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
-const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument, existingPhoneNumber } = require("./accountInfo.ressources");
+const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument, existingPhoneNumber, existingId, nonExistingUUID } = require("./accountInfo.ressources");
 const DB_NAME = process.env.DB_NAME;
 const COLL_NAME = "accountInfo";
 
 /**
  * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
  */
-describe.only("AccountInfo Tests", () => {
+describe("AccountInfo Tests", () => {
 
   // Create the collection brefore the tests
   before(async () => {
@@ -214,20 +214,42 @@ describe.only("AccountInfo Tests", () => {
   });
 
   describe("updateVerificationCode sanity checks", () => {
-    it("Should correctly update the verification code for the account if found", () => {
+    it("Should correctly update the verification code for the account if found", async () => {
+      const accountToUpdate = existingId;
+
+      const [result, error] = await updateVerificationCode(accountToUpdate);
+
+      expect(result.ok).to.eql(1);
+      expect(error).to.be.null;
+
+      // Check to see if the new Code was persisted
+      const [updated, err] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).findOne({_id: accountToUpdate})
+      );
+
+      expect(err).to.be.null;
+      expect(updated.activationCode).to.not.eql(randomData[2].activationCode);
+    });
+
+    it("Should return ok = 1 and the new code on success", async () => {
+      const accountToUpdate = existingId;
+
+      const [result, error] = await updateVerificationCode(accountToUpdate);
+
+      expect(result.ok).to.eql(1);
+      expect(result).to.haveOwnProperty("code");
+      expect(error).to.be.null;
 
     });
 
-    it("Should return ok = 1 and the new code on success", () => {
+    it.only("Should return ok = 0 if account if not found", async () => {
+      const accountToUpdate = nonExistingUUID;
 
-    });
+      const [result, error] = await updateVerificationCode(accountToUpdate);
 
-    it("Should not persist any changes if account if not found", () => {
-
-    });
-
-    it("Should return ok = 0 and a null code on failure", () => {
-
+      expect(result.ok).to.eql(0);
+      expect(result).to.haveOwnProperty("newCode");
+      expect(error).to.be.null;
     });
   });
 

@@ -112,7 +112,7 @@ const updateVerificationCode = async (accountId) => {
     async client => client
       .db(DB_NAME)
       .collection(COLLECTION_NAME)
-      .updateOne(
+      .findOneAndUpdate(
         {_id: accountId},
         {
           $set: {
@@ -123,13 +123,16 @@ const updateVerificationCode = async (accountId) => {
   );
 
   if (error) {
-    throw new Error();
+    return [null, error];
   }
 
-  return {
-    ok: result.result.ok,
-    code: newCode
-  };
+  if (!result.value) {
+    return [{ ok: 0, newCode: null }, null];
+  }
+
+  console.log("Result: ", result);
+
+  return [{ ok: 1, code: newCode }, null];
 };
 
 const incrementAttemptsForAccount = async accountId => {
