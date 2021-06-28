@@ -67,7 +67,7 @@ AuthenticationRouter.post(
 
     if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
       // TODO Blacklist phone numbers that get here
-      const [result, error] = await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
+      let [result, error] = await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
 
       if (error) {
         next(CODES.INTERNAL_ERROR);
@@ -86,7 +86,13 @@ AuthenticationRouter.post(
     const isApproved = req.accountInfo.activationCode === req.body.code;
 
     if (!isApproved) {
-      await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
+      const [, error] = await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
+
+      if (error) {
+        next(CODES.INTERNAL_ERROR);
+        return;
+      }
+
       next(CODES.BAD_REQUEST);
       return;
     }

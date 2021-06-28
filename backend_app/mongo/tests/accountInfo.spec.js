@@ -1,7 +1,7 @@
 require("dotenv-safe").config();
 const { describe, it, before, after, beforeEach} = require("mocha");
 const { expect } = require("chai");
-const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo, updateVerificationCode } = require("../AccountInfo");
+const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo, updateVerificationCode, incrementAttemptsForAccount } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
 const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument, existingPhoneNumber, existingId, nonExistingUUID } = require("./accountInfo.ressources");
 const DB_NAME = process.env.DB_NAME;
@@ -10,7 +10,7 @@ const COLL_NAME = "accountInfo";
 /**
  * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
  */
-describe("AccountInfo Tests", () => {
+describe.only("AccountInfo Tests", () => {
 
   // Create the collection brefore the tests
   before(async () => {
@@ -242,7 +242,7 @@ describe("AccountInfo Tests", () => {
 
     });
 
-    it.only("Should return ok = 0 if account if not found", async () => {
+    it("Should return ok = 0 if account if not found", async () => {
       const accountToUpdate = nonExistingUUID;
 
       const [result, error] = await updateVerificationCode(accountToUpdate);
@@ -254,19 +254,43 @@ describe("AccountInfo Tests", () => {
   });
 
   describe("incrementAttemptsForAccount sanity checks", () => {
-    it("Should correctly increment the attempts by 1 on success", () => {
+    it("Should correctly increment the attempts by 1 on success", async () => {
+
+      const accountInfoToUpdate = randomData[4];
+
+      const [result, error] = await incrementAttemptsForAccount(accountInfoToUpdate._id);
+
+      expect(error).to.be.null;
+      expect(result).to.haveOwnProperty("ok");
+
+      //Check that the attempts were actually incremented
+      const [updated, err] = await invokeAndSafelyClose(
+        client => client.db(DB_NAME).collection(COLL_NAME).findOne({_id: accountInfoToUpdate._id})
+      );
+
+      expect(err).to.be.null;
+      expect(updated.attempts).to.eql(1);
 
     });
 
-    it("Should return ok = 1 on success", () => {
+    it("Should return ok = 1 on success", async () => {
+      const accountInfoToUpdate = randomData[4];
+
+      const [result, error] = await incrementAttemptsForAccount(accountInfoToUpdate._id);
+
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(1);
 
     });
 
-    it("Should not persist any changes if account if not found", () => {
+    it("Should return ok = 0 on failure", async () => {
 
-    });
+      const invalidID = nonExistingUUID;
 
-    it("Should return ok = 0 on failure", () => {
+      const [result, error] = await incrementAttemptsForAccount(invalidID);
+
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(0);
 
     });
   });
