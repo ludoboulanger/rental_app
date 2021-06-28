@@ -20,9 +20,9 @@ AuthenticationRouter.post(
       return;
     }
 
-    const result = await AccountInfo.createNewAccountInfo(body);
+    const [result, error] = await AccountInfo.createNewAccountInfo(body);
 
-    if (!result.ok) {
+    if (error) {
       next(CODES.INTERNAL_ERROR);
       return;
     }
