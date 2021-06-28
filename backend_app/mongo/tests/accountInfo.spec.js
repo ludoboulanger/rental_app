@@ -1,9 +1,9 @@
 require("dotenv-safe").config();
-const { describe, it, before, after } = require("mocha");
+const { describe, it, before, after, afterEach } = require("mocha");
 const { expect } = require("chai");
-const { getAccountInfoById } = require("../AccountInfo");
+const { getAccountInfoById, createNewAccountInfo } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
-const { randomData } = require("../utils/TestUtils");
+const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument } = require("../utils/TestUtils");
 const DB_NAME = process.env.DB_NAME;
 const COLL_NAME = "accountInfo";
 
@@ -14,9 +14,55 @@ const COLL_NAME = "accountInfo";
  *  deleteAccountInfoById
  *  updateVerificationCode
  */
-describe("AccountInfo Tests", () => {
 
-  describe.only("getAccountInfoById sanity checks", () => {
+/**
+ * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
+ */
+describe.only("AccountInfo Tests", () => {
+
+  // Create the collection brefore the tests
+  before(async () => {
+    invokeAndSafelyClose(
+      async client => client.db(DB_NAME).createCollection(COLL_NAME, {
+        validator: {
+          $jsonSchema: {
+            required: [
+              "firstName",
+              "lastName",
+              "phoneNumber",
+              "email",
+              "activationCode",
+              "lastModified",
+              "attempts",
+            ],
+            bsonType: "object",
+            properties: {
+              _id: { bsonType: "string" },
+              firstName: { bsonType: "string", maxLength: 50 },
+              lastName: { bsonType: "string", maxLength: 50 },
+              phoneNumber: { bsonType: "string", pattern: "^\\+[1-9]\\d{10,14}$" },
+              email: { bsonType: "string", maxLength: 50  },
+              activationCode: { bsonType: "string", maxLength: 50, minLength: 50 },
+              lastModified: { bsonType: "date" },
+              attempts: { bsonType: "int", maximum: 5}
+            },
+            additionalProperties: false,
+          },
+        },
+        validationLevel: "strict",
+        validationAction: "error",
+      })
+    );
+  });
+
+  // Drop the collection after the tests
+  after(async () => {
+    invokeAndSafelyClose(
+      async client => client.db(DB_NAME).dropCollection("accountInfo")
+    );
+  });
+
+  describe("getAccountInfoById sanity checks", () => {
 
     before(async () => {
       const [, error] =  await invokeAndSafelyClose(
@@ -71,23 +117,102 @@ describe("AccountInfo Tests", () => {
   });
 
   describe("createNewAccountInfo sanity checks", () => {
-    it("Should create the account if not already present in the database", () => {
+    before(async () => {
+      const [, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
+      );
 
+      if (error) {
+        throw new Error("Error insterting data in createNewAccountInfo sanity checks");
+      }
     });
 
-    it("Should update the existing account if not already present in the database", () => {
+    after(async () => {
+      const [, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).deleteMany({})
+      );
 
+      if (error) {
+        throw new Error("Error deleting data in createNewAccountInfo sanity checks");
+      }
     });
 
-    it("Should return a result with ok = 1, the createdId and the code on Success", () => {
+    afterEach(async () => {
+      const [, errorDeleting] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
+      );
 
+      const [, errorInserting] =  await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
+      );
+
+      if (errorDeleting || errorInserting) {
+        throw new Error("Error in createNewAccountInfo afterEach");
+      }
     });
 
-    it("Should return a result with ok = 0 on Failure", () => {
+    it("Should create the account if not already present in the database", async () => {
+      const dataToInsert = sampleNewDocument;
 
+      const [result, error] = await createNewAccountInfo(dataToInsert);
+
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(1);
+      expect(result).to.haveOwnProperty("id");
+      expect(result).to.haveOwnProperty("code");
+
+      const [inserted] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).findOne({phoneNumber: dataToInsert.phoneNumber})
+      );
+
+      expect(inserted).to.not.be.null;
     });
 
-    it("Should not persist data if the document fails validation", () => {
+    it("Should update the existing account if already present in the database", async () => {
+
+      const dataToInsert = sampleExistingDocument;
+
+      const [result, error] = await createNewAccountInfo(dataToInsert);
+
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(1);
+      expect(result).to.haveOwnProperty("id");
+      expect(result).to.haveOwnProperty("code");
+
+      const [updated] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).findOne({phoneNumber: dataToInsert.phoneNumber})
+      );
+
+      expect(updated).to.not.be.null;
+      expect(updated.firstName).to.deep.equal(dataToInsert.firstName);
+      expect(updated.lastName).to.deep.equal(dataToInsert.lastName);
+      expect(updated.phoneNumber).to.deep.equal(dataToInsert.phoneNumber);
+      expect(updated.email).to.deep.equal(dataToInsert.email);
+    });
+
+    it("Should return a null data object and an error object on Failure", async () => {
+
+      const dataToInsert = sampleInvalidDocument;
+
+      const [result, error] = await createNewAccountInfo(dataToInsert);
+
+      expect(result).to.be.null;
+      expect(error).to.not.be.null;
+    });
+
+    it("Should not persist data if the document fails validation", async () => {
+
+      const dataToInsert = sampleInvalidDocument;
+
+      await createNewAccountInfo(dataToInsert);
+
+      // Check to see if the document was inserted
+      const [result, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).findOne({email: sampleInvalidDocument.email})
+      );
+
+      expect(error).to.be.null;
+      expect(result).to.be.null;
 
     });
   });

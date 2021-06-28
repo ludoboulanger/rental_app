@@ -15,7 +15,7 @@ const TWILIO_CLIENT = twilio(
 /**
  * Util to persist the accountInfo in the database
  * @param {object} data account data to insert
- * @returns the created account id
+ * @returns [{ok, id, code}, null] if success or [null, error] if error
  */
 const createNewAccountInfo = async (data) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
@@ -38,27 +38,15 @@ const createNewAccountInfo = async (data) => {
       ));
 
   if (error) {
-    return {
-      ok: 0,
-      id: null,
-      code: null,
-    };
+    return [ null, error];
   }
 
   if(result.value) {
     // Document was updated
-    return {
-      ok: result.ok,
-      id: result.value._id,
-      code: newCode
-    };
+    return [{ ok: result.ok, id: result.value._id, code: newCode }, null];
   } else {
     // Document was inserted
-    return {
-      ok: result.ok,
-      id: result.lastErrorObject.upserted,
-      code: newCode,
-    };
+    return [{ ok: result.ok, id: result.lastErrorObject.upserted, code: newCode}, null];
   }
 };
 
