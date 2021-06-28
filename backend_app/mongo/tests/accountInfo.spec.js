@@ -42,7 +42,7 @@ describe.only("AccountInfo Tests", () => {
               lastName: { bsonType: "string", maxLength: 50 },
               phoneNumber: { bsonType: "string", pattern: "^\\+[1-9]\\d{10,14}$" },
               email: { bsonType: "string", maxLength: 50  },
-              activationCode: { bsonType: "string", maxLength: 50, minLength: 50 },
+              activationCode: { bsonType: "string", maxLength: 6, minLength: 6 },
               lastModified: { bsonType: "date" },
               attempts: { bsonType: "int", maximum: 5}
             },
