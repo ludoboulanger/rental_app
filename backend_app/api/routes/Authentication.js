@@ -64,29 +64,36 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
 AuthenticationRouter.post(
   "/activate-account/:accountId",
   async (req, res, next) => {
-    try {
 
-      if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
-        // TODO Blacklist phone numbers that get here
-        await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
-        next(CODES.NOT_ALLOWED);
+    if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
+      // TODO Blacklist phone numbers that get here
+      const [result, error] = await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
+
+      if (error) {
+        next(CODES.INTERNAL_ERROR);
         return;
       }
 
-      const isApproved = req.accountInfo.activationCode === req.body.code;
-
-      if (!isApproved) {
-        await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
-        next(CODES.BAD_REQUEST);
+      if (!result.ok) {
+        next(CODES.NOT_FOUND);
         return;
       }
-
-      const createdId = await User.createNewUser(req.accountInfo);
-      res.status(CODES.CREATED).send({ message: createdId });
-
-    } catch (e) {
-      next(CODES.INTERNAL_ERROR);
+      
+      next(CODES.NOT_ALLOWED);
+      return;
     }
+
+    const isApproved = req.accountInfo.activationCode === req.body.code;
+
+    if (!isApproved) {
+      await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
+      next(CODES.BAD_REQUEST);
+      return;
+    }
+
+    const createdId = await User.createNewUser(req.accountInfo);
+    res.status(CODES.CREATED).send({ message: createdId });
+
   }
 );
 

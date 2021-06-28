@@ -1,19 +1,11 @@
 require("dotenv-safe").config();
 const { describe, it, before, after, afterEach } = require("mocha");
 const { expect } = require("chai");
-const { getAccountInfoById, createNewAccountInfo } = require("../AccountInfo");
+const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
-const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument } = require("../utils/TestUtils");
+const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument, existingPhoneNumber } = require("./accountInfo.ressources");
 const DB_NAME = process.env.DB_NAME;
 const COLL_NAME = "accountInfo";
-
-/**
- * TO TEST:
- *  getAccountInfoById
- *  createAccountInfoById
- *  deleteAccountInfoById
- *  updateVerificationCode
- */
 
 /**
  * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
@@ -218,19 +210,78 @@ describe.only("AccountInfo Tests", () => {
   });
 
   describe("deleteExistingAccountInfo sanity checks", () => {
-    it("Should delete the correct accountInfo if present in the database", () => {
+
+    before(async () => {
+      const [, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
+      );
+
+      if (error) {
+        throw new Error("Error insterting data in deleteExistingAccountInfo");
+      }
+    });
+
+    after(async () => {
+      const [, error] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).deleteMany({})
+      );
+
+      if (error) {
+        throw new Error("Error deleting data in deleteExistingAccountInfo");
+      }
+    });
+
+    afterEach(async () => {
+      const [, errorDeleting] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).removeMany({})
+      );
+
+      const [, errorInserting] =  await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).insertMany(randomData)
+      );
+
+      if (errorDeleting || errorInserting) {
+        throw new Error("Error in deleteExistingAccountInfo afterEach");
+      }
+    });
+
+
+    it("Should delete the correct accountInfo if present in the database", async () => {
+
+      const phoneToRemove = existingPhoneNumber;
+
+      const [result, error] = await deleteExistingAccountInfo(phoneToRemove);
+
+      expect(error).to.be.null;
+      expect(result).to.haveOwnProperty("ok");
+
+      // Check if the accountInfo was actually removed
+      const [removed, errorCheckingRemoved] = await invokeAndSafelyClose(
+        async client => client.db(DB_NAME).collection(COLL_NAME).findOne({phoneNumber: phoneToRemove})
+      );
+
+      expect(errorCheckingRemoved).to.be.null;
+      expect(removed).to.be.null;
 
     });
 
-    it("Should return ok = 1 on successful delete", () => {
+    it("Should return ok = 1 on successful delete", async () => {
 
+      const phoneToRemove = existingPhoneNumber;
+
+      const [result, error] = await deleteExistingAccountInfo(phoneToRemove);
+
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(1);
     });
 
-    it("Should not delete if the phone number is not found in the database", () => {
+    it("Should return ok = 0 if the phone number is not found in the database", async () => {
+      const phoneToRemove = "+19999999999";
 
-    });
+      const [result, error] = await deleteExistingAccountInfo(phoneToRemove);
 
-    it("Should return ok = 0 on failed deletion", () => {
+      expect(error).to.be.null;
+      expect(result.ok).to.eql(0);
 
     });
   });

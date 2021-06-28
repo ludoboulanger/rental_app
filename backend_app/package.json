@@ -4,9 +4,10 @@
   "description": "Backend Server for RentALL",
   "main": "Server.js",
   "scripts": {
-    "start": "nodemon api/index.js",
-    "start-dev": "nodemon api/index.js",
-    "test-dev": "mocha */tests/*.spec.js --exit"
+    "start": "cp dev.env .env && nodemon api/index.js",
+    "test": "cp test.env .env && mocha */test/*.spec.js --exit",
+    "start-dev": "cp dev.env .env && nodemon api/index.js",
+    "test-dev": "cp test.env .env && mocha -w */tests/*.spec.js"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
   "license": "ISC",

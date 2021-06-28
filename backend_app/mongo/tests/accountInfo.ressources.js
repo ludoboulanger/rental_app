@@ -67,6 +67,8 @@ const sampleExistingDocument = {
   email: faker.internet.email(),
 };
 
+const existingPhoneNumber = randomData[3].phoneNumber;
+
 const sampleInvalidDocument = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
@@ -79,4 +81,5 @@ module.exports = {
   sampleNewDocument,
   sampleExistingDocument,
   sampleInvalidDocument,
+  existingPhoneNumber,
 };

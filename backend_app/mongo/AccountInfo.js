@@ -57,32 +57,23 @@ const createNewAccountInfo = async (data) => {
  * @returns {void}
  */
 const deleteExistingAccountInfo = async (phone) => {
-  const [account, errorGettingAccount] = await invokeAndSafelyClose(
+  const [result, error] = await invokeAndSafelyClose(
     async (client) =>
       client
         .db(DB_NAME)
         .collection(COLLECTION_NAME)
-        .findOne({ phoneNumber: phone })
+        .findOneAndDelete({ phoneNumber: phone })
   );
 
-  if (errorGettingAccount) {
-    throw new Error();
+  if (error) {
+    return [null, error];
   }
 
-  if (!account) {
-    return;
+  if (!result.value) {
+    return [{ok: 0}, null];
   }
 
-  const [, errorDeletingAccount] = await invokeAndSafelyClose(async (client) =>
-    client
-      .db(DB_NAME)
-      .collection(COLLECTION_NAME)
-      .deleteMany({ phoneNumber: phone })
-  );
-
-  if (errorDeletingAccount) {
-    throw new Error();
-  }
+  return [{ok: 1}, null];
 };
 
 /**
