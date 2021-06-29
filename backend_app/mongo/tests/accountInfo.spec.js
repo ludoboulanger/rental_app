@@ -4,15 +4,12 @@ const { expect } = require("chai");
 const { getAccountInfoById, createNewAccountInfo, deleteExistingAccountInfo, updateVerificationCode, incrementAttemptsForAccount } = require("../AccountInfo");
 const { invokeAndSafelyClose } = require("../Connection");
 const { randomData, sampleNewDocument, sampleExistingDocument, sampleInvalidDocument, existingPhoneNumber, existingId, nonExistingUUID } = require("./accountInfo.ressources");
+const _ = require("lodash");
 const DB_NAME = process.env.DB_NAME;
 const COLL_NAME = "accountInfo";
 
-/**
- * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
- */
 describe("AccountInfo Tests", () => {
-
-  // Create the collection brefore the tests
+  // Create the collection before the tests
   before(async () => {
     await invokeAndSafelyClose(
       async client => client.db(DB_NAME).createCollection(COLL_NAME, {

@@ -43,8 +43,7 @@ jobs:
       working-directory: ./backend_app
     - run: npm run check 
       env:
-        DB_NAME: YML_DB
-        TEST_DB_NAME: YML_TEST_DB 
+        DB_NAME: YML_TEST_DB
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"

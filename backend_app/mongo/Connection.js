@@ -4,7 +4,6 @@ const DB_URI = `mongodb://127.0.0.1:27017/${DB_NAME}`;
 
 const initMongoConnection = async () => {
   try {
-
     const client = new MongoClient(DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -30,16 +29,15 @@ const closeMongoConnection = async (client) => {
  * takes a function to invoke as a parameter and handles the
  * client connection initilization and closing independantly.
  * @param {(client: MongoClient) => object} funcToInvoke:
- * @param {boolean} test determines if we connect to our test database or our real database
  *  Async function to invoke on the MongoClient. This function takes a client as a parameter.
  * @returns An array coimposed of the returned by the function
  *  passed in parameters or the error if an error occured
  */
-const invokeAndSafelyClose = async (funcToInvoke, test = false) => {
+const invokeAndSafelyClose = async (funcToInvoke) => {
   let data = null;
   let error = null;
   try {
-    const client = await initMongoConnection(test);
+    const client = await initMongoConnection();
     data = await funcToInvoke(client);
     await closeMongoConnection(client);
   } catch (e) {

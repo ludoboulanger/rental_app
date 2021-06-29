@@ -21,7 +21,7 @@ const {
 } = require("./auth.ressources");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
-describe.only("Server Routes Tests", () => {
+describe("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
     describe(`POST ${getCreateAccountRoute()}`, () => {
       let createAccountInfoStub;
