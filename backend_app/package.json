@@ -7,7 +7,7 @@
     "start": "cp dev.env .env && nodemon api/index.js",
     "test": "cp test.env .env && mocha --exit */tests/*.spec.js",
     "start-dev": "cp dev.env .env && nodemon api/index.js",
-    "test-dev": "cp test.env .env && mocha -w */tests/*.spec.js"
+    "check": "mocha --exit */tests/*.spec.js" 
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
   "license": "ISC",
