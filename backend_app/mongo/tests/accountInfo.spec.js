@@ -10,7 +10,7 @@ const COLL_NAME = "accountInfo";
 /**
  * * These tests are relatively slow as they interact directly with the DB. Only run them if needed.
  */
-describe.only("AccountInfo Tests", () => {
+describe("AccountInfo Tests", () => {
 
   // Create the collection brefore the tests
   before(async () => {
@@ -73,28 +73,28 @@ describe.only("AccountInfo Tests", () => {
 
     it("Should get the correct account if in the database", async () => {
 
-      const [account, error] = await getAccountInfoById("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
+      const [result, error] = await getAccountInfoById("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
 
       expect(error).to.be.null;
-      expect(account).to.not.be.null;
+      expect(result.ok).to.eql(1);
 
-      expect(account._id).to.eql("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
-      expect(account).to.haveOwnProperty("firstName");
-      expect(account).to.haveOwnProperty("lastName");
-      expect(account).to.haveOwnProperty("phoneNumber");
-      expect(account).to.haveOwnProperty("email");
-      expect(account).to.haveOwnProperty("attempts");
-      expect(account).to.haveOwnProperty("activationCode");
-      expect(account).to.haveOwnProperty("lastModified");
+      expect(result.account._id).to.eql("17e5c8aa-0f5a-4b62-81b4-f50526c7d102");
+      expect(result.account).to.haveOwnProperty("firstName");
+      expect(result.account).to.haveOwnProperty("lastName");
+      expect(result.account).to.haveOwnProperty("phoneNumber");
+      expect(result.account).to.haveOwnProperty("email");
+      expect(result.account).to.haveOwnProperty("attempts");
+      expect(result.account).to.haveOwnProperty("activationCode");
+      expect(result.account).to.haveOwnProperty("lastModified");
 
     });
     
     it("Should return null if the account is not found", async () => {
 
-      const [account, error] = await getAccountInfoById("c3893e37-975b-4ffc-8a08-497fb0b6321b");
+      const [result, error] = await getAccountInfoById("c3893e37-975b-4ffc-8a08-497fb0b6321b");
 
       expect(error).to.be.null;
-      expect(account).to.be.null;
+      expect(result.ok).to.eql(0);
 
     });
 

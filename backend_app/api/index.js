@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const AuthenticationRouter = require("./routes/Authentication");
 const ErrorHandler = require("./utils/ErrorHandler");
-const PORT = 8000;
+const PORT = 3000;
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routers
-app.use("/api/users", AuthenticationRouter);
+app.use("/api/auth", AuthenticationRouter);
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {

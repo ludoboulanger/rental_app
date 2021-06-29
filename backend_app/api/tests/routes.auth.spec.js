@@ -3,21 +3,27 @@ const expect = require("chai").expect;
 const app = require("../index");
 const request = require("supertest");
 const AccountInfo = require("../../mongo/AccountInfo");
-const { successCreateAccountInfo, successUpdateVerificationCode } = require("./DatabaseMock");
 const User = require("../../mongo/User");
-const { userCreatedStub, getRandomAccountInfo } = require("./DatabaseMock");
-const { getRandomUUID,
+const {
+  getRandomAccountInfo,
+  userCreatedStub,
+  successUpdateVerificationCode,
+  successCreateAccountInfo,
+  accountNotFound,
+  getCreateAccountRoute,
+  getActivateAccountRoute,
+  getRandomUUID,
   getValidSignUpInformation,
   getValidVerificationCode,
   getInvalidUUID,
   getInvalidVerificationCode,
   getMalFormattedVerificationCode
-} = require("../utils/TestUtils");
+} = require("./auth.ressources");
 const { describe, it, beforeEach, afterEach } = require("mocha");
 
-describe("Server Routes Tests", () => {
+describe.only("Server Routes Tests", () => {
   describe("User Authentication Routes", () => {
-    describe("POST /api/create-acount", () => {
+    describe(`POST ${getCreateAccountRoute()}`, () => {
       let createAccountInfoStub;
       let sendActivationCodeStub;
 
@@ -62,7 +68,7 @@ describe("Server Routes Tests", () => {
         };
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(dataMissingFirstname)
           .expect(400)
           .then((res) => {
@@ -70,7 +76,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(dataMissingLastname)
           .expect(400)
           .then((res) => {
@@ -78,7 +84,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(dataMissingPhone)
           .expect(400)
           .then((res) => {
@@ -86,7 +92,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(dataMissingEmail)
           .expect(400)
           .then((res) => {
@@ -121,7 +127,7 @@ describe("Server Routes Tests", () => {
         };
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(invalidFirstname)
           .expect(400)
           .then((res) => {
@@ -129,7 +135,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(invalidLastname)
           .expect(400)
           .then((res) => {
@@ -137,7 +143,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(invalidPhone)
           .expect(400)
           .then((res) => {
@@ -145,7 +151,7 @@ describe("Server Routes Tests", () => {
           });
 
         await request(app)
-          .post("/api/users/create-account")
+          .post(getCreateAccountRoute())
           .send(invalidEmail)
           .expect(400)
           .then((res) => {
@@ -153,7 +159,7 @@ describe("Server Routes Tests", () => {
           });
       });
 
-      it("Returns 201 on successful creation", async () => {
+      it("Returns 201 on successful creation", () => {
         const user = {
           firstName: "Tony",
           lastName: "Stark",
@@ -161,8 +167,8 @@ describe("Server Routes Tests", () => {
           email: "tony@avengers.com",
         };
 
-        await request(app)
-          .post("/api/users/create-account")
+        return request(app)
+          .post(getCreateAccountRoute())
           .send(user)
           .expect(201)
           .then(() => {
@@ -170,7 +176,7 @@ describe("Server Routes Tests", () => {
           });
       });
 
-      it("Returns the id of the new user on successful creation", async () => {
+      it("Returns the id of the new user on successful creation", () => {
         const user = {
           firstName: "Tony",
           lastName: "Stark",
@@ -178,8 +184,8 @@ describe("Server Routes Tests", () => {
           email: "tony@avengers.com",
         };
 
-        await request(app)
-          .post("/api/users/create-account")
+        return request(app)
+          .post(getCreateAccountRoute())
           .send(user)
           .expect(201)
           .then((res) => {
@@ -191,7 +197,7 @@ describe("Server Routes Tests", () => {
       });
     });
 
-    describe("POST /api/users/activate-account/{accountId}", () => {
+    describe(`POST ${getActivateAccountRoute(":accountId")}`, () => {
       let getAccountInfoByIdStub;
       let createUserStub;
       beforeEach(() => {
@@ -205,31 +211,31 @@ describe("Server Routes Tests", () => {
       });
 
       it("Returns 404 if account Id is not found", () => {
-        getAccountInfoByIdStub.returns(null);
+        getAccountInfoByIdStub.returns(accountNotFound);
 
         const accountId = getRandomUUID();
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getValidSignUpInformation())
           .expect(404);
       });
 
       it("Returns 400 if the request data is malformatted", () => {
-        getAccountInfoByIdStub.returns(null);
+        getAccountInfoByIdStub.returns(accountNotFound);
         const accountId = getInvalidUUID();
 
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getValidVerificationCode())
           .expect(400);
       });
 
       it("Returns 400 if the code is not parsable as a number", () => {
-        getAccountInfoByIdStub.returns(null);
+        getAccountInfoByIdStub.returns(accountNotFound);
         const accountId = getInvalidUUID();
 
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getMalFormattedVerificationCode())
           .expect(400);
       });
@@ -239,7 +245,7 @@ describe("Server Routes Tests", () => {
         const accountId = getRandomUUID();
 
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getInvalidVerificationCode())
           .expect(400);
       });
@@ -249,7 +255,7 @@ describe("Server Routes Tests", () => {
         const accountId = getRandomUUID();
 
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getValidVerificationCode())
           .expect(201);
       });
@@ -260,7 +266,7 @@ describe("Server Routes Tests", () => {
         const accountId = getRandomUUID();
 
         return request(app)
-          .post(`/api/users/activate-account/${accountId}`)
+          .post(getActivateAccountRoute(accountId))
           .send(getValidVerificationCode())
           .expect(201)
           .then(res => {
@@ -269,7 +275,7 @@ describe("Server Routes Tests", () => {
       });
     });
 
-    describe("PUT /api/users/activate-account/{accountId}", () => {
+    describe(`PUT ${getActivateAccountRoute(":accountId")}`, () => {
       let getAccountInfoByIdStub;
       let updateVerificationCodeStub;
       let sendActivationCodeStub;
@@ -288,11 +294,11 @@ describe("Server Routes Tests", () => {
       });
 
       it("Returns 404 if account is not found", () => {
-        getAccountInfoByIdStub.returns(null);
+        getAccountInfoByIdStub.returns(accountNotFound);
         const accountId = getRandomUUID();
 
         return request(app)
-          .put(`/api/users/activate-account/${accountId}`)
+          .put(getActivateAccountRoute(accountId))
           .send({})
           .expect(404);
       });
@@ -302,7 +308,7 @@ describe("Server Routes Tests", () => {
         const accountId = getInvalidUUID();
 
         return request(app)
-          .put(`/api/users/activate-account/${accountId}`)
+          .put(getActivateAccountRoute(accountId))
           .send({})
           .expect(400);
       });
@@ -312,7 +318,7 @@ describe("Server Routes Tests", () => {
         const accountId = getRandomUUID();
 
         return request(app)
-          .put(`/api/users/activate-account/${accountId}`)
+          .put(getActivateAccountRoute(accountId))
           .send({})
           .expect(201);
       });

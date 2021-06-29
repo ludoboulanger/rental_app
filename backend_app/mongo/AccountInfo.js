@@ -82,9 +82,19 @@ const deleteExistingAccountInfo = async (phone) => {
  * @returns {string} accountInfo object
  */
 const getAccountInfoById = async (accountId) => {
-  return  invokeAndSafelyClose(async (client) =>
+  const [result, error] =  await invokeAndSafelyClose(async (client) =>
     client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ _id: accountId })
   );
+
+  if (error) {
+    return [null, error];
+  }
+
+  if (!result) {
+    return [{ok: 0}, null];
+  }
+
+  return [{ok: 1, account: result}, null];
 };
 
 /**

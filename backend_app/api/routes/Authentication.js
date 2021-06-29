@@ -45,19 +45,19 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
     return;
   }
 
-  const [accountInfo, error] = await AccountInfo.getAccountInfoById(accountId);
+  const [result, error] = await AccountInfo.getAccountInfoById(accountId);
 
   if (error) {
     next(CODES.INTERNAL_ERROR);
     return;
   }
   
-  if (!accountInfo) {
+  if (!result.ok) {
     next(CODES.NOT_FOUND);
     return;
   }
 
-  req.accountInfo = accountInfo;
+  req.accountInfo = result.account;
   next();
 });
 
