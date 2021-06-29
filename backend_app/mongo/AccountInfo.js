@@ -14,8 +14,8 @@ const TWILIO_CLIENT = twilio(
 
 /**
  * Util to persist the accountInfo in the database
- * @param {object} data account data to insert
- * @returns [{ok, id, code}, null] if success or [null, error] if error
+ * @param {object} data account data to insert {firstName, lastName, phoneNumber, email}
+ * @returns {Array} [{ok, id, code}, error]
  */
 const createNewAccountInfo = async (data) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
@@ -51,10 +51,9 @@ const createNewAccountInfo = async (data) => {
 };
 
 /**
- * Util to ensure that only one account per email can be active at a time. This way,
- * it is impossible to flood the database with inactive accounts
- * @param {String} email
- * @returns {void}
+ * Util to delete an existing accountInfo document
+ * @param {String} phone: The phone number to delete the account by
+ * @returns {Array} [{ok}, error]
  */
 const deleteExistingAccountInfo = async (phone) => {
   const [result, error] = await invokeAndSafelyClose(
@@ -78,8 +77,8 @@ const deleteExistingAccountInfo = async (phone) => {
 
 /**
  * Util to find the accountInfo By Id. This is a wrapper to facilitate interaction with mongo
- * @param {string} accountId
- * @returns {string} accountInfo object
+ * @param {string} accountId : The accountId to find
+ * @returns {Array} [{ok, account}, null] => ok will be 0 if account is not found
  */
 const getAccountInfoById = async (accountId) => {
   const [result, error] =  await invokeAndSafelyClose(async (client) =>
@@ -112,9 +111,9 @@ const sendActivationCode = async (phoneNumber, activationCode) => {
 
 /**
  * Util to update the code in case the user didnt receive one the first time
- * @param {*} accountId The Account Id for which the code needs updating
- * @param {*} code the new verification code
- * @returns the status of the update query
+ * @param {string} accountId The Account Id for which the code needs updating
+ * @param {code} code the new verification code
+ * @returns [{ok, code}, error]. Ok is 0 on Failure
  */
 const updateVerificationCode = async (accountId) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
@@ -143,6 +142,11 @@ const updateVerificationCode = async (accountId) => {
   return [{ ok: 1, code: newCode }, null];
 };
 
+/**
+ * Util to increment the number of verification attempts for an account
+ * @param {string} accountId: The id to increment attempts to
+ * @returns {Array} [{ok}, error]. ok is 0 on failure
+ */
 const incrementAttemptsForAccount = async accountId => {
   const [result, error] = await invokeAndSafelyClose(
     async client => client
@@ -169,6 +173,11 @@ const incrementAttemptsForAccount = async accountId => {
   return [{ ok: 1 }, null];
 };
 
+/**
+ * Util to validate the code format
+ * @param {string} code The code to verify
+ * @returns {boolean} indicating if code is valid or not
+ */
 const isVerificationCodeFormatValid = (code) => {
   try {
     if (Number(code) <= 999999) {
