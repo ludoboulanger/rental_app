@@ -32,10 +32,6 @@ export default function LandingSlideshow(){
     };
   }, [index]);
 
-  function handleDotClick(idx){
-    setIndex(idx);
-  }
-
 
   return(
 
@@ -59,9 +55,9 @@ export default function LandingSlideshow(){
 
       <div className={classes.dots}>
         {images.map((_, idx) => (
-          <IconButton key={idx} OnClick={handleDotClick}>
+          <IconButton key={idx}>
             <FiberManualRecordIcon fontSize="small"
-              color={index === idx ? "secondary" : "primary"} />
+              color={index === idx ? "primary" : "disabled"}/>
           </IconButton>
         ))}
       </div>
