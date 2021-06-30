@@ -6,7 +6,7 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 const logo = process.env.PUBLIC_URL + "LandingLogo.png";
 const LandingDescription1 = process.env.PUBLIC_URL + "LandingDescription1.png";
 const LandingDescription2 = process.env.PUBLIC_URL + "LandingDescription2.png";
-const delay = 2500;
+const delay = 6000;
 
 const images = [logo, LandingDescription1, LandingDescription2];
 
@@ -32,6 +32,10 @@ export default function LandingSlideshow(){
     };
   }, [index]);
 
+  function handleDotClick(idx){
+    setIndex(idx);
+  }
+
 
   return(
 
@@ -41,7 +45,7 @@ export default function LandingSlideshow(){
       </Typography>
       <Card className={classes.root}>
         <CardActionArea>
-          <Fade direction="left" in={true} key={index} timeout={4000}>
+          <Fade direction="left" in={true} key={index} timeout={10,1000}>
             <CardMedia
               component="img"
               alt="AppDescription"
@@ -55,9 +59,7 @@ export default function LandingSlideshow(){
 
       <div className={classes.dots}>
         {images.map((_, idx) => (
-          <IconButton key={idx} OnClick={() => {
-            setIndex(idx);
-          }}>
+          <IconButton key={idx} OnClick={handleDotClick}>
             <FiberManualRecordIcon fontSize="small"
               color={index === idx ? "secondary" : "primary"} />
           </IconButton>
