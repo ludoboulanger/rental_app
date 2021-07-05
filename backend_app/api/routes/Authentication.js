@@ -110,6 +110,7 @@ AuthenticationRouter.put(
 
     if (error) {
       next(CODES.INTERNAL_ERROR);
+      return;
     }
 
     await AccountInfo.sendActivationCode(
