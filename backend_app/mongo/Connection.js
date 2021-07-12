@@ -13,6 +13,7 @@ const initMongoConnection = async () => {
     return client;
   } catch (e) {
     console.error("Error Connecting to Database");
+    throw (e);
   }
 };
 
@@ -21,6 +22,7 @@ const closeMongoConnection = async (client) => {
     await client.close();
   } catch (e) {
     console.error("Error closing connection to Database");
+    throw (e);
   }
 };
 
@@ -36,18 +38,40 @@ const closeMongoConnection = async (client) => {
 const invokeAndSafelyClose = async (funcToInvoke) => {
   let data = null;
   let error = null;
+  const client = await initMongoConnection();
   try {
-    const client = await initMongoConnection();
     data = await funcToInvoke(client);
-    await closeMongoConnection(client);
   } catch (e) {
     data = null;
     error = e;
+  }finally {
+    await closeMongoConnection(client);
   }
 
   return [data, error];
 };
 
+/**
+ * This function is used to start a connection then a session a run a function in a transaction.
+ * It then end the transaction and close the connection.
+ * It is meant to be used the same way as {@link invokeAndSafelyClose} but with an extra session parameter.
+ * @param {(client: MongoClient) => promise} funcToInvoke :
+ * Async function to invoke. It receive the client and the session.
+ * @returns An array composed of the returned by the function
+ *  passed in parameters or the error if an error occured
+ */
+const invokeAndSafelyCloseWithTransaction = async (funcToInvoke) => {
+  return invokeAndSafelyClose(async client => {
+    const session = client.startSession();
+    try{
+      return session.withTransaction(funcToInvoke(client, session));
+    }finally {
+      await session.endSession();
+    }
+  });
+};
+
 module.exports = {
   invokeAndSafelyClose,
+  invokeAndSafelyCloseWithTransaction
 };
