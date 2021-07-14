@@ -36,14 +36,14 @@ jobs:
       working-directory: ./backend_app
     - run: npx migrate-mongo up
       env:
-        DB_NAME: Test_DB
+        DB_NAME: YML_DB
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"
       working-directory: ./backend_app
-    - run: npm run test-dev
+    - run: npm run check 
       env:
-        DB_NAME: Test_DB
+        DB_NAME: YML_TEST_DB
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"

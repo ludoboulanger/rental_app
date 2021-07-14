@@ -14,8 +14,8 @@ const TWILIO_CLIENT = twilio(
 
 /**
  * Util to persist the accountInfo in the database
- * @param {object} data account data to insert
- * @returns the created account id
+ * @param {object} data account data to insert {firstName, lastName, phoneNumber, email}
+ * @returns {Array} [{ok, id, code}, error]
  */
 const createNewAccountInfo = async (data) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
@@ -26,9 +26,9 @@ const createNewAccountInfo = async (data) => {
     attempts: 0,
   };
 
-  const [created, errorCreatingUser] = await invokeAndSafelyClose(
+  const [result, error] = await invokeAndSafelyClose(
     async (client) =>
-      client.db(DB_NAME).collection(COLLECTION_NAME).updateOne(
+      client.db(DB_NAME).collection(COLLECTION_NAME).findOneAndUpdate(
         {phoneNumber: newAccountInfo.phoneNumber},
         {
           $set: {...newAccountInfo},
@@ -37,67 +37,63 @@ const createNewAccountInfo = async (data) => {
         {upsert: true}
       ));
 
-  if (errorCreatingUser || created.result.ok !== 1) {
-    throw new Error();
+  if (error) {
+    return [ null, error];
   }
 
-  return {
-    ok: created.result.ok,
-    id: created.upsertedId._id,
-    code: newCode,
-  };
+  if(result.value) {
+    // Document was updated
+    return [{ ok: result.ok, id: result.value._id, code: newCode }, null];
+  } else {
+    // Document was inserted
+    return [{ ok: result.ok, id: result.lastErrorObject.upserted, code: newCode}, null];
+  }
 };
 
 /**
- * Util to ensure that only one account per email can be active at a time. This way,
- * it is impossible to flood the database with inactive accounts
- * @param {String} email
- * @returns {void}
+ * Util to delete an existing accountInfo document
+ * @param {String} phone: The phone number to delete the account by
+ * @returns {Array} [{ok}, error]
  */
 const deleteExistingAccountInfo = async (phone) => {
-  const [account, errorGettingAccount] = await invokeAndSafelyClose(
+  const [result, error] = await invokeAndSafelyClose(
     async (client) =>
       client
         .db(DB_NAME)
         .collection(COLLECTION_NAME)
-        .findOne({ phoneNumber: phone })
+        .findOneAndDelete({ phoneNumber: phone })
   );
 
-  if (errorGettingAccount) {
-    throw new Error();
+  if (error) {
+    return [null, error];
   }
 
-  if (!account) {
-    return;
+  if (!result.value) {
+    return [{ok: 0}, null];
   }
 
-  const [, errorDeletingAccount] = await invokeAndSafelyClose(async (client) =>
-    client
-      .db(DB_NAME)
-      .collection(COLLECTION_NAME)
-      .deleteMany({ phoneNumber: phone })
-  );
-
-  if (errorDeletingAccount) {
-    throw new Error();
-  }
+  return [{ok: 1}, null];
 };
 
 /**
- * Util to find the accountInfo By Id
- * @param {string} accountId
- * @returns {string} accountInfo object
+ * Util to find the accountInfo By Id. This is a wrapper to facilitate interaction with mongo
+ * @param {string} accountId : The accountId to find
+ * @returns {Array} [{ok, account}, null] => ok will be 0 if account is not found
  */
 const getAccountInfoById = async (accountId) => {
-  const [accountInfo, error] = await invokeAndSafelyClose(async (client) =>
+  const [result, error] =  await invokeAndSafelyClose(async (client) =>
     client.db(DB_NAME).collection(COLLECTION_NAME).findOne({ _id: accountId })
   );
 
   if (error) {
-    throw new Error();
+    return [null, error];
   }
 
-  return accountInfo;
+  if (!result) {
+    return [{ok: 0}, null];
+  }
+
+  return [{ok: 1, account: result}, null];
 };
 
 /**
@@ -115,9 +111,9 @@ const sendActivationCode = async (phoneNumber, activationCode) => {
 
 /**
  * Util to update the code in case the user didnt receive one the first time
- * @param {*} accountId The Account Id for which the code needs updating
- * @param {*} code the new verification code
- * @returns the status of the update query
+ * @param {string} accountId The Account Id for which the code needs updating
+ * @param {code} code the new verification code
+ * @returns [{ok, code}, error]. Ok is 0 on Failure
  */
 const updateVerificationCode = async (accountId) => {
   const newCode = GenerateVerificationCode(VERIFICATION_CODE_LENGTH);
@@ -125,7 +121,7 @@ const updateVerificationCode = async (accountId) => {
     async client => client
       .db(DB_NAME)
       .collection(COLLECTION_NAME)
-      .updateOne(
+      .findOneAndUpdate(
         {_id: accountId},
         {
           $set: {
@@ -136,21 +132,27 @@ const updateVerificationCode = async (accountId) => {
   );
 
   if (error) {
-    throw new Error();
+    return [null, error];
   }
 
-  return {
-    ok: result.result.ok,
-    code: newCode
-  };
+  if (!result.value) {
+    return [{ ok: 0, newCode: null }, null];
+  }
+
+  return [{ ok: 1, code: newCode }, null];
 };
 
+/**
+ * Util to increment the number of verification attempts for an account
+ * @param {string} accountId: The id to increment attempts to
+ * @returns {Array} [{ok}, error]. ok is 0 on failure
+ */
 const incrementAttemptsForAccount = async accountId => {
   const [result, error] = await invokeAndSafelyClose(
     async client => client
       .db(DB_NAME)
       .collection(COLLECTION_NAME)
-      .updateOne(
+      .findOneAndUpdate(
         {_id: accountId},
         {
           $inc: {
@@ -161,12 +163,31 @@ const incrementAttemptsForAccount = async accountId => {
   );
 
   if (error) {
-    throw new Error();
+    return [null, error];
   }
 
-  return {
-    ok: result.result.ok,
-  };
+  if (!result.value) {
+    return [{ ok: 0 }, null];
+  }
+
+  return [{ ok: 1 }, null];
+};
+
+/**
+ * Util to validate the code format
+ * @param {string} code The code to verify
+ * @returns {boolean} indicating if code is valid or not
+ */
+const isVerificationCodeFormatValid = (code) => {
+  try {
+    if (Number(code) <= 999999) {
+      return true;
+    } else  {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
 };
 
 module.exports = {
@@ -175,5 +196,6 @@ module.exports = {
   sendActivationCode,
   updateVerificationCode,
   incrementAttemptsForAccount,
+  isVerificationCodeFormatValid,
   getAccountInfoById,
 };
