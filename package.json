@@ -1,5 +1,8 @@
 {
   "scripts": {
     "start": "concurrently \"cd client_app && npm start\" \"cd backend_app && npm start\""
+  },
+  "dependencies": {
+    "concurrently": "^6.2.0"
   }
 }
