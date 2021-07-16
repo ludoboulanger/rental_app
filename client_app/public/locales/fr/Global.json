@@ -1,0 +1,11 @@
+{
+  "name": "Nom",
+  "description": "Description",
+  "category": "Catégorie",
+  "price": "Prix",
+  "Submit": "Soumettre",
+  "back": "Retour",
+  "confirm": "Confirmer",
+  "next": "Prochain",
+  "search": "Rechercher"
+}

@@ -1,0 +1,7 @@
+{
+  "fieldValueIsTooLong": "La valeur du champ est trop grande",
+  "requiredField": "Le champ est requis",
+  "CreateListingForm": {
+    "tooManyTags": "Un item ne peut avoir plus de {{max}} tags"
+  }
+}

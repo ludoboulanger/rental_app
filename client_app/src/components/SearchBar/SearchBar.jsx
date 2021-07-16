@@ -12,7 +12,7 @@ export default function SearchBar(){
   const classes = useStyles();
   const history = useHistory();
   const [input, setInput] = useState("");
-  const {t} = useTranslation();
+  const {t} = useTranslation(["Global"]);
 
   function handleSubmitSearch(){
     const params = {
@@ -33,7 +33,7 @@ export default function SearchBar(){
           })}
           onChange={(event)=> { setInput(event.target.value);}}
           color={"primary"}
-          placeholder={t("Search")}
+          placeholder={t("Global:search")}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

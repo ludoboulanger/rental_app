@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => ({
 
 export default function InitPage() {
 
+
   const {t} = useTranslation();
   const history = useHistory();
   const classes = useStyles();
@@ -30,7 +31,6 @@ export default function InitPage() {
   
   return (
     <div>
-
       <LandingSlideshow></LandingSlideshow>
       <Button variant= "contained" color="primary" onClick={handleSignInClick} className={classes.button} >
         {t("Sign in")}
@@ -39,7 +39,6 @@ export default function InitPage() {
       <Button variant= "outlined" color="primary" onClick={handleSignUpClick} className={classes.button}>
         {t("Sign up")}
       </Button>
-      
     </div>
   );
 }
