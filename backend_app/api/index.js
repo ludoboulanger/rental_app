@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routers
-app.use("/api/users", AuthenticationRouter);
+app.use("/api/auth", AuthenticationRouter);
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {

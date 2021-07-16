@@ -14,31 +14,27 @@ AuthenticationRouter.post(
   async (request, response, next) => {
     const body = request.body;
     const validateAccountInfo = ajv.getSchema("accountInfo");
+
     if (!validateAccountInfo(body)) {
       next(CODES.BAD_REQUEST);
       return;
     }
 
-    try {
-      const result = await AccountInfo.createNewAccountInfo(body);
+    const [result, error] = await AccountInfo.createNewAccountInfo(body);
 
-      if (!result.ok) {
-        next(CODES.INTERNAL_ERROR);
-        return;
-      }
-
-      await AccountInfo.sendActivationCode(
-        body.phoneNumber,
-        result.code
-      );
-
-      response
-        .status(CODES.CREATED)
-        .send({ message: "Account Created Successfully", id: result.id });
-
-    } catch (e) {
+    if (error) {
       next(CODES.INTERNAL_ERROR);
+      return;
     }
+
+    await AccountInfo.sendActivationCode(
+      body.phoneNumber,
+      result.code
+    );
+
+    response
+      .status(CODES.CREATED)
+      .send({ message: "Account Created Successfully", id: result.id });
   }
 );
 
@@ -49,66 +45,80 @@ AuthenticationRouter.param("accountId", async (req, res, next, accountId) => {
     return;
   }
 
-  const accountInfo = await AccountInfo.getAccountInfoById(accountId);
+  const [result, error] = await AccountInfo.getAccountInfoById(accountId);
 
-  if (!accountInfo) {
+  if (error) {
+    next(CODES.INTERNAL_ERROR);
+    return;
+  }
+  
+  if (!result.ok) {
     next(CODES.NOT_FOUND);
     return;
   }
 
-  req.accountInfo = accountInfo;
+  req.accountInfo = result.account;
   next();
 });
 
 AuthenticationRouter.post(
   "/activate-account/:accountId",
   async (req, res, next) => {
-    try {
 
-      if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
-        // TODO Blacklist phone numbers that get here
-        await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
-        next(CODES.NOT_ALLOWED);
+    if (req.accountInfo.attempts >= MAX_ALLOWED_VERIFICATION_ATTEMPTS) {
+      // TODO Blacklist phone numbers that get here
+      let [result, error] = await AccountInfo.deleteExistingAccountInfo(req.accountInfo.phoneNumber);
+
+      if (error) {
+        next(CODES.INTERNAL_ERROR);
         return;
       }
 
-      const isApproved = req.accountInfo.activationCode === req.body.code;
-
-      if (!isApproved) {
-        await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
-        next(CODES.BAD_REQUEST);
+      if (!result.ok) {
+        next(CODES.NOT_FOUND);
         return;
       }
-
-      const createdId = await User.createNewUser(req.accountInfo);
-      res.status(CODES.CREATED).send({ message: createdId });
-
-    } catch (e) {
-      next(CODES.INTERNAL_ERROR);
+      
+      next(CODES.NOT_ALLOWED);
+      return;
     }
+
+    const isApproved = req.accountInfo.activationCode === req.body.code;
+
+    if (!isApproved) {
+      const [, error] = await AccountInfo.incrementAttemptsForAccount(req.accountInfo._id);
+
+      if (error) {
+        next(CODES.INTERNAL_ERROR);
+        return;
+      }
+
+      next(CODES.BAD_REQUEST);
+      return;
+    }
+
+    const createdId = await User.createNewUser(req.accountInfo);
+    res.status(CODES.CREATED).send({ message: createdId });
+
   }
 );
 
 AuthenticationRouter.put(
   "/activate-account/:accountId",
   async ( req, res, next) => {
-    try {
-      const result = await AccountInfo.updateVerificationCode(req.accountInfo._id);
+    const [result, error] = await AccountInfo.updateVerificationCode(req.accountInfo._id);
 
-      if (!result.ok) {
-        next(CODES.INTERNAL_ERROR);
-      }
-
-
-      await AccountInfo.sendActivationCode(
-        req.accountInfo.phoneNumber,
-        result.code
-      );
-
-      res.status(CODES.CREATED).send("Success");
-    } catch(e) {
+    if (error) {
       next(CODES.INTERNAL_ERROR);
+      return;
     }
+
+    await AccountInfo.sendActivationCode(
+      req.accountInfo.phoneNumber,
+      result.code
+    );
+
+    res.status(CODES.CREATED).send("Success");
   });
 
 module.exports = AuthenticationRouter;
