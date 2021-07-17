@@ -30,12 +30,12 @@ export const LightTheme = createMuiTheme({
     h1: {
       fontWeight: "550",
       fontSize: "72px",
-      letterSpacing: "-0.5",
+      letterSpacing: "-0.5px",
     },
     h2: {
       fontWeight: "550",
       fontSize: "60px",
-      letterSpacing: "-0.5",
+      letterSpacing: "-0.5px",
     },
     h3: {
       fontStyle: "italic",
