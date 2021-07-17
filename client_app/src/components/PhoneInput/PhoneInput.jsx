@@ -1,4 +1,5 @@
-import React, { forwardRef } from "react";
+/* eslint-disable react/prop-types */
+import React from "react";
 import { TextField } from "@material-ui/core";
 
 const IntlPhoneInput = (props, ref) => {
@@ -13,10 +14,9 @@ const IntlPhoneInput = (props, ref) => {
       style={{
         marginRight: "10px",
       }}
-      InputProps={{ "data-cy": "input-phone"}}
     >
     </TextField>
   );
 };
 
-export default forwardRef(IntlPhoneInput);
+export default IntlPhoneInput;
