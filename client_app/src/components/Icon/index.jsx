@@ -7,6 +7,7 @@ import AccountIcon from "@material-ui/icons/AccountCircle";
 import CreateIcon from "@material-ui/icons/AddCircleOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingIcon from "@material-ui/icons/Settings";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const iconMap = {
   chat : ChatIcon,
@@ -15,7 +16,8 @@ const iconMap = {
   account : AccountIcon,
   create : CreateIcon,
   setting : SettingIcon,
-  search : SearchIcon
+  search : SearchIcon,
+  back: ArrowBackIcon,
 };
 
 

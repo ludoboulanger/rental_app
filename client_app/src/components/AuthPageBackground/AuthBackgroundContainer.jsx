@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import useStyles from "./styles.js";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Icon from "../Icon/index";
 import { ReactComponent as RentalLogo } from "../../assets/RentalLogo.svg";
 
 AuthBackgroundContainer.propTypes = {
@@ -39,7 +39,7 @@ export default function AuthBackgroundContainer({ children }) {
           color="primary"
           onClick={handleBackClick}
         >
-          <ArrowBackIcon />
+          <Icon name={"back"}/>
         </Fab>
 
         <Typography
