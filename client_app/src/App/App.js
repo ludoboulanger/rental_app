@@ -1,6 +1,7 @@
 import Home from "../pages/Home";
 import "./App.css";
 import { Suspense, React } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
 export default function WrappedApp() {
   return (
     <Suspense fallback="...is loading">
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Suspense>
   );
 }
