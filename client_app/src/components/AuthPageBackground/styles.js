@@ -11,7 +11,9 @@ export default makeStyles(theme => ({
   titleContainer: {
     display: "grid",
     gridTemplateColumns: "repeat(8, 1fr)",
-    padding: "8px !important",
+    padding: "12px !important",
+    marginTop: "16px",
+    marginBottom: "8px"
   },
   title: {
     gridColumn: "2 / -2",

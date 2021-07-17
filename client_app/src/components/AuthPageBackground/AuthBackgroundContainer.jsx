@@ -44,7 +44,7 @@ export default function AuthBackgroundContainer({ children }) {
 
         <Typography
           className={classes.title}
-          variant="h2"
+          variant="h4"
         >
           Rentix
         </Typography>
