@@ -13,12 +13,13 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const IntlPhoneRef = forwardRef(IntlPhoneInput);
 
 export default function SignUpPage() {
   const classes = useStyles();
-
+  const { t } = useTranslation(["General"]);
   const handleSubmit = values => {
     console.log("Values: ", values);
   };
@@ -85,7 +86,7 @@ export default function SignUpPage() {
             variant="outlined"
             color="primary"
             margin="dense"
-            label="First Name" // TODO Localize
+            label={t("Global:firstName")}
             type="text"
             value={formik.values.firstName}
             onChange={formik.handleChange}
@@ -108,7 +109,7 @@ export default function SignUpPage() {
             variant="outlined"
             color="primary"
             margin="dense"
-            label="Last Name" // TODO Localize
+            label={t("Global:lastName")}
             type="text"
             value={formik.values.lastName}
             onChange={formik.handleChange}
@@ -131,7 +132,7 @@ export default function SignUpPage() {
             variant="outlined"
             color="primary"
             margin="dense"
-            label="Email" // TODO Localize
+            label={t("Global:email")}
             type="text"
             value={formik.values.email}
             onChange={formik.handleChange}
