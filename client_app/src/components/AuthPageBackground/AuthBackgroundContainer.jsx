@@ -55,7 +55,7 @@ export default function AuthBackgroundContainer({ children }) {
         <RentalLogo className={classes.logo} />
       </Container>
 
-      <Container>
+      <Container className={classes.contentContainer}>
         { children }
       </Container>
 

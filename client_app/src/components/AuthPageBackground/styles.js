@@ -7,6 +7,16 @@ export default makeStyles(theme => ({
     justifyContent: "flex-start",
     alignItems:"center",
     padding: "0 !important",
+    height: "100vh",
+    [theme.breakpoints.up(theme.breakpoints.values.md)]:{
+      marginTop: "50px",
+      height: "max-content",
+      width: "700px",
+      margin: "auto",
+      border: `2px solid ${theme.palette.primary.main}`,
+      borderRadius: "16px",
+      boxShadow: "0 4px 7px 4px rgba(0,0,0,0.4)"
+    }
   },
   titleContainer: {
     display: "grid",
@@ -33,5 +43,10 @@ export default makeStyles(theme => ({
     width: "35vh",
     maxWidth: "250px",
     height: "auto",
+  },
+  contentContainer: {
+    marginTop: "16px",
+    padding: "0 4px !important",
+    flexGrow: "1",
   }
 }));
