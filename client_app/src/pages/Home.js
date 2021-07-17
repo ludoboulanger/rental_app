@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignUpPage from "./SignUpPage";
+import { Switch, Route, useLocation } from "react-router-dom";
+import SignUpPage from "./SignUpPage/SignUpPage.jsx";
 import InitPage from "./InitPage";
 import SignInPage from "./SignInPage";
 import WelcomePage from "./WelcomePage";
@@ -12,6 +12,13 @@ import {ROUTES} from "../utils/enums";
 import Header from "../components/Headers";
 import BottomNavigation from "../components/BottomNavigation";
 import {useMediaQuery, useTheme} from "@material-ui/core";
+import AuthBackgroundContainer from "../components/AuthPageBackground/AuthBackgroundContainer.jsx";
+
+const isAuthenticationPage = path => (
+  path === ROUTES.SIGN_IN
+  || path === ROUTES.SIGN_UP
+  || path === ROUTES.INIT
+);
 
 /**
  * Component responsible for rendering the correct page based on the current URL
@@ -20,32 +27,48 @@ import {useMediaQuery, useTheme} from "@material-ui/core";
 export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery( theme.breakpoints.down("sm"));
+  const location = useLocation();
+
   return (
     <ThemeProvider theme={LightTheme}>
-      <Router>
+      {
+        !isAuthenticationPage(location.pathname) &&
         <Header withSearchBar={true}/>
-        <Switch>
-          <Route exact path={ROUTES.SIGN_IN}>
+      }
+      <Switch>
+
+        <Route exact path={ROUTES.SIGN_IN}>
+          <AuthBackgroundContainer>
             <SignInPage />
-          </Route>
-          <Route exact path={ROUTES.SIGN_UP}>
+          </AuthBackgroundContainer>
+        </Route>
+        <Route exact path={ROUTES.SIGN_UP}>
+          <AuthBackgroundContainer>
             <SignUpPage />
-          </Route>
-          <Route exact path={ROUTES.WELCOME}>
-            <WelcomePage />
-          </Route>
-          <Route exact path={ROUTES.INIT}>
-            <InitPage />
-          </Route>
-          <Route exact path={ROUTES.SETTINGS}>
-            <SettingsPage />
-          </Route>
-          <Route exact path={ROUTES.SEARCH}>
-            <SearchPage />
-          </Route>
-        </Switch>
-        {isMobile && <BottomNavigation/>}
-      </Router>
+          </AuthBackgroundContainer>
+        </Route>
+
+        <Route exact path={ROUTES.WELCOME}>
+          <WelcomePage />
+        </Route>
+
+        <Route exact path={ROUTES.INIT}>
+          <InitPage />
+        </Route>
+
+        <Route exact path={ROUTES.SETTINGS}>
+          <SettingsPage />
+        </Route>
+
+        <Route exact path={ROUTES.SEARCH}>
+          <SearchPage />
+        </Route>
+
+      </Switch>
+      {
+        (!isAuthenticationPage(location.pathname) && isMobile) &&
+        <BottomNavigation/>
+      }
     </ThemeProvider>
   );
 }
