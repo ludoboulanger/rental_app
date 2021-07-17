@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme =>({
   appBar: {
     padding: "16px 20px 20px 20px",
     width:"100%",
@@ -27,10 +27,12 @@ const useStyles = makeStyles({
     justifySelf: "center",
     alignSelf: "center",
     cursor:"pointer",
+    color: theme.palette.primary.contrastText
   },
   appNameDesktop: {
     cursor:"pointer",
     marginLeft:"5px",
+    color: theme.palette.primary.contrastText
   },
   iconsContainer:{
     gridColumn: "3",
@@ -53,7 +55,8 @@ const useStyles = makeStyles({
     marginRight:"5px"
   },
   links: {
-    marginLeft: "10px"
+    marginLeft: "10px",
+    color: theme.palette.primary.contrastText
   }
-});
+}));
 export default useStyles;

@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) =>({
     position: "relative",
     textAlign: "left",
     textOverflow:"clip",
-    color: theme.palette.text.secondary
   },
 
 }));

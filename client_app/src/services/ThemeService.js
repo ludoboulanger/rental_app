@@ -1,4 +1,5 @@
 import {createMuiTheme, fade} from "@material-ui/core/styles";
+import {red} from "@material-ui/core/colors";
 
 /**
  * Docs: https://material-ui.com/customization/theming/
@@ -17,8 +18,8 @@ export const LightTheme = createMuiTheme({
       dark: "#017374",
     },
     text: {
-      primary:"#FFFFFF",
-      secondary: fade("#000000", 0.80)
+      secondary: fade("#000000", 0.60),
+      primary: fade("#000000", 0.80)
     },
     states: {
       selected: "#FFF",
@@ -46,17 +47,14 @@ export const LightTheme = createMuiTheme({
     },
     h4: {
       fontWeight: "500",
-      fontStyle: "italic",
       fontSize: "42px",
     },
     h5: {
       fontWeight: "450",
-      fontStyle: "italic",
       fontSize: "24px",
     },
     h6: {
-      fontWeight: "450",
-      fontStyle: "italic",
+      fontWeight: "bold",
       fontSize: "20px",
     },
     subtitle1: {
@@ -96,10 +94,6 @@ export const LightTheme = createMuiTheme({
       lg: 1280,
       xl: 1440,
       xxl: 1920,
-    },
-    globals: {
-      // Here we can add the values to override default styling
-      // MUI components
     },
   },
 });
