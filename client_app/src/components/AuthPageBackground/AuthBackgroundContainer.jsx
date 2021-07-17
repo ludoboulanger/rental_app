@@ -22,7 +22,7 @@ export default function AuthBackgroundContainer({ children }) {
   const history = useHistory();
 
   const handleBackClick = () => {
-    history.back();
+    history.goBack();
   };
 
   return (
