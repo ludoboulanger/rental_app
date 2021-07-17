@@ -17,7 +17,6 @@ export const LightTheme = createMuiTheme({
       dark: "#017374",
     },
     text: {
-      primary:"#FFFFFF",
       secondary: fade("#000000", 0.80)
     },
     states: {
@@ -72,7 +71,6 @@ export const LightTheme = createMuiTheme({
     body1: {
       fontSize: "16px",
       fontWeight: "400",
-      fontStyle: "italic",
     },
     body2: {
       fontSize: "14px",
