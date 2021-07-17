@@ -8,9 +8,13 @@ import {
 import PropTypes from "prop-types";
 import useStyles from "./styles.js";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { ReactComponent as RentalLogo } from "../../assets/RentalLogo.svg";
 
 AuthBackgroundContainer.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ])
 };
 
 export default function AuthBackgroundContainer({ children }) {
@@ -30,6 +34,7 @@ export default function AuthBackgroundContainer({ children }) {
       >
 
         <Fab
+          className={classes.backButton}
           size="small"
           color="primary"
           onClick={handleBackClick}
@@ -37,15 +42,17 @@ export default function AuthBackgroundContainer({ children }) {
           <ArrowBackIcon />
         </Fab>
 
-        <Typography variant="h3">
+        <Typography
+          className={classes.title}
+          variant="h2"
+        >
           Rentix
         </Typography>
 
       </Container>
 
-      <Container
-        className={classes.logoContainer}
-      >
+      <Container>
+        <RentalLogo className={classes.logo} />
       </Container>
 
       <Container>

@@ -14,10 +14,10 @@ import BottomNavigation from "../components/BottomNavigation";
 import {useMediaQuery, useTheme} from "@material-ui/core";
 import AuthBackgroundContainer from "../components/AuthPageBackground/AuthBackgroundContainer.jsx";
 
-const isAuthenticationProcess = (path) => (
-  path === "/sign-in"
-  || path === "/sign-up"
-  || path === "/"
+const isAuthenticationPage = path => (
+  path === ROUTES.SIGN_IN
+  || path === ROUTES.SIGN_UP
+  || path === ROUTES.INIT
 );
 
 /**
@@ -32,19 +32,21 @@ export default function Home() {
   return (
     <ThemeProvider theme={LightTheme}>
       {
-        !isAuthenticationProcess(location.pathname) &&
+        !isAuthenticationPage(location.pathname) &&
         <Header withSearchBar={true}/>
       }
       <Switch>
 
-        <AuthBackgroundContainer>
-          <Route exact path={ROUTES.SIGN_IN}>
+        <Route exact path={ROUTES.SIGN_IN}>
+          <AuthBackgroundContainer>
             <SignInPage />
-          </Route>
-          <Route exact path={ROUTES.SIGN_UP}>
+          </AuthBackgroundContainer>
+        </Route>
+        <Route exact path={ROUTES.SIGN_UP}>
+          <AuthBackgroundContainer>
             <SignUpPage />
-          </Route>
-        </AuthBackgroundContainer>
+          </AuthBackgroundContainer>
+        </Route>
 
         <Route exact path={ROUTES.WELCOME}>
           <WelcomePage />
@@ -64,7 +66,7 @@ export default function Home() {
 
       </Switch>
       {
-        (!isAuthenticationProcess(location.pathname) && isMobile) &&
+        (!isAuthenticationPage(location.pathname) && isMobile) &&
         <BottomNavigation/>
       }
     </ThemeProvider>
