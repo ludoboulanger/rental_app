@@ -24,7 +24,7 @@ const IntlPhoneRef = forwardRef(IntlPhoneInput);
 export default function SignUpPage() {
   const classes = useStyles();
   const [ , setItem ] = useSessionStorage();
-  const { t } = useTranslation([ "Global" ]);
+  const { t } = useTranslation([ "Global", "SignUp" ]);
   const history = useHistory();
 
   const handleSubmit = async values => {
@@ -84,8 +84,7 @@ export default function SignUpPage() {
             variant="body1"
             className={classes.primaryText}
           >
-            {/* TODO Localize */}
-            {"Welcome to Rentix, we will get you up and running in no time! Let's start by getting to know you a little bit more."}
+            {t("SignUp:welcome")}
           </Typography>
         </Grid>
 

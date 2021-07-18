@@ -4,7 +4,7 @@ import { TextField } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 const IntlPhoneInput = (props, ref) => {
-  const { t } = useTranslation(["General"]);
+  const { t } = useTranslation(["Global"]);
   return (
     <TextField
       {...props}
