@@ -28,13 +28,14 @@ export default function SignUpPage() {
   const history = useHistory();
 
   const handleSubmit = async values => {
-    try {
-      const result = await sendCreateAccountRequest(values);
-      setItem("accountId", result.id);
-      history.push(ROUTES.VERIFY);
-    } catch(e) {
-      console.error(e);
+    const [ result, error ] = await sendCreateAccountRequest(values);
+
+    if (error) {
+      // TODO Display error banner here RENT-57
     }
+    console.log("Success", result);
+    setItem("accountId", result.id);
+    history.push(ROUTES.VERIFY);
   };
 
   const formik = useFormik({
