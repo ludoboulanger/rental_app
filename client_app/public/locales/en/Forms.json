@@ -1,7 +1,10 @@
 {
-  "fieldvalueistoolong": "",
-  "requiredfield": "",
-  "createlistingform": {
-    "toomanytags": ""
-  }
+  "fieldValueIsTooLong": "",
+  "requiredField": "",
+  "CreateListingForm": {
+    "tooManyTags": "",
+    "title": "New Listing",
+    "tagsHelperText": ""
+  },
+  "invalidCharacters": ""
 }

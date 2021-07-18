@@ -27,7 +27,7 @@ const iconMap = {
 
 
 Icon.propTypes = {
-  name: PropTypes.oneOf(Object.keys(iconMap))
+  name: PropTypes.oneOf(Object.keys(iconMap)).isRequired
 };
 export default function Icon({name, ...otherProps}){
   assert(Object.keys(iconMap).includes(name));

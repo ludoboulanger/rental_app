@@ -23,6 +23,8 @@ FileUploadButton.propTypes = {
   children: PropTypes.node,
   fileTypes: PropTypes.string,
   className: PropTypes.string,
+  component: PropTypes.node,
+  componentProps : PropTypes.object
 };
 
 export default function FileUploadButton(props){
@@ -78,7 +80,16 @@ export default function FileUploadButton(props){
     }
     return array;
   }
-
+  if(props.component){
+    const Component = props.component;
+    return (
+      <>
+        <Component {...props.componentProps} id="dropZone" className={props.className} style={{borderColor: color}} onClick={openFileDialog} onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>
+          {props.children}
+        </Component>
+        <input ref={inputRef} type={"file"} onChange={onFilesAdded} multiple style={{display:"none"}} accept={props.fileTypes}/>
+      </>);
+  }
   return (
     <div className={props.className}>
       <ButtonBase id="dropZone" className={`${classes.root} ${highlight && classes.highlight}`} style={{borderColor: color}} onClick={openFileDialog} onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave}>

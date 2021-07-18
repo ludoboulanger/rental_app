@@ -15,7 +15,6 @@ import FileUploadButton from "../FileUploadButton";
 import {makeStyles} from "@material-ui/core/styles";
 import {useTranslation} from "react-i18next";
 import PropTypes from "prop-types";
-import * as assert from "assert";
 import {getCroppedImage} from "../../utils/Images";
 
 const useStyles = makeStyles(theme =>(
@@ -28,28 +27,18 @@ const useStyles = makeStyles(theme =>(
     },
     imagesContainer:{
       display: "flex",
-      overflowX: "scroll",
-
-      "&::-webkit-scrollbar-track":
-        {
-          "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.3)",
-          borderRadius: 10,
-          backgroundColor: "#F5F5F5"
-        },
-
+      overflowX: "auto",
+      paddingTop:10,
       "&::-webkit-scrollbar":
         {
-          width: 12,
-          backgroundColor: "#F5F5F5"
+          height : 12,
         },
-
       "&::-webkit-scrollbar-thumb":
         {
           borderRadius: 10,
           "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,.3)",
-          backgroundColor: "#b5b5b5"
+          backgroundColor: "rgba(138,138,138,0.5)"
         }
-
     },
     imageUploadButton: {
       minWidth: 300,
@@ -71,7 +60,8 @@ const useStyles = makeStyles(theme =>(
 ));
 
 ImageUploader.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  onPicturesChanged : PropTypes.func.isRequired
 };
 
 export default function ImageUploader(props){
@@ -90,6 +80,23 @@ export default function ImageUploader(props){
   const DEFAULT_TITLE = t("ImageUploader:picturesResizingDialogTitle");
   const title = isMobile ? <AppBar>{props.title || DEFAULT_TITLE}</AppBar> : <DialogTitle>{props.title || DEFAULT_TITLE}</DialogTitle>;
 
+  function revokeAllPicturesURL(){
+    console.error("TESTTTT");
+    console.warn({picturesToCrop, pictures});
+    pictures.forEach(picture => URL.revokeObjectURL(picture));
+    picturesToCrop.forEach(picture => URL.revokeObjectURL(picture));
+    croppedPictures.forEach(picture => URL.revokeObjectURL(picture));
+    setCroppedPictures([]);
+  }
+
+  useEffect(() => {
+    return(revokeAllPicturesURL);
+  },[]);
+
+  useEffect(() => {
+    props.onPicturesChanged(pictures);
+  }, [pictures]);
+
   function onPicturesAdded(newPictures){
     setCroppedPictures([]);
     setCurrentPictureIndex(0);
@@ -105,8 +112,8 @@ export default function ImageUploader(props){
   async function onConfirm(){
     const lastPicture = await doCrop(picturesToCrop[currentPictureIndex], currentCropedArea);
     setOpenCropper(false);
-    console.log({pictures:{croppedPictures, lastPicture}});
     setPictures(pictures.concat(croppedPictures, lastPicture));
+    picturesToCrop.forEach(picture =>  URL.revokeObjectURL(picture));
   }
 
   async function onNext(){
@@ -130,10 +137,8 @@ export default function ImageUploader(props){
   }
 
   async function doCrop(pictureUrl, croppedArea){
-    assert(picturesToCrop.length > currentPictureIndex);
     try {
-      const imageUrl = picturesToCrop[currentPictureIndex];
-      return await getCroppedImage(imageUrl, croppedArea);
+      return await getCroppedImage(pictureUrl, croppedArea);
     }catch(e){
       //TODO show error dialog
       console.error(e);
@@ -142,7 +147,6 @@ export default function ImageUploader(props){
 
   function onDeletePictureClick(picture){
     const newPictures = pictures.filter(p => p !== picture);
-    console.log(newPictures);
     setPictures(newPictures);
     URL.revokeObjectURL(picture);
   }
@@ -150,15 +154,15 @@ export default function ImageUploader(props){
   return(
     <>
       <div className={classes.imagesContainer}>
+        {/*TODO RENT-65 Add image viewer on click on image*/}
         {pictures.map((picture, index) => <Badge className={classes.badge} key={`badge${index}`} color={"primary"} badgeContent={"X"} onClick={()=>onDeletePictureClick(picture)}><img key={`picture${index}`} className={classes.image} src={picture}/></Badge>)}
         {!isMobile && <FileUploadButton className={classes.imageUploadButton} color={"primary"} onFilesAdded={onPicturesAdded} fileTypes={"image/*"}>
           <Icon name={"addContent"} color="primary"/>
           <Typography color="primary" >{t("ImageUploader:addPictures")}</Typography>
         </FileUploadButton>}
       </div>
-      {isMobile && <FileUploadButton className={classes.imageUploadButton} color={"primary"} onFilesAdded={onPicturesAdded} fileTypes={"image/*"}>
-        <Icon name={"addContent"} color="primary"/>
-        <Typography color="primary" >{t("ImageUploader:addPictures")}</Typography>
+      {isMobile && <FileUploadButton component={Button} componentProps={{variant:"outlined", endIcon:<Icon name={"addContent"}/>, color:"primary"}} color={"primary"} onFilesAdded={onPicturesAdded} fileTypes={"image/*"}>
+        {t("ImageUploader:addPictures")}
       </FileUploadButton>}
       <Dialog open={openCropper} maxWidth={false} fullScreen={isMobile}>
         {title}

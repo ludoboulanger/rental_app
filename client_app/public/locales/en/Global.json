@@ -1,8 +1,15 @@
 {
+  "Categories": {
+    "sport": "",
+    "tools": "",
+    "entertainment": "",
+    "other": ""
+  },
   "name": "",
   "description": "",
   "category": "",
   "price": "",
+  "tags": "",
   "Submit": "",
   "back": "",
   "confirm": "",
