@@ -8,5 +8,10 @@ export const ROUTES = {
   CHAT: "/chat",
   CREATE_LISTING: "/create/listing",
   SAVED_ITEMS: "/saved",
-  PROFILE: "/{id}"
+  PROFILE: "/{id}",
+  VERIFY: "/verify",
+};
+
+export const API_ROUTES = {
+  CREATE_ACCOUNT: "http://localhost:8000/api/auth/create-account",
 };

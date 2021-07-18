@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "./styles";
 import React, { forwardRef, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import IntlPhoneInput from "../../components/PhoneInput/PhoneInput";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
@@ -14,14 +15,26 @@ import flags from "react-phone-number-input/flags";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
+import { sendCreateAccountRequest } from "../../services/AuthenticationService";
+import useSessionStorage from "../../utils/Hooks/useSessionStorage";
+import { ROUTES } from "../../utils/enums";
 
 const IntlPhoneRef = forwardRef(IntlPhoneInput);
 
 export default function SignUpPage() {
   const classes = useStyles();
+  const [ , setItem ] = useSessionStorage();
   const { t } = useTranslation(["General"]);
-  const handleSubmit = values => {
-    console.log("Values: ", values);
+  const history = useHistory();
+
+  const handleSubmit = async values => {
+    try {
+      const result = await sendCreateAccountRequest(values);
+      setItem("accountId", result.id);
+      history.push(ROUTES.VERIFY);
+    } catch(e) {
+      console.error(e);
+    }
   };
 
   const formik = useFormik({

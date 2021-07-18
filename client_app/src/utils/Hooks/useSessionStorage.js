@@ -1,7 +1,7 @@
 export default function () {
   const session = window.sessionStorage;
   
-  const getItem = (name) => {
+  const getItem = name => {
     const value = session.getItem(name);
 
     if (value) {
@@ -11,13 +11,9 @@ export default function () {
     return value;
   };
 
-  const removeItem = (name) => {
-    return session.removeItem(name);
-  };
+  const removeItem = name => session.removeItem(name);
 
-  const addItem = (name, value) => {
-    return session.addItem(name, value);
-  };
+  const setItem = (name, value) => session.setItem(name, value);
 
-  return [getItem, addItem, removeItem];
+  return [getItem, setItem, removeItem];
 }
