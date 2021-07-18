@@ -32,8 +32,8 @@ export default function SignUpPage() {
 
     if (error) {
       // TODO Display error banner here RENT-57
+      return;
     }
-    console.log("Success", result);
     setItem("accountId", result.id);
     history.push(ROUTES.VERIFY);
   };
