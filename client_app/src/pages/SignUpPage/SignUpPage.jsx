@@ -24,7 +24,7 @@ const IntlPhoneRef = forwardRef(IntlPhoneInput);
 export default function SignUpPage() {
   const classes = useStyles();
   const [ , setItem ] = useSessionStorage();
-  const { t } = useTranslation(["General"]);
+  const { t } = useTranslation([ "Global" ]);
   const history = useHistory();
 
   const handleSubmit = async values => {

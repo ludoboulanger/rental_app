@@ -5,7 +5,11 @@
   "price": "",
   "Submit": "",
   "back": "",
-  "confirm": "",
   "next": "",
-  "search": ""
+  "search": "",
+  "confirm": "Confirm",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "email": "Email",
+  "phoneNumber": "Phone Number"
 }

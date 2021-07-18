@@ -17,7 +17,8 @@ export const LightTheme = createMuiTheme({
       dark: "#017374",
     },
     text: {
-      secondary: fade("#000000", 0.80)
+      primary: fade("#000000", 0.8),
+      secondary: fade("#000000", 0.60)
     },
     states: {
       selected: "#FFF",
