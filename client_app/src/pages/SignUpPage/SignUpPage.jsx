@@ -73,6 +73,7 @@ export default function SignUpPage() {
     || !isValidPhoneNumber(formik.values.phoneNumber);
   }, [ formik.errors, formik.values ]);
 
+  // TODO make TextFields use FormikTextField RENT-67
   return (
     <Container className={classes.topContainer}>
       <form
