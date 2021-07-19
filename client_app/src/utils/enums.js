@@ -9,7 +9,7 @@ export const ROUTES = {
   CREATE_LISTING: "/create/listing",
   SAVED_ITEMS: "/saved",
   PROFILE: "/{id}",
-  VERIFY: "/verify",
+  VERIFICATION: "/verification",
 };
 
 export const API_ROUTES = {
