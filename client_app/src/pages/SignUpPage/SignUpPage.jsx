@@ -187,7 +187,7 @@ export default function SignUpPage() {
             color="primary"
             onClick={formik.handleSubmit}
           >
-            {"Next"}
+            {t("Global:Next")}
           </Button>
         </Grid>
 
