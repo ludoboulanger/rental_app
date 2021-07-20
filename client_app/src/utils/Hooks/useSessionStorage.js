@@ -13,7 +13,7 @@ export default function () {
 
   const removeItem = name => session.removeItem(name);
 
-  const setItem = (name, value) => session.setItem(name, value);
+  const setItem = (name, value) => session.setItem(name, JSON.stringify(value));
 
   return [getItem, setItem, removeItem];
 }

@@ -34,7 +34,9 @@ export default makeStyles(theme => ({
     borderRadius: "8px",
     border: `2px solid ${theme.palette.primary.light}`,
     margin: "4px",
+    fontSize: "24px",
     [theme.breakpoints.down(theme.breakpoints.values.xxs)]: {
+      fontSize: "16px",
       height: "36px",
       width: "24px !important",
     }

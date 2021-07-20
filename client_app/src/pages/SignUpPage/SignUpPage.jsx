@@ -35,7 +35,7 @@ export default function SignUpPage() {
       return;
     }
     setItem("accountId", result.id);
-    history.push(ROUTES.VERIFY);
+    history.push(ROUTES.VERIFICATION);
   };
 
   const formik = useFormik({
