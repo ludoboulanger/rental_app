@@ -8,7 +8,7 @@
     "start": "cp dev.env .env && nodemon api/index.js",
     "test": "cp test.env .env && mocha --exit */tests/*.spec.js",
     "start-dev": "cp dev.env .env && nodemon api/index.js",
-    "check": "mocha */tests/*.spec.js --exit" 
+    "check": "mocha */tests/*.spec.js --exit"
   },
   "author": "Ludovic Boulanger Victor Freve-Boucher Mauricio Rivera",
   "dependencies": {

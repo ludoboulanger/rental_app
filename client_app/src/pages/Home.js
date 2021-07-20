@@ -13,11 +13,13 @@ import Header from "../components/Headers";
 import BottomNavigation from "../components/BottomNavigation";
 import {useMediaQuery, useTheme} from "@material-ui/core";
 import AuthBackgroundContainer from "../components/AuthPageBackground/AuthBackgroundContainer.jsx";
+import VerificationPage from "./VerificationPage/VerificationPage.jsx";
 
 const isAuthenticationPage = path => (
   path === ROUTES.SIGN_IN
   || path === ROUTES.SIGN_UP
   || path === ROUTES.INIT
+  || path === ROUTES.VERIFICATION
 );
 
 /**
@@ -42,11 +44,19 @@ export default function Home() {
             <SignInPage />
           </AuthBackgroundContainer>
         </Route>
+
         <Route exact path={ROUTES.SIGN_UP}>
           <AuthBackgroundContainer>
             <SignUpPage />
           </AuthBackgroundContainer>
         </Route>
+
+        <Route exact path={ROUTES.VERIFICATION}>
+          <AuthBackgroundContainer>
+            <VerificationPage />
+          </AuthBackgroundContainer>
+        </Route>
+
 
         <Route exact path={ROUTES.WELCOME}>
           <WelcomePage />

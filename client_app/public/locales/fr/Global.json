@@ -7,5 +7,9 @@
   "back": "Retour",
   "confirm": "Confirmer",
   "next": "Prochain",
-  "search": "Rechercher"
+  "search": "Rechercher",
+  "firstName": "Prénom",
+  "lastName": "Nom de famille",
+  "email": "Courriel",
+  "phoneNumber": "Numéro de téléphone"
 }
