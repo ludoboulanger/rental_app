@@ -1,3 +1,5 @@
 {
-  "welcome": "Bienvenue chez Rentix, nous allons vous rendre opérationnel en un rien de temps ! Commençons par apprendre à vous connaître un peu plus."
+  "welcome": "Bienvenue chez Rentix, nous allons vous rendre opérationnel en un rien de temps ! Commençons par apprendre à vous connaître un peu plus.",
+  "checkSMS": "Vérifiez vos messages Texts",
+  "verifyPhone": "Nous vous avons envoyé un message texte contenant un code à 6 chiffres. Entrez ce code dans le champ ci-dessous pour vérifier votre identité."
 }

@@ -1,9 +1,9 @@
-import {createMuiTheme, fade} from "@material-ui/core/styles";
+import {createTheme, alpha} from "@material-ui/core/styles";
 
 /**
  * Docs: https://material-ui.com/customization/theming/
  */
-export const LightTheme = createMuiTheme({
+export const LightTheme = createTheme({
   palette: {
     primary: {
       light: "#8AD2AB",
@@ -17,12 +17,12 @@ export const LightTheme = createMuiTheme({
       dark: "#017374",
     },
     text: {
-      primary: fade("#000000", 0.8),
-      secondary: fade("#000000", 0.60)
+      primary: alpha("#000000", 0.8),
+      secondary: alpha("#000000", 0.60)
     },
     states: {
       selected: "#FFF",
-      disabled: fade("#000", 0.6)
+      disabled: alpha("#000", 0.6)
     }
   },
   typography: {
@@ -105,4 +105,4 @@ export const LightTheme = createMuiTheme({
 
 // TODO Create the dark theme once we know how the app
 // Should look in dark mode
-export const DarkTheme = createMuiTheme({});
+export const DarkTheme = createTheme({});

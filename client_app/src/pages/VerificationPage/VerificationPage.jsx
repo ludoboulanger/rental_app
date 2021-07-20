@@ -27,7 +27,7 @@ export default function VerificationPage() {
       className={classes.topContainer}
     >
 
-      <Grid item >
+      <Grid item className={classes.item} >
         <Typography
           variant="h3"
           className={classes.titleText}
@@ -36,19 +36,19 @@ export default function VerificationPage() {
         </Typography>
       </Grid>
 
-      <Grid item>
+      <Grid item className={classes.item}>
         <Typography
           variant="body1"
           className={classes.primaryText}
         >
-          {t("signUp:verifyPhone")}
+          {t("SignUp:verifyPhone")}
         </Typography>
       </Grid>
 
       <Grid
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
         className={classes.formContainer}
       >
@@ -60,10 +60,14 @@ export default function VerificationPage() {
           inputStyle={classes.otpInput}
           focusStyle={classes.otpInputFocus}
           isInputNum={true}
+          numInputs={6}
+          shouldAutoFocus={true}
         />
       </Grid>
 
-      <Grid item>
+      <Grid
+        className={classes.buttonContainer}
+      >
         <Button
           className={classes.button}
           variant="contained"
