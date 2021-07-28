@@ -9,8 +9,9 @@ import {
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ImageUploader from "../../ImageUploader";
-import FormikTextField from "../FormikTextField";
-import ChipInput from "material-ui-chip-input";
+import FormikField from "../FormikField";
+import CityInputField from "../../CityInputField";
+import ChipInput from "../../ChipInput";
 const MAX_NAME_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 256;
 const MAX_TAGS = 5;
@@ -49,9 +50,10 @@ export default function CreateListingForm(){
     description: yup.string().max(MAX_DESCRIPTION_LENGTH,  t("Forms:fieldValueIsTooLong",
       {fieldName: t("Forms:CreateListingForm.itemDescription"), max: MAX_DESCRIPTION_LENGTH})).required(t("Forms:requiredField")),
     category : yup.string().required(t("Forms:requiredField")),
-    price : yup.number().positive().required("Forms:requiredField"),
+    price : yup.number().positive().required(t("Forms:requiredField")),
     tags: yup.array().ensure().of(yup.string().lowercase().matches(/^[a-z0-9\\-]+$/, t("Forms:invalidCharacters"))),
-    pictures: yup.array().ensure()
+    pictures: yup.array().ensure(),
+    place: yup.string().ensure().required(t("Forms:autocompleteValueNotSelected")).test("ensure-good-format", t("Forms:invalidValue"),(value, context)=> value.split(",").length === 3)
   });
 
   const formik = useFormik({
@@ -61,11 +63,21 @@ export default function CreateListingForm(){
       category:"",
       price: 0,
       tags:[],
-      pictures :[]
+      pictures :[],
+      place : ""
     },
     validationSchema: validationSchema,
-    onSubmit:(values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit:async (values) => {
+      const rawResponse = await fetch("http://localhost:8080/api/listing", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({...values})
+      });
+      const response = await rawResponse.json();
+      alert(response);
     },
   });
 
@@ -88,7 +100,8 @@ export default function CreateListingForm(){
       <CardContent>
         <form onSubmit={formik.handleSubmit} autoComplete={"off"} className={classes.form}>
           <ImageUploader onPicturesChanged={pictures => formik.values.pictures = pictures}/>
-          <FormikTextField
+          <FormikField
+            component={TextField}
             id="name"
             name="name"
             label={t("Global:name")}
@@ -97,7 +110,8 @@ export default function CreateListingForm(){
             color={"primary"}
             formik={formik}
           />
-          <FormikTextField
+          <FormikField
+            component={TextField}
             id="description"
             name="description"
             label={t("Global:description")}
@@ -107,40 +121,50 @@ export default function CreateListingForm(){
             rows={4}
             formik={formik}
           />
-          <FormikTextField
+          <CityInputField
+            onChange={(value)=>formik.setFieldValue("place", value)}
+            textFieldProps={
+              {
+                fullWidth:true,
+                error:formik.touched.place && Boolean(formik.errors.place),
+                helperText: Boolean(formik.errors.place) && formik.touched.place && String(formik.errors.place)
+              }
+            }
+          />
+          <FormikField
+            component={TextField}
             select
             id="category"
             name="category"
             label={t("Global:category")}
             formik={formik}
             fullWidth
+            variant={"outlined"}
           >
             {categories.map(categoryName => <MenuItem key={categoryName} value={categoryName}>{categoryName}</MenuItem>)}
-          </FormikTextField>
-          <FormikTextField  id="price"
+          </FormikField>
+          <FormikField
+            id="price"
             name="price"
+            component={TextField}
             label={t("Global:price")}
             variant="outlined"
             fullWidth
             type={"number"}
+            defaultHelperText={t("Forms:CreateListingForm.priceHelperText")}
             InputProps={{
               endAdornment: <InputAdornment position="end">$</InputAdornment>,
             }}
             formik={formik}/>
-          <ChipInput classes={{helperText: tagErrorText ? classes.errorText : undefined, label: tagErrorText ? classes.errorText : undefined }} value={formik.values.tags} helperText={tagErrorText || t("Forms:CreateListingForm.tagsHelperText", {max: MAX_TAGS})} onAdd={addTag} onDelete={removeTag} newChipKeys={["Enter", " "]} fullWidth label={(t("Global:tags"))}
-            chipRenderer={ ({ text, isFocused, handleClick, handleDelete, className }, key) => (
-              <Chip
-                key={key}
-                className={className}
-                style={{
-                  backgroundColor: isFocused ? theme.palette.primary.light : undefined
-                }}
-                onClick={handleClick}
-                onDelete={handleDelete}
-                label={text}
-              />
-            )}/>
-          <Button color="primary" variant="contained" fullWidth type="submit">
+          <ChipInput
+            classes={{helperText: tagErrorText ? classes.errorText : undefined, label: tagErrorText ? classes.errorText : undefined }}
+            value={formik.values.tags}
+            helperText={tagErrorText || t("Forms:CreateListingForm.tagsHelperText", {max: MAX_TAGS})}
+            onAdd={addTag} onDelete={removeTag}
+            newChipKeys={["Enter", " "]}
+            fullWidth
+            label={(t("Global:tags"))}/>
+          <Button color="primary" variant="contained" fullWidth type="submit" disabled={formik.isSubmitting}>
             {t("Global:Submit")}
           </Button>
         </form>

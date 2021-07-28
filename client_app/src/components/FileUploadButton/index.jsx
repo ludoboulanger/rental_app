@@ -1,6 +1,6 @@
 import {React, useEffect, useRef, useState} from "react";
-import {ButtonBase, useTheme} from "@material-ui/core";
-import {fade, makeStyles} from "@material-ui/core/styles";
+import { ButtonBase, useTheme} from "@material-ui/core";
+import {alpha, makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%"
   },
   highlight :{
-    backgroundColor: fade(theme.palette.primary.light, 0.2)
+    backgroundColor: alpha(theme.palette.primary.light, 0.2)
   }
 }));
 
@@ -23,7 +23,7 @@ FileUploadButton.propTypes = {
   children: PropTypes.node,
   fileTypes: PropTypes.string,
   className: PropTypes.string,
-  component: PropTypes.node,
+  component: PropTypes.elementType ,
   componentProps : PropTypes.object
 };
 
