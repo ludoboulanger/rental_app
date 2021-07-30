@@ -6,7 +6,7 @@ import {
   Button
 } from "@material-ui/core";
 import useStyles from "./styles";
-import React, { forwardRef, useCallback } from "react";
+import React, { forwardRef } from "react";
 import { useHistory } from "react-router-dom";
 import IntlPhoneInput from "../../components/PhoneInput/PhoneInput";
 import "react-phone-number-input/style.css";
@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { sendCreateAccountRequest } from "../../services/AuthenticationService";
 import useSessionStorage from "../../utils/Hooks/useSessionStorage";
 import { ROUTES } from "../../utils/enums";
+import _ from "lodash";
 
 const IntlPhoneRef = forwardRef(IntlPhoneInput);
 
@@ -47,13 +48,19 @@ export default function SignUpPage() {
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
-        .max(50, "Must be 50 characters or less")
+        .max(50,)
         .required("Required"),
       lastName: Yup.string()
-        .max(50, "Must be 20 characters or less")
+        .max(50)
         .required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
-      phoneNumber: Yup.string().required("Required")
+      email: Yup.string()
+        .email()
+        .required("Required"),
+      phoneNumber: Yup.string()
+        .test("phonenumber format test", null,  function () {
+          return !isValidPhoneNumber(this.parent.phoneNumber || "");
+        })
+        .required("Required")
     }),
     onSubmit: handleSubmit
   });
@@ -64,14 +71,6 @@ export default function SignUpPage() {
     }
     formik.setFieldValue("phoneNumber", value);
   };
-
-  const hasErrors = useCallback(() => {
-    return !!formik.errors.firstName
-    || !!formik.errors.lastName
-    || !!formik.errors.email
-    || !!formik.errors.phoneNumber
-    || !isValidPhoneNumber(formik.values.phoneNumber);
-  }, [ formik.errors, formik.values ]);
 
   // TODO make TextFields use FormikTextField RENT-67
   return (
@@ -181,7 +180,7 @@ export default function SignUpPage() {
 
         <Grid className={classes.buttonContainer}>
           <Button
-            disabled={hasErrors()}
+            disabled={!_.isEmpty(formik.errors)}
             className={classes.button}
             variant="contained"
             color="primary"
