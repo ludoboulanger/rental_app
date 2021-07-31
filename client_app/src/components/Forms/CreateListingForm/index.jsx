@@ -3,9 +3,9 @@ import { useFormik} from "formik";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import {
-  Button, Card, CardContent, CardHeader, Chip,
+  Button, Card, CardContent, CardHeader,
   InputAdornment,
-  MenuItem, TextField, useTheme,
+  MenuItem, TextField,
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ImageUploader from "../../ImageUploader";
@@ -52,7 +52,7 @@ export default function CreateListingForm(){
     price : yup.number().positive().required(t("Forms:requiredField")),
     tags: yup.array().ensure().of(yup.string().lowercase().matches(/^[a-z0-9\\-]+$/, t("Forms:invalidCharacters"))),
     pictures: yup.array().ensure(),
-    place: yup.string().ensure().required(t("Forms:autocompleteValueNotSelected")).test("ensure-good-format", t("Forms:invalidValue"),(value, context)=> value.split(",").length === 3)
+    place: yup.string().ensure().required(t("Forms:autocompleteValueNotSelected")).test("ensure-good-format", t("Forms:invalidValue"),(value)=> value.split(",").length === 3)
   });
 
   const formik = useFormik({
