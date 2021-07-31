@@ -1,10 +1,12 @@
 {
-  "fieldValueIsTooLong": "La valeur du champ est trop grande",
+  "fieldValueIsTooLong": "La valeur du champ est trop longue",
   "requiredField": "Le champ est requis",
+  "invalidCharacters": "Seuls des chiffres, des lettres et des '-' sont autorisés",
+  "autocompleteValueNotSelected": "Veuillez sélectionner une valeur du menu déroulant",
+  "invalidValue": "La valeur est invalide",
   "CreateListingForm": {
-    "tooManyTags": "Un item ne peut avoir plus de {{max}} tags",
     "title": "Nouvel item",
+    "priceHelperText": "Le prix de votre item pour une location de 24h",
     "tagsHelperText": "Vous pouvez ajouter jusqu'à {{max}} tags"
-  },
-  "invalidCharacters": "Seuls des chiffres, des lettres et des '-' sont autorisés"
+  }
 }

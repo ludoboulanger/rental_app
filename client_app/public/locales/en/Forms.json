@@ -1,10 +1,12 @@
 {
-  "fieldValueIsTooLong": "",
-  "requiredField": "",
+  "fieldValueIsTooLong": "Too much characters",
+  "requiredField": "This field is required",
+  "invalidCharacters": "Only alphanumerical characters and dash ('-') are accepted",
+  "autocompleteValueNotSelected": "Please select a value from the dropdown menu",
+  "invalidValue": "Invalid value",
   "CreateListingForm": {
-    "tooManyTags": "",
     "title": "New Listing",
-    "tagsHelperText": ""
-  },
-  "invalidCharacters": ""
+    "priceHelperText": "Price for your item for a 24h long rent",
+    "tagsHelperText": "You may add up to {{max}} tags"
+  }
 }

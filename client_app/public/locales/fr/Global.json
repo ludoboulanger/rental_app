@@ -1,9 +1,10 @@
 {
+  "city": "Ville",
   "Categories": {
-    "sport": "",
-    "tools": "",
-    "entertainment": "",
-    "other": ""
+    "sport": "Sport",
+    "tools": "Outils",
+    "entertainment": "Divertissement",
+    "other": "Autre"
   },
   "name": "Nom",
   "description": "Description",

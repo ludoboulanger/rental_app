@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme =>(
     },
     errorText: {
       color: theme.palette.error.main + " !important"
+    },
+    submitButton: {
+      marginTop: theme.spacing(2)
     }
 
   }
@@ -39,9 +42,6 @@ export default function CreateListingForm(){
   const classes = useStyles();
   const {t} = useTranslation(["Forms", "Global"]);
   const categories = [t("Global:Categories.sport"), t("Global:Categories.tools"), t("Global:Categories.entertainment"), t("Global:Categories.other")];
-
-
-
   //TODO: check to get this out of component. Maybe transform into a hook?
   const validationSchema = yup.object().shape({
     name: yup.string().max(MAX_NAME_LENGTH, t("Forms:fieldValueIsTooLong",
@@ -66,7 +66,9 @@ export default function CreateListingForm(){
       place : ""
     },
     validationSchema: validationSchema,
-    onSubmit:async (values) => {
+    onSubmit:async ({place, ...otherValues}) => {
+      const [city, area, country] = place.split(",");
+
       //TODO RENT-66 Don't hardcode server adress
       const rawResponse = await fetch("http://localhost:8000/api/listing", {
         method: "POST",
@@ -74,10 +76,9 @@ export default function CreateListingForm(){
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({...values})
+        body: JSON.stringify({city, area, country, ...otherValues})
       }).catch((reason) =>alert(reason));
       const response = await rawResponse.json();
-      console.log(response);
       alert(JSON.stringify(response,null,2));
     },
   });
@@ -165,7 +166,7 @@ export default function CreateListingForm(){
             newChipKeys={["Enter", " "]}
             fullWidth
             label={(t("Global:tags"))}/>
-          <Button color="primary" variant="contained" fullWidth type="submit" disabled={formik.isSubmitting}>
+          <Button color="primary" variant="contained" fullWidth type="submit" disabled={formik.isSubmitting} className={classes.submitButton}>
             {t("Global:Submit")}
           </Button>
         </form>

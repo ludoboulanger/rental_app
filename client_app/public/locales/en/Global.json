@@ -1,18 +1,19 @@
 {
+  "city": "City",
   "Categories": {
-    "sport": "",
-    "tools": "",
-    "entertainment": "",
-    "other": ""
+    "sport": "Sport",
+    "tools": "Tools",
+    "entertainment": "Entertainment",
+    "other": "Other"
   },
-  "name": "",
-  "description": "",
-  "category": "",
-  "price": "",
-  "tags": "",
-  "Submit": "",
-  "back": "",
-  "confirm": "",
-  "next": "",
-  "search": ""
+  "name": "Name",
+  "description": "Description",
+  "category": "Category",
+  "price": "Price",
+  "tags": "Tags",
+  "Submit": "Submit",
+  "back": "Back",
+  "confirm": "Confirm",
+  "next": "Next",
+  "search": "Search"
 }
