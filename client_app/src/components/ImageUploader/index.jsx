@@ -81,8 +81,6 @@ export default function ImageUploader(props){
   const title = isMobile ? <AppBar>{props.title || DEFAULT_TITLE}</AppBar> : <DialogTitle>{props.title || DEFAULT_TITLE}</DialogTitle>;
 
   function revokeAllPicturesURL(){
-    console.error("TESTTTT");
-    console.warn({picturesToCrop, pictures});
     pictures.forEach(picture => URL.revokeObjectURL(picture));
     picturesToCrop.forEach(picture => URL.revokeObjectURL(picture));
     croppedPictures.forEach(picture => URL.revokeObjectURL(picture));

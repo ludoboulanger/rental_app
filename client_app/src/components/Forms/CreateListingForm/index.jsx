@@ -34,9 +34,8 @@ const useStyles = makeStyles(theme =>(
 
   }
 ));
-
+//TODO RENT-70: Keep data on refresh
 export default function CreateListingForm(){
-  const theme = useTheme();
   const classes = useStyles();
   const {t} = useTranslation(["Forms", "Global"]);
   const categories = [t("Global:Categories.sport"), t("Global:Categories.tools"), t("Global:Categories.entertainment"), t("Global:Categories.other")];
@@ -68,16 +67,18 @@ export default function CreateListingForm(){
     },
     validationSchema: validationSchema,
     onSubmit:async (values) => {
-      const rawResponse = await fetch("http://localhost:8080/api/listing", {
+      //TODO RENT-66 Don't hardcode server adress
+      const rawResponse = await fetch("http://localhost:8000/api/listing", {
         method: "POST",
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
         body: JSON.stringify({...values})
-      });
+      }).catch((reason) =>alert(reason));
       const response = await rawResponse.json();
-      alert(response);
+      console.log(response);
+      alert(JSON.stringify(response,null,2));
     },
   });
 
