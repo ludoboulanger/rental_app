@@ -35,6 +35,10 @@ jobs:
     - run: npm run build --if-present
       working-directory: ./backend_app
     - run: npx migrate-mongo up
+      env:
+        DB_NAME: YML_DB
       working-directory: ./backend_app
     - run: npm run check 
+      env:
+        DB_NAME: YML_TEST_DB
       working-directory: ./backend_app
