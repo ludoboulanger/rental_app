@@ -1,4 +1,4 @@
-require("dotenv-safe").config();
+require("../configs/dotenv");
 const express = require("express");
 const cors = require("cors");
 const AuthenticationRouter = require("./routes/Authentication");
