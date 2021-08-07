@@ -64,7 +64,11 @@ export default function CityInputField({onChange, textFieldProps}){
           {...textFieldProps}
           {...params}
           value={value}
-          inputProps={{...textFieldProps?.inputProps, ...params.inputProps, autoComplete:"new-password"}} // disable autocomplete and autofill
+          inputProps={{
+            ...textFieldProps?.inputProps, 
+            ...params.inputProps, 
+            autoComplete:"new-password"  // new-passord is kind of a hack to disable autocomplete and autofill
+          }}
         />
       }
     />

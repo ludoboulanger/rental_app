@@ -43,7 +43,6 @@ export default function DesktopHeader(props){
             Rentix
           </Typography>
           <Button component={Link} to={ROUTES.SETTINGS} className={classes.links}>{t("Pages:myListings")}</Button>
-          <Button  component={Link} to={ROUTES.SETTINGS} className={classes.links}>{t("Autre chose")}</Button>
           <span style={{flexGrow: 1}}/>
           {withSearchBar && <div className={classes.desktopSearchBar}><SearchBar/></div>}
           <div>

@@ -1,5 +1,5 @@
-import {React} from "react";
-import { useFormik} from "formik";
+import { React } from "react";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 import {
@@ -7,7 +7,7 @@ import {
   InputAdornment,
   MenuItem, TextField,
 } from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import ImageUploader from "../../ImageUploader";
 import FormikField from "../FormikField";
 import CityInputField from "../../CityInputField";
@@ -15,7 +15,7 @@ import ChipInput from "../../ChipInput";
 const MAX_NAME_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 256;
 const MAX_TAGS = 5;
-const useStyles = makeStyles(theme =>(
+const useStyles = makeStyles(theme => (
   {
     paper: {
       margin: "12px auto",
@@ -24,8 +24,8 @@ const useStyles = makeStyles(theme =>(
       justifySelf: "center",
     },
     form: {
-      "& > *":{
-        marginBottom:theme.spacing(2)
+      "& > *": {
+        marginBottom: theme.spacing(2)
       }
     },
     errorText: {
@@ -38,35 +38,50 @@ const useStyles = makeStyles(theme =>(
   }
 ));
 //TODO RENT-70: Keep data on refresh
-export default function CreateListingForm(){
+export default function CreateListingForm() {
   const classes = useStyles();
-  const {t} = useTranslation(["Forms", "Global"]);
+  const { t } = useTranslation(["Forms", "Global"]);
   const categories = [t("Global:Categories.sport"), t("Global:Categories.tools"), t("Global:Categories.entertainment"), t("Global:Categories.other")];
-  //TODO: check to get this out of component. Maybe transform into a hook?
+
   const validationSchema = yup.object().shape({
-    name: yup.string().max(MAX_NAME_LENGTH, t("Forms:fieldValueIsTooLong",
-      {fieldName: t("Forms:CreateListingForm.itemName"), max: MAX_NAME_LENGTH})).required(t("Forms:requiredField")),
-    description: yup.string().max(MAX_DESCRIPTION_LENGTH,  t("Forms:fieldValueIsTooLong",
-      {fieldName: t("Forms:CreateListingForm.itemDescription"), max: MAX_DESCRIPTION_LENGTH})).required(t("Forms:requiredField")),
-    category : yup.string().required(t("Forms:requiredField")),
-    price : yup.number().positive().required(t("Forms:requiredField")),
-    tags: yup.array().ensure().of(yup.string().lowercase().matches(/^[a-z0-9\\-]+$/, t("Forms:invalidCharacters"))),
+    name: yup.string()
+      .max(MAX_NAME_LENGTH, t("Forms:fieldValueIsTooLong",
+        { fieldName: t("Forms:CreateListingForm.itemName"), max: MAX_NAME_LENGTH }))
+      .required(t("Forms:requiredField")),
+    description: yup.string()
+      .max(MAX_DESCRIPTION_LENGTH, t("Forms:fieldValueIsTooLong",
+        { fieldName: t("Forms:CreateListingForm.itemDescription"), max: MAX_DESCRIPTION_LENGTH }))
+      .required(t("Forms:requiredField")),
+    category: yup.string().required(t("Forms:requiredField")),
+    price: yup.number()
+      .positive()
+      .required(t("Forms:requiredField")),
+    tags: yup.array()
+      .ensure()
+      .of(yup.string()
+        .lowercase()
+        .matches(/^[a-z0-9\\-]+$/, t("Forms:invalidCharacters")
+        )
+      ),
     pictures: yup.array().ensure(),
-    place: yup.string().ensure().required(t("Forms:autocompleteValueNotSelected")).test("ensure-good-format", t("Forms:invalidValue"),(value)=> value.split(",").length === 3)
+    place: yup.string()
+      .ensure()
+      .required(t("Forms:autocompleteValueNotSelected"))
+      .test("ensure-good-format", t("Forms:invalidValue"), (value) => value.split(",").length === 3)
   });
 
   const formik = useFormik({
     initialValues: {
-      name :"",
+      name: "",
       description: "",
-      category:"",
+      category: "",
       price: 0,
-      tags:[],
-      pictures :[],
-      place : ""
+      tags: [],
+      pictures: [],
+      place: ""
     },
     validationSchema: validationSchema,
-    onSubmit:async ({place, ...otherValues}) => {
+    onSubmit: async ({ place, ...otherValues }) => {
       const [city, area, country] = place.split(",");
 
       //TODO RENT-66 Don't hardcode server adress
@@ -76,32 +91,32 @@ export default function CreateListingForm(){
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({city, area, country, ...otherValues})
-      }).catch((reason) =>alert(reason));
+        body: JSON.stringify({ city, area, country, ...otherValues })
+      }).catch((reason) => alert(reason));
       const response = await rawResponse.json();
-      alert(JSON.stringify(response,null,2));
+      alert(JSON.stringify(response, null, 2));
     },
   });
 
-  function addTag(tag){
-    if(formik.values.tags.length < 5){
+  function addTag(tag) {
+    if (formik.values.tags.length < 5) {
       formik.setFieldValue("tags", formik.values.tags.concat(tag));
     }
   }
-  function removeTag(tag){
-    formik.setFieldValue("tags", formik.values.tags.filter((t)=> t !== tag));
+  function removeTag(tag) {
+    formik.setFieldValue("tags", formik.values.tags.filter((t) => t !== tag));
   }
 
-  const tagErrorText = Boolean(formik.errors.tags) && formik.touched.tags && String(formik.errors.tags.filter(error=> error !== ""));
+  const tagErrorText = Boolean(formik.errors.tags) && formik.touched.tags && String(formik.errors.tags.filter(error => error !== ""));
 
 
 
   return (
-    <Card  className={classes.paper} >
-      <CardHeader title={t("Forms:CreateListingForm.title")}/>
+    <Card className={classes.paper} >
+      <CardHeader title={t("Forms:CreateListingForm.title")} />
       <CardContent>
         <form onSubmit={formik.handleSubmit} autoComplete={"off"} className={classes.form}>
-          <ImageUploader onPicturesChanged={pictures => formik.values.pictures = pictures}/>
+          <ImageUploader onPicturesChanged={pictures => formik.values.pictures = pictures} />
           <FormikField
             component={TextField}
             id="name"
@@ -124,11 +139,11 @@ export default function CreateListingForm(){
             formik={formik}
           />
           <CityInputField
-            onChange={(value)=>formik.setFieldValue("place", value)}
+            onChange={(value) => formik.setFieldValue("place", value)}
             textFieldProps={
               {
-                fullWidth:true,
-                error:formik.touched.place && Boolean(formik.errors.place),
+                fullWidth: true,
+                error: formik.touched.place && Boolean(formik.errors.place),
                 helperText: Boolean(formik.errors.place) && formik.touched.place && String(formik.errors.place)
               }
             }
@@ -157,16 +172,26 @@ export default function CreateListingForm(){
             InputProps={{
               endAdornment: <InputAdornment position="end">$</InputAdornment>,
             }}
-            formik={formik}/>
+            formik={formik} />
           <ChipInput
-            classes={{helperText: tagErrorText ? classes.errorText : undefined, label: tagErrorText ? classes.errorText : undefined }}
+            classes={{
+              helperText: tagErrorText ? classes.errorText : undefined,
+              label: tagErrorText ? classes.errorText : undefined
+            }}
             value={formik.values.tags}
-            helperText={tagErrorText || t("Forms:CreateListingForm.tagsHelperText", {max: MAX_TAGS})}
+            helperText={tagErrorText || t("Forms:CreateListingForm.tagsHelperText", { max: MAX_TAGS })}
             onAdd={addTag} onDelete={removeTag}
             newChipKeys={["Enter", " "]}
             fullWidth
-            label={(t("Global:tags"))}/>
-          <Button color="primary" variant="contained" fullWidth type="submit" disabled={formik.isSubmitting} className={classes.submitButton}>
+            label={(t("Global:tags"))} />
+          <Button
+            color="primary"
+            variant="contained"
+            fullWidth
+            type="submit"
+            disabled={formik.isSubmitting}
+            className={classes.submitButton}
+          >
             {t("Global:Submit")}
           </Button>
         </form>

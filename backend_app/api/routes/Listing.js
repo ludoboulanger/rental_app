@@ -5,14 +5,8 @@ const { CODES } = require("../utils/Enums");
 
 ListingRouter.post("/", async (request, response, next) => {
   const body = request.body;
-  /*const validator = ajv.getSchema("item");
-  if (!validator(body)) {
-    return next(CODES.BAD_REQUEST);
-  }*/
+  //TODO RENT-54 Implement api
   response.send(body);
-
-
-
 });
 
 module.exports = ListingRouter;
