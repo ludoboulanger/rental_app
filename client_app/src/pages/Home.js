@@ -13,6 +13,7 @@ import Header from "../components/Headers";
 import BottomNavigation from "../components/BottomNavigation";
 import {useMediaQuery, useTheme} from "@material-ui/core";
 import AuthBackgroundContainer from "../components/AuthPageBackground/AuthBackgroundContainer.jsx";
+import CreateListingPage from "./CreateListingPage";
 
 const isAuthenticationPage = path => (
   path === ROUTES.SIGN_IN
@@ -62,6 +63,10 @@ export default function Home() {
 
         <Route exact path={ROUTES.SEARCH}>
           <SearchPage />
+        </Route>
+
+        <Route exact path={ROUTES.CREATE_LISTING}>
+          <CreateListingPage/>
         </Route>
 
       </Switch>

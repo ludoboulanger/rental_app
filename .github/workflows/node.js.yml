@@ -40,6 +40,7 @@ jobs:
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"
+        GEONAMES_USERNAME: whatever
       working-directory: ./backend_app
     - run: npm run check 
       env:
@@ -47,4 +48,5 @@ jobs:
         TWILIO_ACC_SID: ACTESTKEY
         TWILIO_AUTH_TOKEN: TESTTWILIOTOKEN
         TWILIO_PHONE: "+19999999999"
+        GEONAMES_USERNAME: whatever
       working-directory: ./backend_app

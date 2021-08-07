@@ -1,9 +1,8 @@
 {
-  "Home": "",
-  "Chat": "",
-  "Create": "",
-  "Saved": "",
-  "Account": "",
-  "myListings": "",
-  "initPage": ""
+  "Home": "Home",
+  "Chat": "Chat",
+  "Create": "Create",
+  "Saved": "Saved",
+  "Account": "Account",
+  "myListings": "My Listings"
 }

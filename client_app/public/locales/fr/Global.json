@@ -1,8 +1,16 @@
 {
+  "city": "Ville",
+  "Categories": {
+    "sport": "Sport",
+    "tools": "Outils",
+    "entertainment": "Divertissement",
+    "other": "Autre"
+  },
   "name": "Nom",
   "description": "Description",
   "category": "Catégorie",
   "price": "Prix",
+  "tags": "Tags",
   "Submit": "Soumettre",
   "back": "Retour",
   "confirm": "Confirmer",

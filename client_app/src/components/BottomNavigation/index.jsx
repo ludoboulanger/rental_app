@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme=>({
     bottom:0,
     left:0,
     backgroundColor: theme.palette.primary.main,
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
+    zIndex: 99
   },
   actions: {
     flexGrow: 1,

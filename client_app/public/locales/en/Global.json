@@ -1,11 +1,19 @@
 {
-  "name": "",
-  "description": "",
-  "category": "",
-  "price": "",
-  "Submit": "",
-  "back": "",
-  "confirm": "",
-  "next": "",
-  "search": ""
+  "city": "City",
+  "Categories": {
+    "sport": "Sport",
+    "tools": "Tools",
+    "entertainment": "Entertainment",
+    "other": "Other"
+  },
+  "name": "Name",
+  "description": "Description",
+  "category": "Category",
+  "price": "Price",
+  "tags": "Tags",
+  "Submit": "Submit",
+  "back": "Back",
+  "confirm": "Confirm",
+  "next": "Next",
+  "search": "Search"
 }
